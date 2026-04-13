@@ -255,6 +255,19 @@ async function handleSendMessage(text) {
     return;
   }
 
+  // B2. KARIŞIK QUIZ İSTEĞİ (/quiz)
+  if (lw === '/quiz' || lw === 'karışık quiz' || lw === 'karisik quiz') {
+    const grade = studySelections?.grade || 7;
+    const sub = studySelections?.subject || 'Genel Kültür';
+    addMessage('bot', 'Karışık test başlatılıyor...');
+    appendMessage('bot', formatMessage('bot', `🧪 <b>Karışık Test Hazırlanıyor:</b> ${grade}. Sınıf düzeyi için sürpriz sorular geliyor!<br><br><div class="jumping-dots"><span></span><span></span><span></span></div>`));
+    
+    if (typeof generateDynamicQuiz === 'function') {
+       generateDynamicQuiz(grade, sub, 'Karışık Sürpriz Quiz', 'medium');
+    }
+    return;
+  }
+
   // C. AYARLAR MENÜSÜ (/ayarlar, ayarlar)
   if (lw.startsWith('/kurallar') || lw.startsWith('/ayar') || lw === 'ayarlar' || lw === 'kurallar') {
     const settingsModal = document.getElementById('settingsModal');
