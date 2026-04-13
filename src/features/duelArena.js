@@ -208,6 +208,7 @@ Not: 'ans' doğru cevabın 0-3 arası indeksidir.`;
       resultHtml = `<h1 style="color: #22c55e; font-size: 3rem; margin-bottom: 10px;">🏆 ZAFER!</h1><p style="font-size: 1.2rem;">Gölge botu mağlup ettin!</p>`;
       // Trigger confetti if exists globally
       if(window.triggerConfetti) window.triggerConfetti();
+      if(window.updateMissionProgress) window.updateMissionProgress('duel', 1);
     } else if (this.userScore === this.botScore) {
       resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">🤝 BERABERE</h1><p style="font-size: 1.2rem;">Dişe diş bir mücadeleydi!</p>`;
     } else {

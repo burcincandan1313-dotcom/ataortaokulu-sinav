@@ -2302,6 +2302,12 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
   .device-mode-btn .dm-label { display: none; }
 }
 
+/* LEADERBOARD */
+.lb-rank-1 { color: #ffd700; }
+.lb-rank-2 { color: #c0c0c0; }
+.lb-rank-3 { color: #cd7f32; }
+.lb-rank-other { color: var(--sub); }
+
 /* ═══════════════════════════════════════════
    SINAV TİPİ SEÇİM OVERLAY
    ═══════════════════════════════════════════ */

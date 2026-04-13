@@ -118,4 +118,18 @@ export function loadUserData() {
 export function saveUserData() {
   StorageManager.set(StorageManager.keys.XP, state.xp);
   StorageManager.set(StorageManager.keys.LEVEL, state.level);
+
+  // Update Roster for local leaderboard
+  const currentName = StorageManager.get(StorageManager.keys.NAME);
+  if (currentName) {
+    let roster = StorageManager.get('mega_class_roster') || [];
+    const idx = roster.findIndex(r => r.name === currentName);
+    if (idx !== -1) {
+       roster[idx].xp = state.xp;
+       roster[idx].level = state.level;
+    } else {
+       roster.push({ name: currentName, xp: state.xp, level: state.level, avatar: StorageManager.get(StorageManager.keys.AVATAR) || '🧑‍🎓' });
+    }
+    StorageManager.set('mega_class_roster', roster);
+  }
 }

@@ -3,6 +3,11 @@
  * Bu dosya projenin ayrilmaz bir parcasidir.
  */
 import './style.css';
+import { renderLeaderboard } from './features/leaderboard.js';
+import { renderDnaMap } from './features/dnaMap.js';
+import { initDailyMissions, renderDailyQuests, updateMissionProgress } from './features/dailyMissions.js';
+import { openTeacherPanel } from './features/teacherPanel.js';
+window.updateMissionProgress = updateMissionProgress; // Make available globally
 // src/app.js
 // Uygulamanın ana orkestrasyon modülü — TÜM ÖZELLİKLER ÇALIŞIR
 
@@ -103,34 +108,7 @@ function renderBadges() {
 // ═══════════════════════════════════════════
 import { StorageManager } from './state.js';
 
-export function renderDailyQuests() {
-  window._renderDailyQuests = renderDailyQuests;
-  const card = document.getElementById('questCard');
-  if (!card) return;
-  
-  const quizHistory = StorageManager.get(StorageManager.keys.QUIZ_HISTORY, []);
-  let hasQuiz = false;
-  if(Array.isArray(quizHistory) && quizHistory.length > 0) hasQuiz = true;
-
-  const gamePlayed = StorageManager.get('mega_game_played', false);
-  const userMsgCount = state.messages.filter(m => m.role === 'user').length;
-
-  const quests = [
-    { icon: '💬', text: '3 mesaj gönder', done: userMsgCount >= 3 },
-    { icon: '📊', text: 'Bir quiz çöz', done: hasQuiz },
-    { icon: '🎮', text: 'Bir oyun oyna', done: gamePlayed },
-  ];
-  card.innerHTML = `
-    <div class="sec-lbl">📋 Günlük Görevler</div>
-    ${quests.map(q => `
-      <div class="quest-item ${q.done ? 'done' : ''}">
-        <span>${q.icon} ${q.text}</span>
-        <span>${q.done ? '✅' : '⬜'}</span>
-      </div>
-    `).join('')}
-  `;
-}
-
+// Eski dailyQuests silindi, dailyMissions.js renderDailyQuests yüklendi
 // ═══════════════════════════════════════════
 // GÜNLÜK BİLGİ — dailyFact doldurma
 // ═══════════════════════════════════════════
@@ -182,10 +160,18 @@ async function handleSendMessage(text) {
   const msg = text.trim();
   const lw = msg.toLowerCase();
   
+  if (lw === '/ogretmen') {
+      const inputEl = document.getElementById('userInput');
+      if (inputEl) inputEl.value = '';
+      openTeacherPanel();
+      return;
+  }
+  
   // 1. Kullanıcı mesajını ekle
   lastSentMessage = msg;
   addMessage('user', msg);
   appendMessage('user', formatMessage('user', msg));
+  if(window.updateMissionProgress) window.updateMissionProgress('msg', 1);
   
   // Input temizle
   const inputEl = document.getElementById('userInput');
@@ -216,6 +202,7 @@ async function handleSendMessage(text) {
   if (eduSubjects.some(sub => lw === sub || lw === sub + ' çalışmak istiyorum' || lw === sub + ' testi' || lw === sub + ' quiz')) {
      if (typeof openStudyWizard === 'function') {
         openStudyWizard();
+        if(window.updateMissionProgress) window.updateMissionProgress('lesson', 1);
         addMessage('bot', 'Dersi ' + msg + ' olarak seçtin.');
         appendMessage('bot', formatMessage('bot', '<b>Harika!</b> Çalışmak istediğin dersi anladım. Şimdi açılan menüden konunu seçebilirsin.'));
         return;
@@ -800,6 +787,25 @@ function openTopicChangePopup() {
     popup.classList.remove('active');
     setTimeout(() => popup.remove(), 300);
   };
+
+  // LB Event Listener
+  document.getElementById('btnOpenLeaderboard')?.addEventListener('click', () => {
+     renderLeaderboard();
+     document.body.classList.remove('sidebar-collapsed');
+  });
+
+  // DNA Map Event Listener
+  document.getElementById('btnOpenDnaMap')?.addEventListener('click', () => {
+     renderDnaMap();
+     document.body.classList.remove('sidebar-collapsed');
+  });
+
+  // Skill Tree Event Listener
+  const skillTree = new SkillTree(document.body);
+  document.getElementById('btnOpenSkillTree')?.addEventListener('click', () => {
+     skillTree.open();
+     document.body.classList.remove('sidebar-collapsed');
+  });
 
   // Arka plana tıklayınca kapat
   popup.addEventListener('click', (e) => {
@@ -1939,12 +1945,23 @@ function launchInteractiveQuiz(questions, meta) {
 // ═══════════════════════════════════════════
 
 function saveQuizResult(result) {
+  // Speed mode check
+  if (window.activeSpeedMode && result && result.correct > 0) {
+     window.speedScore += result.correct;
+     const sc = document.getElementById('speedScoreNum');
+     if(sc) sc.innerText = window.speedScore;
+  }
+  
   const history = JSON.parse(localStorage.getItem('quiz_history') || '[]');
   history.unshift(result); // En yeni en başta
   // Maksimum 50 kayıt tut
   if (history.length > 50) history.length = 50;
   localStorage.setItem('quiz_history', JSON.stringify(history));
   try{ StorageManager.set(StorageManager.keys.QUIZ_HISTORY, history); }catch(e){}
+  if(window.updateMissionProgress) {
+     // completed exactly 1 quiz session, giving credit for 5 questions
+     window.updateMissionProgress('quiz', 5);
+  }
   if(window._renderDailyQuests) window._renderDailyQuests();
 }
 
@@ -2148,6 +2165,71 @@ function renderExamHistory() {
 }
 
 // ═══════════════════════════════════════════
+// HIZ MODU (60s SPEED QUIZ)
+// ═══════════════════════════════════════════
+window.startSpeedMode = function() {
+  window.activeSpeedMode = true;
+  window.speedScore = 0;
+  window.speedTime = 60;
+  
+  if (typeof window._handleSendMessage === 'function') { 
+      window._handleSendMessage("Kısa ve çok net 4 şıklı sorular sor. Sadece soruları ver. Hız moduna (60 saniye) başladık!"); 
+  }
+  
+  const existing = document.getElementById('speedTimerOverlay');
+  if(existing) existing.remove();
+  
+  const timerHtml = `
+    <div id="speedTimerOverlay" style="position:fixed; top:20px; left:50%; transform:translateX(-50%); background:rgba(15,23,42,0.95); border:2px solid #eab308; border-radius:30px; padding:15px 30px; z-index:999999; box-shadow:0 10px 30px rgba(234,179,8,0.3); display:flex; gap:20px; align-items:center;">
+       <div style="font-size:2rem; font-weight:900; color:#eab308;" id="speedTimeNum">⏱️ 60</div>
+       <div style="width:2px; height:30px; background:var(--bdr);"></div>
+       <div style="font-size:1.5rem; font-weight:bold; color:var(--txt);">Skor: <span id="speedScoreNum" style="color:#22c55e;">0</span></div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', timerHtml);
+  
+  window.speedInterval = setInterval(() => {
+     window.speedTime--;
+     const tb = document.getElementById('speedTimeNum');
+     if(tb) {
+         tb.innerText = "⏱️ " + window.speedTime;
+         if(window.speedTime <= 10) tb.style.color = '#ef4444';
+     }
+     
+     if (window.speedTime <= 0) {
+        window.endSpeedMode();
+     }
+  }, 1000);
+};
+
+window.endSpeedMode = function() {
+  window.activeSpeedMode = false;
+  clearInterval(window.speedInterval);
+  const existing = document.getElementById('speedTimerOverlay');
+  if(existing) existing.remove();
+  
+  const bonusXp = window.speedScore * 15;
+  state.xp += bonusXp;
+  
+  const finishHtml = `
+    <div class="dom-overlay speed-mode-summary" style="z-index:9999999; display:flex; flex-direction:column; align-items:center; justify-content:center; background:rgba(0,0,0,0.9);">
+      <h1 style="color:#eab308; font-size:4rem; margin-bottom:10px; animation:bounceIn 0.5s;">SÜRE BİTTİ! ⏱️</h1>
+      <div style="background:var(--bg2); padding:30px; border-radius:20px; text-align:center; border:2px solid var(--acc); min-width:300px;">
+         <div style="font-size:1.5rem; color:var(--sub); margin-bottom:10px;">Toplam Doğru</div>
+         <div style="font-size:4rem; font-weight:900; color:#22c55e;">${window.speedScore}</div>
+         <div style="margin-top:20px; color:var(--acc); font-weight:bold;">+${bonusXp} XP Kazanıldı!</div>
+      </div>
+      <button class="onboard-btn ext-style-2" style="margin-top:20px;" onclick="this.parentElement.remove()">Kapat</button>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', finishHtml);
+  if(window.triggerConfetti) window.triggerConfetti();
+  
+  const event = new CustomEvent('mega_xp_updated');
+  document.dispatchEvent(event);
+};
+
+// ═══════════════════════════════════════════
 // SINAV TİPİ SEÇİM MENÜSÜ (Global)
 // ═══════════════════════════════════════════
 window._openExamTypeMenu = function() {
@@ -2183,6 +2265,12 @@ window._openExamTypeMenu = function() {
           <button class="exam-type-btn prep" data-prompt="YKS/ÖSS tarzı üniversite sınavı soruları oluştur. Analitik düşünme ve problem çözme ölçen sorular hazırla."><span class="etb-icon">🏆</span><span class="etb-text">YKS/ÖSS Hazırlık</span></button>
         </div>
       </div>
+      <div class="exam-type-section">
+        <div class="exam-type-section-title">⏱️ Hızlı ve Sınırlı</div>
+        <div class="exam-type-grid">
+          <button class="exam-type-btn" style="border-color:#eab308; background:rgba(234,179,8,0.1);" data-prompt="/speedquiz" id="btnSpeedQuiz"><span class="etb-icon">⚡</span><span class="etb-text">Hız Modu (60s)</span></button>
+        </div>
+      </div>
     </div>
   `;
   document.body.appendChild(overlay);
@@ -2190,10 +2278,20 @@ window._openExamTypeMenu = function() {
   overlay.addEventListener('click', (e) => { if (e.target === overlay) { overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none'; setTimeout(() => overlay.style.display = 'none', 300); } });
   overlay.querySelectorAll('.exam-type-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      const prompt = btn.getAttribute('data-prompt');
+      let prompt = btn.getAttribute('data-prompt');
       overlay.style.opacity = '0'; overlay.style.pointerEvents = 'none';
       setTimeout(() => overlay.style.display = 'none', 300);
-      if (typeof window._handleSendMessage === 'function') { window._handleSendMessage(prompt); }
+      
+      if(prompt === '/speedquiz') {
+         // HIZ MODU BAŞLAT
+         if (typeof window.startSpeedMode === 'function') {
+            window.startSpeedMode();
+         } else {
+            if (typeof window._handleSendMessage === 'function') { window._handleSendMessage("Bana arka arkaya hızlı cevaplayabileceğim çoktan seçmeli karışık sorular sor. Hız modu başladı!"); }
+         }
+      } else {
+         if (typeof window._handleSendMessage === 'function') { window._handleSendMessage(prompt); }
+      }
     });
   });
   requestAnimationFrame(() => { overlay.style.display = 'flex'; requestAnimationFrame(() => { overlay.style.opacity = '1'; overlay.style.pointerEvents = 'auto'; }); });
@@ -2367,6 +2465,7 @@ document.addEventListener('DOMContentLoaded', async () => {
      console.error("DB Başlatma hatası", e);
   }
 
+  initDailyMissions();
   initUI();
   loadUserData();
   setupEventListeners();
