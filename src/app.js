@@ -909,10 +909,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnOpenStudyWizard = document.getElementById('btnOpenStudyWizard');
   if (btnOpenStudyWizard) {
      btnOpenStudyWizard.addEventListener('click', () => {
-         const overlay = document.getElementById('onboardingOverlay');
-         if(overlay) {
-            overlay.style.display = 'flex';
-            overlay.classList.remove('hidden');
+         if (typeof openStudyWizard === 'function') {
+             openStudyWizard('lesson');
          }
          document.body.classList.remove('sidebar-collapsed');
      });
@@ -1686,6 +1684,17 @@ function launchInteractiveQuiz(questions, meta) {
   let currentQ = 0;
   let answers = []; // { qIdx, selected, correct, isCorrect }
   let answered = false;
+
+  if (!questions || questions.length === 0) {
+     gameBody.innerHTML = `
+        <div style="text-align:center; padding:40px;">
+           <h2 style="color:var(--err); margin-bottom:15px;">⚠️ Soru Yüklenemedi</h2>
+           <p style="color:var(--sub); margin-bottom:20px;">Yapay zeka soruları uygun formatta üretemediği için boş döndü. Lütfen tekrar deneyin.</p>
+           <button class="btn-save" onclick="document.getElementById('gameOverlay').style.display='none';" style="background:var(--acc);">Kapat ve Yeniden Dene</button>
+        </div>
+     `;
+     return;
+  }
 
   function renderQuestion() {
     const q = questions[currentQ];
