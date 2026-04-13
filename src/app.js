@@ -788,25 +788,7 @@ function openTopicChangePopup() {
     setTimeout(() => popup.remove(), 300);
   };
 
-  // LB Event Listener
-  document.getElementById('btnOpenLeaderboard')?.addEventListener('click', () => {
-     renderLeaderboard();
-     document.body.classList.remove('sidebar-collapsed');
-  });
-
-  // DNA Map Event Listener
-  document.getElementById('btnOpenDnaMap')?.addEventListener('click', () => {
-     renderDnaMap();
-     document.body.classList.remove('sidebar-collapsed');
-  });
-
-  // Skill Tree Event Listener
-  const skillTree = new SkillTree(document.body);
-  document.getElementById('btnOpenSkillTree')?.addEventListener('click', () => {
-     skillTree.open();
-     document.body.classList.remove('sidebar-collapsed');
-  });
-
+  // Arka plana tıklayınca kapat
   // Arka plana tıklayınca kapat
   popup.addEventListener('click', (e) => {
     if (e.target === popup) closePopup();
@@ -848,6 +830,30 @@ function openTopicChangePopup() {
   // Otofokus
   setTimeout(() => inputEl.focus(), 100);
 }
+
+// ═══════════════════════════════════════════
+// YAN MENÜ BUTONLARI EVENT LISTENER'LAR
+// ═══════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', () => {
+  // LB Event Listener
+  document.getElementById('btnOpenLeaderboard')?.addEventListener('click', () => {
+     renderLeaderboard();
+     document.body.classList.remove('sidebar-collapsed');
+  });
+
+  // DNA Map Event Listener
+  document.getElementById('btnOpenDnaMap')?.addEventListener('click', () => {
+     renderDnaMap();
+     document.body.classList.remove('sidebar-collapsed');
+  });
+
+  // Skill Tree Event Listener
+  const skillTree = new SkillTree(document.body);
+  document.getElementById('btnOpenSkillTree')?.addEventListener('click', () => {
+     skillTree.open();
+     document.body.classList.remove('sidebar-collapsed');
+  });
+});
 
 // ═══════════════════════════════════════════
 // İSTATİSTİK GÜNCELLEME
