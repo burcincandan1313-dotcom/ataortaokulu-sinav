@@ -853,6 +853,70 @@ document.addEventListener('DOMContentLoaded', () => {
      skillTree.open();
      document.body.classList.remove('sidebar-collapsed');
   });
+
+  // Oyun Merkezi (Game Overlay)
+  const btnOpenGameMenu = document.getElementById('btnOpenGameMenu');
+  const gameOverlay = document.getElementById('gameOverlay');
+  if (btnOpenGameMenu && gameOverlay) {
+    btnOpenGameMenu.addEventListener('click', () => {
+      gameOverlay.style.display = 'flex';
+      renderGameMenu();
+    });
+  }
+
+  // Düello
+  const btnOpenDuelArena = document.getElementById('btnOpenDuelArena');
+  const duelArenaInst = new DuelArena(document.body);
+  if (btnOpenDuelArena) {
+    btnOpenDuelArena.addEventListener('click', () => {
+      const g = studySelections?.grade || 7;
+      const s = studySelections?.subject || 'Matematik';
+      const t = studySelections?.topic || 'Genel';
+      duelArenaInst.startDuel(g, s, t);
+    });
+  }
+
+  // Sınav Geçmişim
+  const btnOpenExamHistory = document.getElementById('btnOpenExamHistory');
+  const dashboardInst = new SuperZekaDashboard(document.body);
+  if (btnOpenExamHistory) {
+      btnOpenExamHistory.addEventListener('click', () => {
+          dashboardInst.open();
+          document.body.classList.remove('sidebar-collapsed');
+      });
+  }
+
+  // Sözlü Sınav
+  const btnOpenVoiceExam = document.getElementById('btnOpenVoiceExam');
+  if (btnOpenVoiceExam) {
+     btnOpenVoiceExam.addEventListener('click', () => {
+         const btnSend = document.getElementById('btnSendMessage');
+         const userInput = document.getElementById('userInput');
+         const btnToggleVoice = document.getElementById('btnToggleVoice');
+         
+         if(btnSend && userInput) {
+            userInput.value = "Şu andan itibaren Sözlü Mülakat Modundasın. Bana dersimle ilgili kısa bir sözlü sorusu sor. Ben cevaplayınca not verip diğerine geç.";
+            btnSend.click();
+            setTimeout(() => {
+               if(btnToggleVoice) btnToggleVoice.click();
+            }, 1500);
+         }
+         document.body.classList.remove('sidebar-collapsed');
+     });
+  }
+
+  // Konu Çalış Wizard'ı
+  const btnOpenStudyWizard = document.getElementById('btnOpenStudyWizard');
+  if (btnOpenStudyWizard) {
+     btnOpenStudyWizard.addEventListener('click', () => {
+         const overlay = document.getElementById('onboardingOverlay');
+         if(overlay) {
+            overlay.style.display = 'flex';
+            overlay.classList.remove('hidden');
+         }
+         document.body.classList.remove('sidebar-collapsed');
+     });
+  }
 });
 
 // ═══════════════════════════════════════════
@@ -869,75 +933,6 @@ function updateStats() {
   let currentLevel = 1;
   let maxXP = 1000;
   let levelTitle = "Başlangıç Düzeyi";
-
-  // 🎯
-  // Oyun Merkezi (Game Overlay) buton handler'ları
-  // 🎯
-  const btnOpenGameMenu = document.getElementById('btnOpenGameMenu');
-  const gameOverlay = document.getElementById('gameOverlay');
-  const btnCloseGameModal = document.getElementById('btnCloseGameModal');
-  
-  if (btnOpenGameMenu && gameOverlay) {
-    btnOpenGameMenu.addEventListener('click', () => {
-      gameOverlay.style.display = 'flex';
-      renderGameMenu();
-    });
-  }
-
-  const btnOpenDuelArena = document.getElementById('btnOpenDuelArena');
-  const duelArenaInst = new DuelArena(document.body);
-  if (btnOpenDuelArena) {
-    btnOpenDuelArena.addEventListener('click', () => {
-      const g = studySelections?.grade || 7;
-      const s = studySelections?.subject || 'Matematik';
-      const t = studySelections?.topic || 'Genel';
-      duelArenaInst.startDuel(g, s, t);
-    });
-  }
-
-  const btnOpenSkillTree = document.getElementById('btnOpenSkillTree');
-  const skillTreeInst = new SkillTree(document.body);
-  if (btnOpenSkillTree) {
-    btnOpenSkillTree.addEventListener('click', () => {
-       skillTreeInst.open();
-    });
-  }
-
-  const btnOpenExamHistory = document.getElementById('btnOpenExamHistory');
-  const dashboardInst = new SuperZekaDashboard(document.body);
-  if (btnOpenExamHistory) {
-      btnOpenExamHistory.addEventListener('click', () => {
-          dashboardInst.open();
-      });
-  }
-
-  const btnOpenVoiceExam = document.getElementById('btnOpenVoiceExam');
-  if (btnOpenVoiceExam) {
-     btnOpenVoiceExam.addEventListener('click', () => {
-         const btnSend = document.getElementById('btnSendMessage');
-         const userInput = document.getElementById('userInput');
-         const btnToggleVoice = document.getElementById('btnToggleVoice');
-         
-         if(btnSend && userInput) {
-            userInput.value = "Şu andan itibaren Sözlü Mülakat Modundasın. Bana dersimle ilgili kısa bir sözlü sorusu sor. Ben cevaplayınca not verip diğerine geç.";
-            btnSend.click();
-            setTimeout(() => {
-               if(btnToggleVoice) btnToggleVoice.click();
-            }, 1500);
-         }
-     });
-  }
-
-  const btnOpenStudyWizard = document.getElementById('btnOpenStudyWizard');
-  if (btnOpenStudyWizard) {
-     btnOpenStudyWizard.addEventListener('click', () => {
-         const overlay = document.getElementById('onboardingOverlay');
-         if(overlay) {
-            overlay.style.display = 'flex';
-            overlay.classList.remove('hidden');
-         }
-     });
-  }
 
   if (xp > 15000) { currentLevel = 5; maxXP = 30000; levelTitle = "Efsanevi Öğrenci"; }
   else if (xp > 5000) { currentLevel = 4; maxXP = 15000; levelTitle = "Usta Çırak"; }
