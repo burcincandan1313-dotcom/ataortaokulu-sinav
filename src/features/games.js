@@ -9,6 +9,8 @@
  * games.js
  * Bu dosya projenin ayrilmaz bir parcasidir.
  */
+import DOMPurify from 'dompurify';
+
 export const GAMES = [
   { id: 'ztype', icon: '⌨️', name: 'Klavye Ustası', desc: 'Düşen kelimeleri yaz' },
   { id: 'wordle',  icon: '🔤', name: 'Kelime Bulmaca', desc: '5 harfli kelime bul' },
@@ -25,7 +27,7 @@ export function renderGameMenu() {
   const title = document.getElementById('gameTitle');
   if (title) title.textContent = '🎮 Oyun Merkezi';
 
-  body.innerHTML = `
+  body.innerHTML = DOMPurify.sanitize(`
     <div class="game-menu-grid">
       ${GAMES.map(g => `
         <button class="game-card" data-game="${g.id}">
@@ -35,7 +37,7 @@ export function renderGameMenu() {
         </button>
       `).join('')}
     </div>
-  `;
+  `, { ALLOW_DATA_ATTR: true, ADD_ATTR: ['data-game'] });
 
   body.querySelectorAll('.game-card').forEach(card => {
     card.addEventListener('click', () => {
