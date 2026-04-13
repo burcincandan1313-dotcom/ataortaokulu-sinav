@@ -553,11 +553,15 @@ async function handleSendMessage(text) {
      let intentData = null;
      if (currentMode === 'quiz' && window.activeQuizSession) {
        intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic, difficulty: 'medium' };
-     } else if (lw.startsWith('/quiz') || lw.startsWith('/ders ')) {
+     } else if (lw.startsWith('/quiz')) {
        intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic || msg, difficulty: 'medium' };
      } else {
        // STEP 2: SafeParse (3 deneme retry ile intent tespiti)
        intentData = await v11SafeParse(msg);
+       // Eğer /ders ile başlıyorsa, pre-classifier'dan ne çıkarsa çıksın, kesinlikle quiz değil bir konuyu anlatmasını istiyoruz.
+       if (lw.startsWith('/ders ') && intentData.intent === 'quiz') {
+           intentData.intent = 'chat';
+       }
      }
 
      console.log('[V11] Parsed intent:', intentData);

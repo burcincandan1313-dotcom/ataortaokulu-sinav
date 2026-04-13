@@ -14,6 +14,6 @@ echo Sunucu aciliyor... Lutfen siyah ekrani kapatmayiniz!
 start "Ata Sunucu" cmd.exe /k "npm run dev"
 
 echo 6 saniye bekleniyor...
-timeout /t 6 >nul
+ping 127.0.0.1 -n 7 > nul
 
-start http://127.0.0.1:5173/?fresh=1
+start http://localhost:5173/?fresh=1
