@@ -3,6 +3,7 @@
  * Bu dosya projenin ayrilmaz bir parcasidir.
  */
 import { askAI } from '../api.js';
+import DOMPurify from 'dompurify';
 
 export class DuelArena {
   constructor(appContainer) {
@@ -104,7 +105,7 @@ Not: 'ans' doğru cevabın 0-3 arası indeksidir.`;
   showLoading() {
     const content = document.getElementById('duelContent');
     if(content) {
-      content.innerHTML = `<div style="text-align: center; padding: 40px;"><div class="jumping-dots"><span></span><span></span><span></span></div><p style="margin-top: 20px; color: var(--sub);">Arena hazırlanıyor... Rakip aranıyor...</p></div>`;
+      content.innerHTML = DOMPurify.sanitize(`<div style="text-align: center; padding: 40px;"><div class="jumping-dots"><span></span><span></span><span></span></div><p style="margin-top: 20px; color: var(--sub);">Arena hazırlanıyor... Rakip aranıyor...</p></div>`);
     }
   }
 
@@ -131,7 +132,7 @@ Not: 'ans' doğru cevabın 0-3 arası indeksidir.`;
     });
 
     html += `</div>`;
-    content.innerHTML = html;
+    content.innerHTML = DOMPurify.sanitize(html, { ALLOW_DATA_ATTR: true });
 
     const btns = document.querySelectorAll('.duel-opt-btn');
     btns.forEach(btn => {
@@ -214,7 +215,7 @@ Not: 'ans' doğru cevabın 0-3 arası indeksidir.`;
     }
 
     resultHtml += `<button class="onboard-btn ext-style-2" style="margin-top: 30px;" id="duelFinishBtn">Arenadan Çık</button>`;
-    content.innerHTML = `<div style="text-align: center; padding: 30px;">${resultHtml}</div>`;
+    content.innerHTML = DOMPurify.sanitize(`<div style="text-align: center; padding: 30px;">${resultHtml}</div>`);
 
     document.getElementById('duelFinishBtn').addEventListener('click', () => this.close());
   }

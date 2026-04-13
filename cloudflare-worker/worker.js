@@ -41,7 +41,8 @@ function isAllowedOrigin(origin) {
 }
 
 function corsHeaders(origin) {
-  const effectiveOrigin = (!origin || origin === 'null') ? '*' : (isAllowedOrigin(origin) ? origin : '*');
+  const defaultOrigin = 'https://ata-asistan.surge.sh';
+  const effectiveOrigin = (!origin || origin === 'null') ? defaultOrigin : (isAllowedOrigin(origin) ? origin : defaultOrigin);
   return {
     'Access-Control-Allow-Origin': effectiveOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS, GET',
