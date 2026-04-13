@@ -38,10 +38,20 @@ Not: 'ans' doğru cevabın 0-3 arası indeksidir.`;
 
     try {
       const raw = await askAI(prompt, "Sadece JSON formatında çıktı ver. Markdown bezeleme.");
-      const match = raw.match(/\[[\s\S]*\]/);
-      if(!match) throw new Error("JSON bulunamadı");
+      let cleaned = raw.trim();
+      if(cleaned.startsWith('```json')) cleaned = cleaned.replace(/^```json/i, '').replace(/```$/i, '').trim();
+      else if(cleaned.startsWith('```')) cleaned = cleaned.replace(/^```/i, '').replace(/```$/i, '').trim();
       
-      this.questions = JSON.parse(match[0]);
+      let parsed = [];
+      try {
+         parsed = JSON.parse(cleaned);
+      } catch (err) {
+         const match = cleaned.match(/\[[\s\S]*\]/);
+         if(!match) throw new Error("JSON dizisi bulunamadı");
+         parsed = JSON.parse(match[0]);
+      }
+      
+      this.questions = parsed;
       if(this.questions.length < 1) throw new Error("Soru yok");
       
       this.userScore = 0;
