@@ -2042,18 +2042,6 @@ function renderReportPanel() {
   overlay.style.display = 'flex';
 }
 
-// Event Listeners for Report Modal
-document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('btnCloseReportModal')?.addEventListener('click', () => {
-        document.getElementById('reportOverlay').style.display = 'none';
-    });
-    
-    // Quick Command Button Listener
-    document.querySelector('.chip[data-qcmd="/rapor"]')?.addEventListener('click', () => {
-        renderReportPanel();
-    });
-});
-
 // ═══════════════════════════════════════════
 // SINAVLARIM — Geçmiş Sınav Sonuçları UI
 // ═══════════════════════════════════════════

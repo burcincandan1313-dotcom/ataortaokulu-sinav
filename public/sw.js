@@ -1,4 +1,4 @@
-﻿// ATA SOHBET CACHE BUSTER
+// ATA SOHBET CACHE BUSTER
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
@@ -18,9 +18,3 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   event.respondWith(fetch(event.request));
 });
-// V2
-// V3
-// V4
-// V5
-// V6
-// V7

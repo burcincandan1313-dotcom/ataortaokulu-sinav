@@ -1,5 +1,3 @@
-import DOMPurify from 'dompurify';
-function _s(html){ return DOMPurify.sanitize(html, {ALLOW_DATA_ATTR:true, ADD_ATTR:['onclick', 'data-game','data-i','data-val','data-r','data-c','data-answer']}); }
 /**
  * games.js
  * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
@@ -27,7 +25,7 @@ export function renderGameMenu() {
   const title = document.getElementById('gameTitle');
   if (title) title.textContent = '🎮 Oyun Merkezi';
 
-  body.innerHTML = _s(`
+  body.innerHTML = `
     <div class="game-menu-grid">
       ${GAMES.map(g => `
         <button class="game-card" data-game="${g.id}">
@@ -37,7 +35,7 @@ export function renderGameMenu() {
         </button>
       `).join('')}
     </div>
-  `);
+  `;
 
   body.querySelectorAll('.game-card').forEach(card => {
     card.addEventListener('click', () => {
@@ -89,7 +87,7 @@ function startGame(gameId) {
       renderSudoku(body);
       break;
     default:
-      body.innerHTML = _s(`<div style="text-align:center;padding:40px;"><p>Bu oyun yakında eklenecek!</p><button class="game-back-btn" onclick="document.getElementById('gameBody').innerHTML='';window.__renderGameMenu && window.__renderGameMenu();">← Geri</button></div>`);
+      body.innerHTML = `<div style="text-align:center;padding:40px;"><p>Bu oyun yakında eklenecek!</p><button class="game-back-btn" onclick="document.getElementById('gameBody').innerHTML='';window.__renderGameMenu && window.__renderGameMenu();">← Geri</button></div>`;
   }
 }
 
@@ -111,7 +109,7 @@ function renderXOX(body) {
   let gameOver = false;
 
   function render() {
-    body.innerHTML = _s(`
+    body.innerHTML = `
       <div style="text-align:center;padding:20px;">
         <p class="game-status" id="xoxStatus">Sıra: ${turn} (Sen X'sin)</p>
         <div class="xox-grid">
@@ -119,7 +117,7 @@ function renderXOX(body) {
         </div>
         <button class="game-restart-btn" id="xoxRestart">🔄 Yeniden Başla</button>
       </div>
-    `);
+    `;
     addBackButton(body);
 
     body.querySelectorAll('.xox-cell').forEach(cell => {
@@ -173,7 +171,7 @@ function renderMathGame(body) {
   function newQuestion() {
     if (questionNum >= totalQ) {
       clearInterval(timerInterval);
-      body.innerHTML = _s(`<div style="text-align:center;padding:40px;"><h3>🏆 Skor: ${score}/${totalQ}</h3><p>${score >= 8 ? 'Harika!' : score >= 5 ? 'İyi!' : 'Biraz daha çalış!'}</p><button class="game-restart-btn" id="mathRestart">🔄 Tekrar</button></div>`);
+      body.innerHTML = `<div style="text-align:center;padding:40px;"><h3>🏆 Skor: ${score}/${totalQ}</h3><p>${score >= 8 ? 'Harika!' : score >= 5 ? 'İyi!' : 'Biraz daha çalış!'}</p><button class="game-restart-btn" id="mathRestart">🔄 Tekrar</button></div>`;
       addBackButton(body);
       document.getElementById('mathRestart').addEventListener('click', () => { score = 0; questionNum = 0; newQuestion(); });
       return;
@@ -196,7 +194,7 @@ function renderMathGame(body) {
     }
     choices.sort(() => Math.random() - 0.5);
 
-    body.innerHTML = _s(`
+    body.innerHTML = `
       <div style="text-align:center;padding:20px;">
         <p style="font-size:0.8rem;color:var(--sub);">Soru ${questionNum}/${totalQ} — Skor: ${score}</p>
         <p style="font-size:2rem;font-weight:800;margin:16px 0;">${a} ${op} ${b} = ?</p>
@@ -204,7 +202,7 @@ function renderMathGame(body) {
           ${choices.map(c => `<button class="math-choice" data-val="${c}">${c}</button>`).join('')}
         </div>
       </div>
-    `);
+    `;
     addBackButton(body);
 
     body.querySelectorAll('.math-choice').forEach(btn => {
@@ -232,13 +230,13 @@ function renderMemoryGame(body) {
   let moves = 0;
 
   function render() {
-    body.innerHTML = _s(`
+    body.innerHTML = `
       <div style="text-align:center;padding:16px;">
         <p style="font-size:0.85rem;color:var(--sub);">Hamle: ${moves} | Eşleşen: ${matched.length / 2}/${emojis.length}</p>
         <div class="memory-grid">
           ${cards.map((c, i) => {
             const isFlipped = flipped.includes(i) || matched.includes(i);
-            return `<button class="memory-card ${isFlipped ? 'flipped' : ''} ${matched.includes(i) ? 'matched' : ''}" data-i="${i}">${isFlipped ? c : '❓'}</button>`);
+            return `<button class="memory-card ${isFlipped ? 'flipped' : ''} ${matched.includes(i) ? 'matched' : ''}" data-i="${i}">${isFlipped ? c : '❓'}</button>`;
           }).join('')}
         </div>
       </div>
@@ -246,7 +244,7 @@ function renderMemoryGame(body) {
     addBackButton(body);
 
     if (matched.length === cards.length) {
-      body.innerHTML += _s(`<div style="text-align:center;padding:14px;"><h3>🎉 Tebrikler! ${moves} hamlede tamamladın!</h3><button class="game-restart-btn" id="memRestart">🔄 Tekrar</button></div>`);
+      body.innerHTML += `<div style="text-align:center;padding:14px;"><h3>🎉 Tebrikler! ${moves} hamlede tamamladın!</h3><button class="game-restart-btn" id="memRestart">🔄 Tekrar</button></div>`;
       document.getElementById('memRestart').addEventListener('click', () => renderMemoryGame(body));
       return;
     }
@@ -290,7 +288,7 @@ function renderWordleGame(body) {
     const won = guesses.some(g => g === target);
     const lost = guesses.length >= maxGuesses && !won;
 
-    body.innerHTML = _s(`
+    body.innerHTML = `
       <div style="text-align:center;padding:16px;">
         <p style="font-size:0.8rem;color:var(--sub);margin-bottom:8px;">5 harfli kelimeyi ${maxGuesses} denemede bul!</p>
         <div class="wordle-board">
@@ -298,7 +296,7 @@ function renderWordleGame(body) {
             let cls = 'wordle-cell wrong';
             if (c === target[i]) cls = 'wordle-cell correct';
             else if (target.includes(c)) cls = 'wordle-cell partial';
-            return `<span class="${cls}">${c}</span>`);
+            return `<span class="${cls}">${c}</span>`;
           }).join('')}</div>`).join('')}
           ${!won && !lost ? `<div class="wordle-row current">${currentGuess.padEnd(5, '_').split('').map(c => `<span class="wordle-cell">${c === '_' ? '' : c}</span>`).join('')}</div>` : ''}
         </div>
@@ -351,13 +349,13 @@ function renderQuickQuiz(body) {
 
   function showQ() {
     if (qIdx >= questions.length) {
-      body.innerHTML = _s(`<div style="text-align:center;padding:40px;"><h3>${score >= 6 ? '🏆' : score >=4 ? '👍' : '💪'} Skor: ${score}/${questions.length}</h3><button class="game-restart-btn" id="quizRestart">🔄 Tekrar</button></div>`);
+      body.innerHTML = `<div style="text-align:center;padding:40px;"><h3>${score >= 6 ? '🏆' : score >=4 ? '👍' : '💪'} Skor: ${score}/${questions.length}</h3><button class="game-restart-btn" id="quizRestart">🔄 Tekrar</button></div>`;
       addBackButton(body);
       document.getElementById('quizRestart').addEventListener('click', () => { qIdx=0; score=0; showQ(); });
       return;
     }
     const q = questions[qIdx];
-    body.innerHTML = _s(`
+    body.innerHTML = `
       <div style="text-align:center;padding:20px;">
         <p style="font-size:0.8rem;color:var(--sub);">Soru ${qIdx+1}/${questions.length}</p>
         <p style="font-size:1.1rem;font-weight:700;margin:14px 0;">${q.q}</p>
@@ -365,7 +363,7 @@ function renderQuickQuiz(body) {
           ${q.opts.map((o,i) => `<button class="quiz-choice" data-i="${i}">${o}</button>`).join('')}
         </div>
       </div>
-    `);
+    `;
     addBackButton(body);
     body.querySelectorAll('.quiz-choice').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -392,12 +390,12 @@ function renderSudoku(body) {
   // Bazı hücreleri gizle
   const puzzle = solution.map(row => row.map(c => Math.random() > 0.5 ? c : 0));
 
-  body.innerHTML = _s(`
+  body.innerHTML = `
     <div style="text-align:center;padding:20px;">
       <p style="font-size:0.85rem;color:var(--sub);margin-bottom:12px;">Her satır ve sütunya 1-4 arası rakamları yerleştir!</p>
       <div class="sudoku-grid">
         ${puzzle.map((row, r) => row.map((c, col) => {
-          if (c !== 0) return `<input class="sudoku-cell fixed" value="${c}" disabled data-r="${r}" data-c="${col}">`);
+          if (c !== 0) return `<input class="sudoku-cell fixed" value="${c}" disabled data-r="${r}" data-c="${col}">`;
           return `<input class="sudoku-cell" maxlength="1" data-r="${r}" data-c="${col}" data-answer="${solution[r][col]}">`;
         }).join('')).join('')}
       </div>
@@ -443,7 +441,7 @@ function renderZTypeGame(body) {
   let laser;
 
   // Temel UI kurulumu
-  body.innerHTML = _s(`
+  body.innerHTML = `
     <div style="padding:10px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
          <span style="font-weight:bold; color:var(--acc);">Skor: <span id="ztScore">0</span> | Seviye: <span id="ztLevel">1</span></span>
@@ -454,7 +452,7 @@ function renderZTypeGame(body) {
         <div class="ztype-laser" id="ztLaser" style="opacity:0;"></div>
       </div>
     </div>
-  `);
+  `;
   addBackButton(body);
   
   container = document.getElementById('ztContainer');
