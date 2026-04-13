@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Görsel Makine Öğrenimi Simülatörü</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --panel: #1e293b;
+            --elma: #ef4444; /* Kırmızı */
+            --armut: #10b981; /* Yeşil */
+            --test: #f59e0b; /* Sarı Soru */
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* Üst Başlık ve Açıklamalar */
+        .headers {
+            padding: 20px 40px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .headers h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #38bdf8, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .desc-box {
+            font-size: 1rem;
+            color: #94a3b8;
+            max-width: 600px;
+            line-height: 1.4;
+        }
+
+        /* Ana İçerik */
+        .main-content {
+            display: flex;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        /* Sol Araç Paneli */
+        .sidebar {
+            width: 320px;
+            background: var(--panel);
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 10;
+        }
+
+        .tool-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            padding: 15px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-align: left;
+        }
+
+        .tool-btn:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+        .tool-btn.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.1); box-shadow: 0 0 15px rgba(56, 189, 248, 0.3); }
+
+        .tool-btn.elma { border-left: 5px solid var(--elma); }
+        .tool-btn.armut { border-left: 5px solid var(--armut); }
+        .tool-btn.test { border-left: 5px solid var(--test); margin-top: 15px; }
+
+        .icon { font-size: 2rem; }
+
+        .ai-status {
+            margin-top: auto;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .ai-status h3 { font-size: 1.1rem; color: #4ade80; margin-bottom: 10px; }
+        .ai-status p { font-size: 0.9rem; color: #cbd5e1; margin-bottom: 8px; }
+
+        /* Sağ Canvas (Öğrenme Alanı) */
+        .canvas-container {
+            flex: 1;
+            background: #1e1b4b;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            border: 2px dashed rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            cursor: crosshair;
+        }
+
+        .axis-label {
+            position: absolute; color: rgba(255,255,255,0.4); font-weight: 600; font-size: 1.2rem; pointer-events: none;
+        }
+        .y-axis { top: 50%; left: 20px; transform: translateY(-50%) rotate(-90deg); letter-spacing: 2px; }
+        .x-axis { bottom: 20px; left: 50%; transform: translateX(-50%); letter-spacing: 2px; }
+
+        canvas {
+            display: block;
+            width: 100%; height: 100%;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.8);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 10px 15px;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            font-size: 0.9rem;
+            z-index: 100;
+        }
+
+        /* Temizle Butonu */
+        .clear-btn {
+            background: none; border: 1px solid rgba(239, 68, 68, 0.5); color: #fca5a5;
+            padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s;
+            margin-top: 10px; text-align: center; width: 100%;
+        }
+        .clear-btn:hover { background: rgba(239, 68, 68, 0.2); }
+
+    </style>
+</head>
+<body>
+
+    <div class="headers">
+        <div>
+            <h1>Görsel Makine Öğrenimi (AI)</h1>
+            <p style="color: #38bdf8; font-weight: bold; margin-top: 5px;">"Yapay Zeka Nasıl Öğrenir?"</p>
+        </div>
+        <div class="desc-box">
+            Eski sayılardan oluşan ekranı unutup her şeyi <strong>görselleştiriyoruz!</strong><br>
+            Aşağıdaki tablo "Boyut" ve "Tatlılık" eksenidir. Elma ve Armut verilerini rastgele grafiğe yerleştirin (Tıklayarak veri ekleyin). Makine, sizin girdiğiniz bu verilere bakarak <strong>Karar Çizgisini (Sınırı) kendisi çizecektir.</strong> İşte bu olaya Makine Öğrenimi denir!
+        </div>
+    </div>
+
+    <div class="main-content">
+        
+        <!-- Sol Menü -->
+        <div class="sidebar">
+            <h2 style="font-size: 1.3rem; margin-bottom: 5px;">1️⃣ Eğitim Verisi Ekle</h2>
+            <p style="font-size: 0.9rem; color: #94a3b8; margin-bottom: 10px;">Aşağıdan bir meyve seç ve yandaki tabloya tıklayarak verileri gir:</p>
+            
+            <button class="tool-btn elma active" onclick="setMode('elma')" id="btn-elma">
+                <span class="icon">🍎</span>
+                <div>
+                    <div>Elma Verisi (Kırmızı)</div>
+                    <div style="font-size: 0.8rem; font-weight:normal; opacity:0.7;">Eklemek için tıkla</div>
+                </div>
+            </button>
+            
+            <button class="tool-btn armut" onclick="setMode('armut')" id="btn-armut">
+                <span class="icon">🍐</span>
+                <div>
+                    <div>Armut Verisi (Yeşil)</div>
+                    <div style="font-size: 0.8rem; font-weight:normal; opacity:0.7;">Eklemek için tıkla</div>
+                </div>
+            </button>
+            
+            <h2 style="font-size: 1.3rem; margin-top: 20px; margin-bottom: 5px;">2️⃣ Öğrenmeyi Test Et</h2>
+            <button class="tool-btn test" onclick="setMode('test')" id="btn-test">
+                <span class="icon">🎯</span>
+                <div>
+                    <div>Gizemli Meyve Ver</div>
+                    <div style="font-size: 0.8rem; font-weight:normal; opacity:0.7;">YZ öğrendiğini tahmin etsin</div>
+                </div>
+            </button>
+
+            <button class="clear-btn" onclick="clearData()">🗑 Hafızayı Sıfırla (Bebek AI)</button>
+
+            <!-- Durum Paneli -->
+            <div class="ai-status">
+                <h3>🤖 Yapay Zeka Beyni</h3>
+                <p>Elma Sayısı (Veri): <strong id="elma-count">0</strong></p>
+                <p>Armut Sayısı (Veri): <strong id="armut-count">0</strong></p>
+                <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 10px 0;"></div>
+                <p id="ai-log" style="color: #f59e0b; font-weight: bold;">"Ben daha bir bebeğim. Öğrenmek için bana veri lazım!"</p>
+            </div>
+        </div>
+
+        <!-- YZ Çizim Alanı -->
+        <div class="canvas-container" id="container">
+            <div class="axis-label y-axis">Daha Tatlı ➡ Yüksek Şeker</div>
+            <div class="axis-label x-axis">Daha Büyük ➡ Yüksek Boyut</div>
+            <canvas id="aiCanvas"></canvas>
+            <div class="tooltip" id="tooltip"></div>
+        </div>
+
+    </div>
+
+    <script>
+        const canvas = document.getElementById('aiCanvas');
+        const ctx = canvas.getContext('2d');
+        const container = document.getElementById('container');
+        const tooltip = document.getElementById('tooltip');
+
+        let width, height;
+        let mode = 'elma'; // 'elma', 'armut', 'test'
+        
+        let elmalar = [];
+        let armutlar = [];
+        let tests = [];
+
+        function resize() {
+            width = container.clientWidth;
+            height = container.clientHeight;
+            canvas.width = width;
+            canvas.height = height;
+            draw();
+        }
+
+        window.addEventListener('resize', resize);
+
+        function setMode(m) {
+            mode = m;
+            document.getElementById('btn-elma').classList.remove('active');
+            document.getElementById('btn-armut').classList.remove('active');
+            document.getElementById('btn-test').classList.remove('active');
+            document.getElementById('btn-' + m).classList.add('active');
+            
+            if (m === 'test') {
+                logAI("Şimdi test zamanı! Herhangi bir yere tıkla, ben öğrendiğim karar çizgisine göre tahmin edeyim.", "#38bdf8");
+            }
+        }
+
+        function clearData() {
+            elmalar = [];
+            armutlar = [];
+            tests = [];
+            updateStats();
+            logAI("Hafızam silindi, yeni verilere ihtiyacım var!", "#f59e0b");
+            draw();
+        }
+
+        // Fare ile tıklama etkileşimi
+        canvas.addEventListener('mousedown', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            if (mode === 'elma') {
+                elmalar.push({x, y});
+                logAI("Elmaları kaydettim... Merkez (Ortalama) hesaplanıyor...", "#fca5a5");
+            } else if (mode === 'armut') {
+                armutlar.push({x, y});
+                logAI("Armutları kaydettim... Sınırı (Karar Çizgisi) güncelliyorum!", "#bef264");
+            } else if (mode === 'test') {
+                if(elmalar.length === 0 || armutlar.length === 0) {
+                    logAI("Hata! Test etmek için önce hem Elma hem Armut öğretmelisin ki aradaki farkı bileyim!", "#f87171");
+                    return;
+                }
+                const guess = predictClass(x, y);
+                tests.push({x, y, guess: guess});
+                
+                if(guess === "elma") {
+                    logAI(`🎯 TAHMİNİM: Bu bir ELMA! (Nokta kırmızı bölgede kaldığı için)`, "#ef4444");
+                } else {
+                    logAI(`🎯 TAHMİNİM: Bu bir ARMUT! (Nokta yeşil bölgede kaldığı için)`, "#10b981");
+                }
+            }
+
+            updateStats();
+            draw();
+        });
+
+        function updateStats() {
+            document.getElementById('elma-count').innerText = elmalar.length;
+            document.getElementById('armut-count').innerText = armutlar.length;
+        }
+
+        function logAI(msg, color) {
+            const logEl = document.getElementById('ai-log');
+            logEl.innerText = msg;
+            logEl.style.color = color;
+        }
+
+        // Merkez (Centroid) hesaplama. Makine Öğreniminin temeli (K-Means mantığı)
+        function getCentroid(points) {
+            if (points.length === 0) return null;
+            let sumX = 0, sumY = 0;
+            points.forEach(p => { sumX += p.x; sumY += p.y; });
+            return { x: sumX / points.length, y: sumY / points.length };
+        }
+
+        // Bir noktanın kime daha yakın olduğunu bulma (Tahmin Motoru)
+        function predictClass(px, py) {
+            const cElma = getCentroid(elmalar);
+            const cArmut = getCentroid(armutlar);
+            if(!cElma) return "armut";
+            if(!cArmut) return "elma";
+
+            const distElma = Math.hypot(cElma.x - px, cElma.y - py);
+            const distArmut = Math.hypot(cArmut.x - px, cArmut.y - py);
+
+            return distElma < distArmut ? "elma" : "armut";
+        }
+
+        // Çizim Motoru
+        function draw() {
+            ctx.clearRect(0, 0, width, height);
+
+            const cElma = getCentroid(elmalar);
+            const cArmut = getCentroid(armutlar);
+
+            // Arka Plan Karar Bölgelerini Çiz (Voronoi region / Perpendicular Bisector)
+            if (cElma && cArmut) {
+                // Her pikseli boyamak yavaştır. Biz ekranın dört köşesini vs matematiğe dökerek poligon çizebiliriz.
+                // Ya da orta dikme doğrusunu çizip renk gradyanı verebiliriz.
+                // Basit ve havalı yol: Arkaplanda karar sınırını göstermek için iki noktanın tam ortasından dik bir çizgi çekeriz.
+                
+                const mx = (cElma.x + cArmut.x) / 2;
+                const my = (cElma.y + cArmut.y) / 2;
+                const dx = cArmut.x - cElma.x;
+                const dy = cArmut.y - cElma.y;
+                
+                // Doğru denklemi: (x - mx)*dx + (y - my)*dy = 0 => Karar Sınırı (Yapay Zeka Kuralı!)
+                
+                // Karar bölgelerini boyamak için 100x100 piksellik kaba bloklar kullanacağız efekt için (Performans için)
+                const res = 15;
+                for (let x = 0; x < width; x += res) {
+                    for (let y = 0; y < height; y += res) {
+                        // Orta dikmenin üstü mü altı mı?
+                        const val = (x - mx) * dx + (y - my) * dy;
+                        if (val < 0) { // Elma tarafı
+                            ctx.fillStyle = "rgba(239, 68, 68, 0.05)";
+                        } else { // Armut tarafı
+                            ctx.fillStyle = "rgba(16, 185, 129, 0.05)";
+                        }
+                        ctx.fillRect(x, y, res, res);
+                    }
+                }
+
+                // Sınır çizgisi (The Decision Boundary: "Artificial Intelligence Rule")
+                ctx.save();
+                ctx.beginPath();
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.3)";
+                ctx.lineWidth = 4;
+                ctx.setLineDash([10, 15]);
+                // Çizgiyi uzatmak için 90 derece döndürülmüş bir vektör kullanacağız (-dy, dx)
+                const nx = -dy * 1000;
+                const ny = dx * 1000;
+                ctx.moveTo(mx - nx, my - ny);
+                ctx.lineTo(mx + nx, my + ny);
+                ctx.stroke();
+                ctx.restore();
+
+                // Merkez Düğümleri Çiz (Ağırlık Merkezleri)
+                drawCentroid(cElma.x, cElma.y, "#ef4444", "🍎 Özellik Merkezi");
+                drawCentroid(cArmut.x, cArmut.y, "#10b981", "🍐 Özellik Merkezi");
+                
+                // İki merkezi bağlayan Görünmez mantık yayı
+                ctx.beginPath();
+                ctx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+                ctx.lineWidth = 2;
+                ctx.moveTo(cElma.x, cElma.y);
+                ctx.lineTo(cArmut.x, cArmut.y);
+                ctx.stroke();
+            }
+
+            // Normal noktaları (Verileri) Çiz
+            elmalar.forEach(p => drawPoint(p.x, p.y, "#ef4444"));
+            armutlar.forEach(p => drawPoint(p.x, p.y, "#10b981"));
+
+            // Test Noktalarını Çiz (Tahmin sonucu ile)
+            tests.forEach(p => {
+                drawTestPoint(p.x, p.y, p.guess === "elma" ? "#ef4444" : "#10b981");
+            });
+        }
+
+        function drawPoint(x, y, color) {
+            ctx.beginPath();
+            ctx.arc(x, y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
+            ctx.strokeStyle = "white";
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        function drawCentroid(x, y, color, label) {
+            // Parlayan bir hale
+            ctx.beginPath();
+            ctx.arc(x, y, 25, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.globalAlpha = 0.2;
+            ctx.fill();
+            ctx.globalAlpha = 1.0;
+
+            // Merkez Yıldıız
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = "#fff";
+            ctx.fill();
+
+            ctx.fillStyle = color;
+            ctx.font = "bold 12px Arial";
+            ctx.fillText(label, x + 10, y - 10);
+        }
+
+        function drawTestPoint(x, y, guessedColor) {
+            ctx.font = "24px Arial";
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            ctx.fillStyle = guessedColor;
+            
+            // Etrafında hale olan Soru İşareti
+            ctx.shadowColor = guessedColor;
+            ctx.shadowBlur = 15;
+            ctx.fillText("❓", x, y);
+            ctx.shadowBlur = 0;
+            
+            ctx.font = "10px Arial";
+            ctx.fillStyle = "#fff";
+            ctx.fillText(guessedColor === "#ef4444" ? "(Elma)" : "(Armut)", x, y + 20);
+        }
+
+        // Başlangıçta Canvas boyutunu ayarla
+        setTimeout(resize, 100);
+
+    </script>
+</body>
+</html>

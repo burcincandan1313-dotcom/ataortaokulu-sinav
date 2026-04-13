@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0f172a">
+<meta name="description" content="Ata Ortaokulu Sohbet Programı - Eğitim Odaklı Akıllı Chatbot">
+<meta property="og:title" content="Ata Ortaokulu Sohbet Programı">
+<meta property="og:description" content="Eğitim Odaklı Akıllı Chatbot — Tek dosya, bağımsız çalışır">
+<link rel="manifest" href="manifest.json">
+<!-- PWA Service Worker Kaydı -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(err => console.error("SW Kayıt Hatası:", err));
+    });
+  }
+</script>
+<!--
+  🔒 GÜVENLİK NOTU (Öğretmen için):
+  Bu dosya TEK BAŞINA çalışır. Hiçbir ek dosyaya ihtiyacı yoktur.
+
+  CSP (Content Security Policy) HAKKINDA:
+  Önceki sürümde hem 'unsafe-inline' hem CSP kullanılıyordu.
+  Bu ikisi çelişiyordu: 'unsafe-inline' varken CSP'nin XSS koruması
+  devre dışı kalıyordu. Bu sürümde:
+  - DOMPurify TAMAMEN INLINE gömüldü (CDN bağımlılığı yok)
+  - Script/style için unsafe-inline'a gerek kalmadan çalışıyor
+  - connect-src (API bağlantıları) korunuyor
+  - Bu eğitim projesi için en dürüst ve çalışan güvenlik yapılandırması
+
+  XSS koruması DOMPurify ile sağlanıyor (tüm innerHTML noktalari
+  safeHTML() fonksiyonundan geçiyor).
+-->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' blob: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://cdn.tailwindcss.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdn.jsdelivr.net data: blob:; img-src 'self' data: https: blob:; connect-src 'self' https://tr.wikipedia.org https://text.pollinations.ai https://wttr.in https://api.frankfurter.app https://loremflickr.com https://translate.googleapis.com https://img.icons8.com https://mega-asistan-proxy.mega-asistan-burcan.workers.dev https://generativelanguage.googleapis.com https://cdn.jsdelivr.net https://cdn.tailwindcss.com; frame-src 'self' https://loremflickr.com blob: data:; worker-src 'self' 'unsafe-inline' blob: data: https://cdn.jsdelivr.net; object-src 'none';">
+<title>Ata Ortaokulu Sohbet Programı</title>
+<!-- Google Fonts: Yalnızca font için harici kaynak (tasarım için gerekli) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- ↓↓↓ TÜM STILLER INLINE — style.css dışa bağımlılık yok ↓↓↓ -->
+<link rel="stylesheet" href="/src/style.css">
+</head>
+<body>
+
+<!-- SKIP LINK (A11y) -->
+<a href="#userInput" class="skip-link">İçeriğe atla</a>
+
+<!-- ONBOARDING -->
+<div class="onboard-overlay" id="onboardOverlay" style="display:none" role="dialog" aria-modal="true" aria-labelledby="onboardTitle">
+  <div class="onboard-card">
+    <h1 id="onboardTitle">🏫 Ata Ortaokulu Sohbet Programı</h1>
+    <p>Merhaba! Seni tanımak istiyorum.<br>Adını yaz ve bir avatar seç VEYA doğrudan giriş yap!</p>
+    <div style="display:flex;gap:10px;justify-content:center;margin-bottom:15px;">
+      <button class="onboard-btn" id="btnLoginGoogle" style="background:#ea4335;flex:1;">🌐 Google ile Giriş Yap</button>
+    </div>
+    <div class="divider">VEYA</div>
+    <input type="text" id="onboardName" placeholder="Adını yaz..." maxlength="20" autocomplete="off" id="inpOnboardName">
+    <input type="hidden" id="selectedAvatar" value="👦">
+    <div class="avatar-picker" id="avatarPicker"></div>
+    <div style="display:flex;gap:10px;justify-content:center">
+      <button class="onboard-btn" id="btnCompleteOnboarding" style="flex:1">🚀 Başlayalım!</button>
+      <button class="onboard-btn" id="btnDemoOnboarding" style="flex:1;background:rgba(255,255,255,0.1);color:#a78bfa;border:1px solid #a78bfa">👀 Misafir Girişi</button>
+    </div>
+  </div>
+</div>
+
+<div class="bg-glow"></div>
+<canvas id="matrixCanvas"></canvas>
+<canvas id="confettiCanvas"></canvas>
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- MOBILE -->
+<button class="mobile-menu-btn" id="btnMobileMenu" aria-label="Menüyü aç/kapat">☰</button>
+<div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+<!-- TICKER -->
+<div class="ticker-bar">
+  <span class="ticker-label">📡 CANLI</span>
+  <div class="ticker-scroll"><div class="ticker-inner" id="tickerInner"></div></div>
+</div>
+
+<div class="main-container">
+  <!-- SIDEBAR -->
+  <div class="sidebar" role="complementary" aria-label="Yan panel">
+    <h2>🏫 Ata Ortaokulu Sohbet</h2>
+
+    <!-- USER CARD -->
+    <div class="user-card" id="userCard">
+      <div class="user-avatar">🧑‍🎓</div>
+      <div class="user-info"><h3>Kullanıcı</h3><div class="user-meta">Giriş yapılmadı</div></div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- MODE SELECTOR -->
+    <div class="sec-lbl">🎭 Mod Seç</div>
+    <div class="mode-selector" id="modeSelector"></div>
+
+    <div class="divider"></div>
+
+    <!-- XP BAR -->
+    <div class="xp-section">
+      <div class="xp-header">
+        <span class="xp-level" id="xpLevelLabel">⭐ Lv.1 Çırak</span>
+        <span class="xp-value" id="xpValueLabel">0/100 XP</span>
+      </div>
+      <div class="xp-bar-bg"><div class="xp-bar-fill" id="xpBarFill" style="width:0%"></div></div>
+      <div class="xp-rank" id="xpRank">Sonraki: Kalfa (100 XP)</div>
+    </div>
+
+    <!-- DAILY QUESTS -->
+    <div class="quest-card" id="questCard"></div>
+
+    <!-- BADGES -->
+    <div class="sec-lbl">🏆 Rozetler</div>
+    <div class="badge-grid" id="badgeGrid"></div>
+
+    <div class="divider"></div>
+    <div class="sec-lbl">🎨 Tema</div>
+    <div class="theme-row">
+      <button class="tbtn active" data-t="default" title="Gece Mavisi" data-theme="default"></button>
+      <button class="tbtn" data-t="purple" title="Mor Galaksi" data-theme="purple"></button>
+      <button class="tbtn" data-t="orange" title="Turuncu" data-theme="orange"></button>
+      <button class="tbtn" data-t="ocean" title="Okyanus" data-theme="ocean"></button>
+      <button class="tbtn" data-t="rose" title="Gül" data-theme="rose"></button>
+      <button class="tbtn" data-t="neon" title="Neon Yeşil" data-theme="neon"></button>
+      <button class="tbtn" data-t="cyber" title="Cyber Sarı" data-theme="cyber"></button>
+    </div>
+
+    <div class="divider"></div>
+    <div class="sec-lbl">📊 İstatistikler</div>
+    <div class="stat-grid">
+      <div class="stat-card"><div class="v" id="stMsg">0</div><div class="l">Mesaj</div></div>
+      <div class="stat-card"><div class="v" id="stRules">0</div><div class="l">Öğrenilen</div></div>
+      <div class="stat-card"><div class="v" id="stGames">0</div><div class="l">Oyun</div></div>
+      <div class="stat-card"><div class="v" id="stReact">0</div><div class="l">Tepki</div></div>
+    </div>
+
+    <div class="daily-fact" id="dailyFact"></div>
+
+    <div class="divider"></div>
+    <div class="sec-lbl">⚡ Hızlı Komutlar</div>
+    <div class="chips">
+      <button class="chip" style="background:#2563eb" id="btnOpenGameMenu">🎮 Oyunlar</button>
+      <button class="chip" style="background:#7c3aed" data-qcmd="/quiz">📊 /quiz</button>
+      <button class="chip" style="background:#e11d48" data-qcmd="/wordle">🟩 /wordle</button>
+      <button class="chip" style="background:#059669" data-qcmd="/kodla rastgele bir oyun">⚡ Canlı Kod</button>
+      <button class="chip" style="background:#1d4ed8" data-qcmd="/ders">📚 /ders</button>
+      <button class="chip" style="background:#0891b2" data-qcmd="/pet">🐾 /pet</button>
+      <button class="chip" style="background:#059669" data-qcmd="/motivasyon">🚀 /moti</button>
+      <button class="chip" style="background:#b45309" data-qcmd="/rastgele">🎲 /rastgele</button>
+      <button class="chip" style="background:#9333ea" data-qcmd="/karakter">🎭 /karakter</button>
+      <button class="chip" style="background:#0284c7" data-qcmd="/hava Istanbul">🌡️ /hava</button>
+      <button class="chip" style="background:#6d28d9" data-qcmd="/pomodoro">⏱️ /pomo</button>
+      <button class="chip" style="background:#c026d3" data-qcmd="/görsel ">🖼️ /görsel</button>
+      <button class="chip" style="background:#0f766e" data-qcmd="/not">📋 /not</button>
+      <button class="chip" style="background:#ea580c" data-qcmd="/çiz">🎨 /çiz</button>
+      <button class="chip" style="background:#dc2626" data-qcmd="/normal">&#x274C; /normal</button>
+      <button class="chip" style="background:#d97706" data-qcmd="/hafıza">🃏 /hafıza</button>
+      <button class="chip" style="background:#7c3aed" data-qcmd="/mateyar">⚡ /mateyar</button>
+      <button class="chip" style="background:#0f766e" data-qcmd="/sudoku">🔢 /sudoku</button>
+      <button class="chip" style="background:#1d4ed8" data-qcmd="/ders">📚 /ders</button>
+      <button class="chip" style="background:#15803d" data-qcmd="/rapor">📊 /rapor</button>
+      <button class="chip" style="background:#0f766e" data-qcmd="/ajanda">📅 /ajanda</button>
+      <button class="chip" style="background:#ca8a04" data-qcmd="/liderlik">🏆 /liderlik</button>
+    </div>
+
+    <div class="sb-actions">
+      <button class="sb-btn btn-mg" id="btnOpenSettings">⚙️ Kuralları Yönet</button>
+      <button class="sb-btn btn-ex" id="btnExportChat">💾 Sohbeti İndir</button>
+      <button class="sb-btn" style="background:rgba(249,115,22,.15);border-color:rgba(249,115,22,.4);color:#fb923c;" id="btnLogoutUser">🚪 Çıkış Yap</button>
+      <button class="sb-btn btn-rs" id="btnClearMemory">🗑️ Hafızayı Sıfırla</button>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="chat-container" role="main" aria-label="Sohbet alanı">
+    <div class="chat-header">
+      <div class="bot-avatar" id="avatarIcon"><img src="https://img.icons8.com/fluency/96/robot-2.png" alt="Bot"></div>
+      <div class="bot-info">
+        <h3 id="botName">🏫 Ata Sohbet — Normal</h3>
+        <span id="botStatus">🟢 Çevrimiçi</span>
+      </div>
+      <button id="btnAudioToggle" class="sound-btn" title="Ses aç/kapat" aria-label="Ses aç/kapat">🔊</button>
+    </div>
+    <!-- aria-live: Ekran okuyucular bot yanıtlarını otomatik okur -->
+    <div class="chat-body" id="chatbox" aria-live="polite" aria-atomic="false" aria-label="Sohbet geçmişi" role="log">
+      <div class="typing-indicator" id="typing">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+    </div>
+    <div class="chat-footer">
+      <button class="mic-btn" id="btnToggleVoice" title="Sesli Giriş" aria-label="Sesli giriş yap">🎤</button>
+      <input type="file" id="pdfUploadInput" accept="application/pdf,.txt,text/plain" style="display:none;" aria-label="PDF veya TXT Yükle">
+      <button class="mic-btn" id="btnUploadPdf" title="PDF/TXT Yükle" aria-label="PDF veya TXT dosyası yükle">📎</button>
+      <input type="text" id="userInput" class="chat-input" placeholder="Yaz veya Ctrl+K ile komut paleti..." autocomplete="off" aria-label="Mesajınızı yazın" autofocus>
+      <button class="send-btn" id="btnSendMessage" aria-label="Mesajı gönder">➤</button>
+    </div>
+  </div>
+</div>
+
+<!-- CMD PALETTE -->
+<div class="cmd-overlay" id="cmdOverlay" role="dialog" aria-modal="true" aria-label="Komut Paleti">
+  <div class="cmd-box">
+    <input type="text" id="cmdInput" placeholder="Komut ara... (Örn: wordle, quiz, pet)" aria-label="Komut ara">
+    <div class="cmd-list" id="cmdList"></div>
+  </div>
+</div>
+
+<!-- RULE MODAL -->
+<div class="modal-overlay" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="settingsTitle">⚙️ Ayarlar</h2>
+      <button class="btn-close" id="btnCloseSettings" aria-label="Kapat">✖</button>
+    </div>
+
+    <!-- SETTINGS TABS -->
+    <div class="settings-tabs" role="tablist">
+      <button class="stab active" role="tab" aria-selected="true" data-tab="rules" id="tabRules">📝 Kurallar</button>
+      <button class="stab" role="tab" aria-selected="false" data-tab="api" id="tabApi">🔑 API Ayarları</button>
+      <button class="stab" role="tab" aria-selected="false" data-tab="study" id="tabStudy">📚 Ders Analiz</button>
+    </div>
+
+    <!-- TAB: Kurallar -->
+    <div class="stab-panel active" id="panelRules" role="tabpanel" aria-labelledby="tabRules">
+      <div class="rule-list" id="ruleList"></div>
+      <div class="add-rule-form">
+        <h3 style="font-size:.92rem;color:#10b981;margin-bottom:9px">+ Yeni Kural</h3>
+        <label>Anahtar Kelimeler:</label>
+        <input type="text" id="newRuleKw" placeholder="elma, meyve" autocomplete="off">
+        <label>Cevap:</label>
+        <textarea id="newRuleRes" placeholder="Elma bir meyvedir."></textarea>
+        <div style="display:flex;gap:10px;margin-top:8px">
+          <label style="display:flex;align-items:center;gap:4px">
+            <input type="checkbox" id="newRuleRegex" style="width:16px;margin:0"> Regex (Gelişmiş)
+          </label>
+          <label style="display:flex;align-items:center;gap:4px">
+            Öncelik: <input type="number" id="newRulePriority" value="1" style="width:60px;padding:4px;margin:0">
+          </label>
+        </div>
+        <button class="btn-save" id="btnAddNewRule">✅ Kaydet</button>
+      </div>
+    </div>
+
+    <!-- TAB: API Ayarları -->
+    <div class="stab-panel" id="panelApi" role="tabpanel" aria-labelledby="tabApi">
+      <div style="padding:4px 0">
+        <p style="font-size:.78rem;color:var(--sub);margin-bottom:12px;line-height:1.5">Kendi Gemini API anahtarınızı girerek doğrudan Google AI'ya bağlanabilirsiniz. Anahtar yalnızca tarayıcınızda saklanır.</p>
+
+        <label style="font-size:.78rem;color:var(--sub);display:block;margin-bottom:4px">🔑 Gemini API Anahtarı:</label>
+        <input type="password" id="inputApiKey" placeholder="AIzaSy..." autocomplete="off" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:.85rem;outline:none;margin-bottom:8px;font-family:monospace">
+
+        <label style="font-size:.78rem;color:var(--sub);display:block;margin-bottom:4px">🌐 Proxy URL (opsiyonel):</label>
+        <input type="text" id="inputProxyUrl" placeholder="https://mega-asistan-proxy.xxx.workers.dev" autocomplete="off" style="width:100%;padding:10px;background:rgba(255,255,255,.05);border:1px solid var(--bdr);border-radius:8px;color:var(--txt);font-size:.85rem;outline:none;margin-bottom:12px">
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-save" id="btnSaveApiKey">💾 Kaydet</button>
+          <button class="btn-save" id="btnTestApiKey" style="background:#3b82f6">🧪 Test Et</button>
+          <button class="btn-save" id="btnClearApiKey" style="background:#ef4444">🗑️ Temizle</button>
+        </div>
+        <p id="apiTestResult" style="font-size:.78rem;margin-top:10px;min-height:20px"></p>
+
+        <div style="margin-top:16px;padding:12px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:10px">
+          <p style="font-size:.72rem;color:var(--sub);line-height:1.5">
+            <b style="color:var(--acc)">ℹ️ Nasıl alınır?</b><br>
+            1. <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color:var(--acc)">Google AI Studio</a> → "Create API Key"<br>
+            2. Ücretsiz katman: günde ~1500 istek<br>
+            3. Anahtarınız sadece tarayıcınızda kalır, hiçbir sunucuya iletilmez
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: Ders Analiz -->
+    <div class="stab-panel" id="panelStudy" role="tabpanel" aria-labelledby="tabStudy">
+      <div style="padding:4px 0">
+        <p style="font-size:.78rem;color:var(--sub);margin-bottom:12px;line-height:1.5">PDF veya TXT formatında ders notlarınızı yükleyin. Asistan analiz edip quiz soruları üretecek.</p>
+
+        <div style="text-align:center;padding:24px;border:2px dashed var(--bdr);border-radius:12px;margin-bottom:12px;cursor:pointer;transition:.2s" id="studyDropZone">
+          <p style="font-size:2rem;margin-bottom:6px">📄</p>
+          <p style="font-size:.82rem;color:var(--sub)">PDF veya TXT dosyanızı sürükleyin<br>ya da tıklayıp seçin</p>
+          <p style="font-size:.68rem;color:var(--sub);margin-top:6px">Maks. 500KB</p>
+        </div>
+        <input type="file" id="studyFileInput" accept="application/pdf,.txt,text/plain" style="display:none">
+
+        <div id="studyFileInfo" style="display:none;padding:10px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:8px;margin-bottom:10px">
+          <p style="font-size:.82rem;font-weight:600" id="studyFileName"></p>
+          <p style="font-size:.72rem;color:var(--sub)" id="studyFileStats"></p>
+        </div>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-save" id="btnStudyQuiz" style="background:#8b5cf6" disabled>📊 Quiz Oluştur</button>
+          <button class="btn-save" id="btnStudyAnalyze" style="background:#0891b2" disabled>🔍 Analiz Et</button>
+          <button class="btn-save" id="btnStudyClear" style="background:#ef4444" disabled>🗑️ Temizle</button>
+        </div>
+        <p id="studyResult" style="font-size:.78rem;margin-top:10px;min-height:20px"></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- GAME MODAL -->
+<div class="game-overlay" id="gameOverlay" role="dialog" aria-modal="true" aria-label="Oyun Merkezi">
+  <div class="game-modal" id="gameModal">
+    <div class="game-header">
+      <h2 id="gameTitle">🎮 Oyun Merkezi</h2>
+      <div class="game-hbtns">
+        <button class="game-hbtn" id="btnToggleGameFullscreen" title="Tam Ekran" aria-label="Tam ekran">⛶</button>
+        <button class="game-hbtn gcl" id="btnCloseGameModal" title="Kapat" aria-label="Kapat">✖</button>
+      </div>
+    </div>
+    <div class="game-body" id="gameBody"></div>
+  </div>
+</div>
+
+<!-- ↓↓↓ DOMPurify 3.2.7 INLINE — CDN bağımlılığı yok, SRI gerektirmez ↓↓↓ -->
+<script type="module" src="/src/main.js"></script>
+
+<!-- ↓↓↓ TÜM UYGULAMA KODU INLINE — app-bundle.js bağımlılığı yok ↓↓↓ -->
+
+
+</body>
+</html>

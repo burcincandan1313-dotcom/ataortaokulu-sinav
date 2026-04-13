@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çok Basit Makine Öğrenimi Oyunu</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e293b;
+            --box-bg: rgba(255,255,255,0.1);
+            --primary: #3b82f6;
+            --success: #10b981;
+            --accent: #ec4899;
+            --text: #f8fafc;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Fredoka', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #38bdf8;
+            margin-top: 20px;
+            text-align: center;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #cbd5e1;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* 3 Adım Arayüzü */
+        .step-container {
+            width: 90%;
+            max-width: 1000px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 30px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .step-title {
+            font-size: 2rem;
+            color: #fde047;
+            margin-bottom: 20px;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 30px;
+            border-radius: 20px;
+        }
+
+        /* Bölüm 1: Veri Toplama */
+        .box-container {
+            display: flex;
+            gap: 50px;
+            width: 100%;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .data-box {
+            width: 300px;
+            height: 300px;
+            background: var(--box-bg);
+            border: 4px dashed rgba(255,255,255,0.3);
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            padding-bottom: 20px;
+            position: relative;
+        }
+
+        .data-box.elma { border-color: rgba(239, 68, 68, 0.5); background: rgba(239, 68, 68, 0.1); }
+        .data-box.armut { border-color: rgba(16, 185, 129, 0.5); background: rgba(16, 185, 129, 0.1); }
+
+        .box-title {
+            position: absolute;
+            top: -20px;
+            background: #0f172a;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        .item-pile {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            padding: 20px;
+            height: 200px;
+            align-items: flex-end;
+        }
+
+        .fruit {
+            font-size: 4rem;
+            cursor: grab;
+            transition: transform 0.2s;
+            filter: drop-shadow(0 5px 5px rgba(0,0,0,0.5));
+        }
+
+        .fruit:active { cursor: grabbing; transform: scale(1.1); }
+        
+        .bank {
+            display: flex;
+            gap: 15px;
+            background: rgba(255,255,255,0.05);
+            padding: 20px 40px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            height: 120px;
+            align-items: center;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary), #8b5cf6);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            margin-top: 20px;
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .btn.active {
+            opacity: 1; pointer-events: all;
+            animation: pulseBtn 2s infinite;
+        }
+
+        .btn.active:hover { transform: scale(1.05) translateY(-5px); box-shadow: 0 15px 30px rgba(59,130,246,0.5); }
+
+        @keyframes pulseBtn {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        /* YZ Robot (Eğitim Modu) */
+        .ai-robot {
+            font-size: 8rem;
+            margin-bottom: 20px;
+            animation: float 3s infinite ease-in-out alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-20px); filter: drop-shadow(0 20px 20px rgba(59,130,246,0.6)); }
+        }
+
+        .scan-line {
+            width: 100%;
+            height: 5px;
+            background: #4ade80;
+            position: absolute;
+            top: 0;
+            left: 0;
+            box-shadow: 0 0 20px 5px #4ade80;
+            animation: scan 2s linear infinite;
+            display: none;
+        }
+
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* Sınav Bölümü */
+        .mystery-fruit {
+            font-size: 8rem;
+            filter: grayscale(100%) brightness(0%); /* Siluet yapar */
+            transition: all 1s;
+        }
+
+        .revealed {
+            filter: grayscale(0%) brightness(100%);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); }
+            100% { transform: scale(1.2); }
+        }
+
+        /* Ekran Geçişleri İçin Sınıflar */
+        .screen { display: none; width: 100%; flex-direction: column; align-items: center; }
+        .screen.visible { display: flex; animation: slideUp 0.5s ease-out; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+    </style>
+</head>
+<body>
+
+    <h1>🤖 Bebek Yapay Zeka: Öğrenme Zamanı!</h1>
+    <p class="subtitle">Hiçbir matematik yok! Sadece öğretiyoruz ve test ediyoruz.</p>
+
+    <div class="step-container">
+        
+        <!-- ADIM 1: Veri Toplama -->
+        <div class="screen visible" id="step-1">
+            <div class="step-title">Adım 1: Eğitim Verilerini (Meyveleri) Kutulara Koy 📦</div>
+            <p style="font-size: 1.2rem; color: #94a3b8; text-align: center; margin-bottom: 20px;">
+                Yapay Zeka bebek gibidir, resimlere bakarak öğrenir. Lütfen Elma ve Armutları doğru sepetine sürükle!
+            </p>
+
+            <div class="bank" id="fruit-bank" ondrop="drop(event, 'bank')" ondragover="allowDrop(event)">
+                <div class="fruit" draggable="true" ondragstart="drag(event)" id="f1" data-type="elma">🍎</div>
+                <div class="fruit" draggable="true" ondragstart="drag(event)" id="f2" data-type="armut">🍐</div>
+                <div class="fruit" draggable="true" ondragstart="drag(event)" id="f3" data-type="elma">🍎</div>
+                <div class="fruit" draggable="true" ondragstart="drag(event)" id="f4" data-type="armut">🍐</div>
+                <div class="fruit" draggable="true" ondragstart="drag(event)" id="f5" data-type="elma">🍎</div>
+                <div class="fruit" draggable="true" ondragstart="drag(event)" id="f6" data-type="armut">🍐</div>
+            </div>
+
+            <div class="box-container">
+                <div class="data-box elma" id="box-elma" ondrop="drop(event, 'elma')" ondragover="allowDrop(event)">
+                    <div class="box-title">🍎 Elma Verileri</div>
+                    <div class="item-pile" id="pile-elma"></div>
+                </div>
+
+                <div class="data-box armut" id="box-armut" ondrop="drop(event, 'armut')" ondragover="allowDrop(event)">
+                    <div class="box-title">🍐 Armut Verileri</div>
+                    <div class="item-pile" id="pile-armut"></div>
+                </div>
+            </div>
+
+            <button class="btn" id="btn-train" onclick="goToStep2()">2. Adıma Geç: Yapay Zekayı Eğit ➡</button>
+        </div>
+
+        <!-- ADIM 2: Modeli Eğitme (Yapay Zeka Düşünüyor) -->
+        <div class="screen" id="step-2">
+            <div class="step-title" style="background: rgba(59, 130, 246, 0.5);">Adım 2: Makine Öğrenimi Başlıyor! 🧠</div>
+            
+            <div class="ai-robot" id="robot-face">🤖</div>
+            <h2 id="ai-text" style="font-size: 2rem; color: #4ade80; text-align: center; max-width: 600px; height: 100px;">
+                "Verileri bekliyorum..."
+            </h2>
+
+            <div style="position: relative; width: 100%; display: flex; justify-content: center; gap: 40px; margin-top: 30px;">
+                <div class="data-box elma" style="width: 200px; height: 200px;">
+                    <div class="scan-line" id="scan-1"></div>
+                    <div style="font-size: 4rem;">🍎🍎🍎</div>
+                </div>
+                <div class="data-box armut" style="width: 200px; height: 200px;">
+                    <div class="scan-line" id="scan-2"></div>
+                    <div style="font-size: 4rem;">🍐🍐🍐</div>
+                </div>
+            </div>
+
+            <button class="btn" id="btn-test" style="display: none;" onclick="goToStep3()">3. Adıma Geç: Sınav Yap! ➡</button>
+        </div>
+
+        <!-- ADIM 3: Test Aşaması (Sonuç) -->
+        <div class="screen" id="step-3">
+            <div class="step-title" style="background: rgba(236, 72, 153, 0.5);">Adım 3: Yapay Zekaya Sınav Yapalım! 🎯</div>
+            
+            <p style="font-size: 1.5rem; color: #cbd5e1; text-align: center; margin-bottom: 30px;">
+                Yapay zekaya gizli bir meyve gösteriyoruz. Acaba öğrettiğimiz kurala bakarak bunun ne olduğunu bilebilecek mi?
+            </p>
+
+            <div style="display: flex; align-items: center; gap: 50px;">
+                <div style="text-align: center;">
+                    <div class="mystery-fruit" id="test-fruit">🍎</div> <!-- Başta siyah gölge -->
+                    <br><br>
+                    <button class="btn active" id="btn-reveal" onclick="revealFruit()">Örtüyü Kaldır ve Sor!</button>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.5); padding: 30px; border-radius: 20px; border: 2px solid var(--primary); width: 400px;">
+                    <div style="font-size: 4rem; text-align: center; margin-bottom: 20px;">🤖</div>
+                    <h3 style="font-size: 1.5rem; color: #38bdf8; margin-bottom: 10px;">Yapay Zeka Diyor Ki:</h3>
+                    <p id="final-ai-text" style="font-size: 1.3rem; color: #fff; line-height: 1.5;">
+                        "Bekliyorum..."
+                    </p>
+                </div>
+            </div>
+
+            <button class="btn active" style="margin-top: 50px; background: #64748b;" onclick="location.reload()">🔄 Baştan Başla (Hafızayı Sil)</button>
+
+        </div>
+
+    </div>
+
+    <script>
+        let correctDrops = 0;
+
+        // --- DRAG AND DROP LİCİGİ ---
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev, targetBox) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            var element = document.getElementById(data);
+            var expectedType = element.getAttribute("data-type");
+
+            if(targetBox === expectedType) {
+                // Doğru Kutu
+                document.getElementById('pile-' + targetBox).appendChild(element);
+                element.style.transform = `rotate(${Math.random() * 40 - 20}deg)`;
+                element.draggable = false; // Bir daha sürüklenmesin
+                correctDrops++;
+
+                if(correctDrops === 6) {
+                    document.getElementById('btn-train').classList.add('active');
+                }
+            } else if (targetBox !== 'bank') {
+                // Yanlış Kutu, hafif titreme
+                element.style.transform = "translateX(10px)";
+                setTimeout(() => element.style.transform = "translateX(-10px)", 100);
+                setTimeout(() => element.style.transform = "translateX(0)", 200);
+            }
+        }
+
+        // --- ADIM 2 Geçişi ---
+        function goToStep2() {
+            document.getElementById('step-1').classList.remove('visible');
+            document.getElementById('step-2').classList.add('visible');
+            startTraining();
+        }
+
+        function startTraining() {
+            const aiText = document.getElementById('ai-text');
+            const scan1 = document.getElementById('scan-1');
+            const scan2 = document.getElementById('scan-2');
+
+            // 1. Asama
+            setTimeout(() => {
+                scan1.style.display = "block";
+                scan2.style.display = "block";
+                aiText.innerText = "Hmm... Kutulardaki meyveleri gözlerimle tarıyorum... 📷";
+                aiText.style.color = "#fde047";
+            }, 1000);
+
+            // 2. Asama
+            setTimeout(() => {
+                aiText.innerText = "Elmaların hepsinin MAVİ veya YEŞİL değil, 'KIRMIZI' ve 'YUVARLAK' olduğunu fark ettim!";
+            }, 4000);
+
+            // 3. Asama
+            setTimeout(() => {
+                aiText.innerText = "Armutların hepsinin 'YEŞİL' ve altı geniş olduğunu fark ettim!";
+            }, 7000);
+
+            // Bitis
+            setTimeout(() => {
+                scan1.style.display = "none";
+                scan2.style.display = "none";
+                document.getElementById('robot-face').innerText = "😎";
+                aiText.innerHTML = "BEN BİR DAHİYİM! <br>Kuralları kendi kendime öğrendim (Makine Öğrenimi). <br>Artık hazırım!";
+                aiText.style.color = "#4ade80";
+                
+                const btnTest = document.getElementById('btn-test');
+                btnTest.style.display = "block";
+                btnTest.classList.add('active');
+            }, 10000);
+        }
+
+        // --- ADIM 3 Geçişi ---
+        function goToStep3() {
+            document.getElementById('step-2').classList.remove('visible');
+            document.getElementById('step-3').classList.add('visible');
+        }
+
+        function revealFruit() {
+            document.getElementById('btn-reveal').style.display = "none";
+            const fruit = document.getElementById('test-fruit');
+            const aiFinalText = document.getElementById('final-ai-text');
+            
+            // Meyveyi açığa çıkar
+            fruit.classList.add('revealed');
+
+            // AI'ın düşünme süreci (Adım adım anlatım)
+            aiFinalText.innerText = "Görüntü işleniyor...";
+            aiFinalText.style.color = "#fde047";
+
+            setTimeout(() => {
+                aiFinalText.innerText = "1️⃣ Renk tarandı: KIRMIZI\n2️⃣ Şekil tarandı: YUVARLAK\n\nKendi kendime öğrendiğim kurala göre düşünüyorum...";
+            }, 1500);
+
+            setTimeout(() => {
+                aiFinalText.innerHTML = "🎯 KESİN BİR ELMA! <br><br>İşte Makine Öğrenimi (AI) böyledir. Gözlem yapar, kuralı kendisi yazar ve yeni nesnelere uygular!";
+                aiFinalText.style.color = "#4ade80";
+            }, 4500);
+        }
+
+    </script>
+</body>
+</html>

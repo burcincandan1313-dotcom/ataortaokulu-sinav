@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zeka Hafıza Oyunu</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
+            --card-bg: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, #1e1b4b 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 5px;
+            background: -webkit-linear-gradient(45deg, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        p.subtitle {
+            margin-bottom: 30px;
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            width: 800px;
+            max-width: 90%;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px 30px;
+            border-radius: 999px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            perspective: 1000px;
+            width: 900px;
+            max-width: 95%;
+        }
+
+        .card {
+            width: 100%;
+            height: 120px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            transform: rotateY(180deg) scale(0.95);
+            opacity: 0.8;
+            pointer-events: none;
+        }
+
+        .card-front, .card-back {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            text-align: center;
+            font-weight: 600;
+            user-select: none;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            font-size: 2rem;
+        }
+
+        .card-front::after {
+            content: '❓';
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.5));
+        }
+
+        .card-front:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.4);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .card-back {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            transform: rotateY(180deg);
+            font-size: 1rem;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+
+        .term {
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .desc {
+            font-size: 0.9rem;
+            font-weight: normal;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .overlay h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #4ade80;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.5);
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px rgba(139, 92, 246, 0.5);
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .card {
+                height: 100px;
+            }
+            .card-back { font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🧠 Yapay Zeka Terminolojisi Eşleştirme 🧠</h1>
+    <p class="subtitle">Kavramları ve anlamlarını eşleştir, hafızanı test et!</p>
+
+    <div class="game-info">
+        <span>Hamle Sayısı: <span id="moves">0</span></span>
+        <span>Eşleşme: <span id="matches">0</span> / 5</span>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="overlay" id="victory-screen">
+        <h2>TEBRİKLER! 🎉</h2>
+        <p style="font-size: 1.5rem; margin-bottom: 30px;">Tüm kavramları başarıyla eşleştirdin!</p>
+        <p style="font-size: 1.2rem; margin-bottom: 30px;">Toplam Hamle: <span id="final-moves"></span></p>
+        <button class="btn" onclick="initGame()">Tekrar Oyna</button>
+    </div>
+
+    <script>
+        const cardData = [
+            { id: 1, type: 'term', text: '<div class="term">Veri (Data)</div>' },
+            { id: 1, type: 'desc', text: '<div class="desc">Yapay zekanın öğrenmek için ihtiyaç duyduğu bilgi yığınıdır.</div>' },
+            { id: 2, type: 'term', text: '<div class="term">Algoritma</div>' },
+            { id: 2, type: 'desc', text: '<div class="desc">Bir problemi çözmek için adım adım izlenen kurallar dizisidir.</div>' },
+            { id: 3, type: 'term', text: '<div class="term">Makine Öğrenimi</div>' },
+            { id: 3, type: 'desc', text: '<div class="desc">Bilgisayarların deneyimlerden ders çıkararak kendini geliştirmesidir.</div>' },
+            { id: 4, type: 'term', text: '<div class="term">Model</div>' },
+            { id: 4, type: 'desc', text: '<div class="desc">Eğitilmiş ve karar vermeye hazır yapay zeka programıdır.</div>' },
+            { id: 5, type: 'term', text: '<div class="term">Derin Öğrenme</div>' },
+            { id: 5, type: 'desc', text: '<div class="desc">İnsan beynini taklit eden yapay sinir ağları sistemidir.</div>' }
+        ];
+
+        let cards = [];
+        let hasFlippedCard = false;
+        let lockBoard = false;
+        let firstCard, secondCard;
+        let moves = 0;
+        let matches = 0;
+
+        const grid = document.getElementById('grid');
+        const movesDisplay = document.getElementById('moves');
+        const matchesDisplay = document.getElementById('matches');
+        const victoryScreen = document.getElementById('victory-screen');
+        const finalMoves = document.getElementById('final-moves');
+
+        function shuffle(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function createCard(data) {
+            const card = document.createElement('div');
+            card.classList.add('card');
+            card.dataset.id = data.id;
+
+            card.innerHTML = `
+                <div class="card-front"></div>
+                <div class="card-back">${data.text}</div>
+            `;
+
+            card.addEventListener('click', flipCard);
+            return card;
+        }
+
+        function initGame() {
+            grid.innerHTML = '';
+            moves = 0;
+            matches = 0;
+            movesDisplay.innerText = moves;
+            matchesDisplay.innerText = matches;
+            victoryScreen.classList.remove('active');
+            hasFlippedCard = false;
+            lockBoard = false;
+            firstCard = null;
+            secondCard = null;
+
+            cards = shuffle([...cardData]);
+
+            cards.forEach(data => {
+                grid.appendChild(createCard(data));
+            });
+        }
+
+        function flipCard() {
+            if (lockBoard) return;
+            if (this === firstCard) return;
+
+            this.classList.add('flipped');
+
+            if (!hasFlippedCard) {
+                hasFlippedCard = true;
+                firstCard = this;
+                return;
+            }
+
+            secondCard = this;
+            moves++;
+            movesDisplay.innerText = moves;
+            checkForMatch();
+        }
+
+        function checkForMatch() {
+            let isMatch = firstCard.dataset.id === secondCard.dataset.id;
+
+            if (isMatch) {
+                disableCards();
+                matches++;
+                matchesDisplay.innerText = matches;
+                if(matches === 5) {
+                    setTimeout(() => {
+                        finalMoves.innerText = moves;
+                        victoryScreen.classList.add('active');
+                    }, 800);
+                }
+            } else {
+                unflipCards();
+            }
+        }
+
+        function disableCards() {
+            firstCard.removeEventListener('click', flipCard);
+            secondCard.removeEventListener('click', flipCard);
+            
+            setTimeout(() => {
+                firstCard.classList.add('matched');
+                secondCard.classList.add('matched');
+                resetBoard();
+            }, 500);
+        }
+
+        function unflipCards() {
+            lockBoard = true;
+
+            setTimeout(() => {
+                firstCard.classList.remove('flipped');
+                secondCard.classList.remove('flipped');
+                resetBoard();
+            }, 1200);
+        }
+
+        function resetBoard() {
+            [hasFlippedCard, lockBoard] = [false, false];
+            [firstCard, secondCard] = [null, null];
+        }
+
+        // Initialize game on load
+        initGame();
+    </script>
+</body>
+</html>

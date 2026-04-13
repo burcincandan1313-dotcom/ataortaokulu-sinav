@@ -1,0 +1,99 @@
+{
+    "soru": "Kanatları var mı? (Uçabiliyor mu?)",
+    "evet": {
+        "soru": "Kuş türü müdür?",
+        "evet": {
+            "soru": "Gece mi avlanır?",
+            "evet": {
+                "soru": "suda yaşamaz?",
+                "evet": {
+                    "hayvan": "Yarasa"
+                },
+                "hayir": {
+                    "hayvan": "Baykuş"
+                }
+            },
+            "hayir": {
+                "hayvan": "Kartal"
+            }
+        },
+        "hayir": {
+            "soru": "Memeli midir? (Yavrusunu sütle besler mi?)",
+            "evet": {
+                "hayvan": "Yarasa"
+            },
+            "hayir": {
+                "hayvan": "Arı"
+            }
+        }
+    },
+    "hayir": {
+        "soru": "Suda veya su altında mı yaşar?",
+        "evet": {
+            "soru": "Memeli midir?",
+            "evet": {
+                "soru": "Su altında yaşayan devasa bir canlı baş harfi B ?",
+                "evet": {
+                    "hayvan": "Balina"
+                },
+                "hayir": {
+                    "hayvan": "Yunus"
+                }
+            },
+            "hayir": {
+                "soru": "Evet?",
+                "evet": {
+                    "hayvan": "Timsah"
+                },
+                "hayir": {
+                    "hayvan": "Köpekbalığı"
+                }
+            }
+        },
+        "hayir": {
+            "soru": "Evcil midir? (Evde/Çiftlikte beslenir mi?)",
+            "evet": {
+                "soru": "Miyavlar mı?",
+                "evet": {
+                    "hayvan": "Kedi"
+                },
+                "hayir": {
+                    "soru": "yalaka, hırçın, ısırgan , Yahudi düşmanı , Cuma kılmaz abdest almaz 10/C sınıfında çekici bir erkek ?",
+                    "evet": {
+                        "hayvan": "Buğra"
+                    },
+                    "hayir": {
+                        "hayvan": "Köpek"
+                    }
+                }
+            },
+            "hayir": {
+                "soru": "Büyük boynuzları var mıdır?",
+                "evet": {
+                    "hayvan": "Geyik"
+                },
+                "hayir": {
+                    "soru": "Hayır?",
+                    "hayir": {
+                        "soru": "KİŞNEYEN YARIŞABİLEN 4 AYAKLI ÇİFTLİK HAYVANI ?",
+                        "evet": {
+                            "hayvan": "At"
+                        },
+                        "hayir": {
+                            "soru": "Pembe ve kahve rengi olan , çiftlikte çamurun içind eyüzmeyi seven baş harf D olan hayvan ?",
+                            "evet": {
+                                "hayvan": "Domuz"
+                            },
+                            "hayir": {
+                                "hayvan": "Penguen"
+                            }
+                        }
+                    },
+                    "evet": {
+                        "hayvan": "Aslan"
+                    }
+                }
+            }
+        }
+    }
+}

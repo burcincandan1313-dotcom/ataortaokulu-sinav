@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zeka Macerası: Makine Öğrenimi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --primary: #3b82f6;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text-light: #f8fafc;
+        }
+
+        * {
+            margin: 0; padding: 0; box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a);
+            color: var(--text-light);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Glassmorphism Container */
+        .app-container {
+            width: 90vw;
+            height: 90vh;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top Bar: Progress and Score */
+        .top-bar {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .score-box {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            padding: 10px 25px;
+            border-radius: 99px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            box-shadow: 0 10px 20px rgba(236, 72, 153, 0.3);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .progress-wrapper {
+            flex: 1;
+            margin: 0 40px;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4ade80, #3b82f6);
+            transition: width 0.5s ease-in-out;
+            box-shadow: 0 0 10px #4ade80;
+        }
+
+        /* Robot Mascot */
+        .mascot-container {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            z-index: 50;
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            transition: transform 0.3s;
+        }
+
+        .mascot-container:hover {
+            transform: scale(1.05);
+        }
+
+        .mascot {
+            font-size: 8rem;
+            filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.5));
+            animation: float 3s infinite ease-in-out alternate;
+        }
+
+        .speech-bubble {
+            background: white;
+            color: #0f172a;
+            padding: 20px 30px;
+            border-radius: 20px 20px 20px 0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            max-width: 350px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .speech-bubble.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            border-width: 15px 15px 0 0;
+            border-style: solid;
+            border-color: white transparent transparent transparent;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(-2deg); }
+            100% { transform: translateY(-15px) rotate(2deg); }
+        }
+
+        /* Screens */
+        .screens-container {
+            flex: 1;
+            position: relative;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            padding: 40px 60px 150px 60px; /* space for mascot */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+        }
+
+        /* Typography & Elements */
+        h1 { font-size: 4rem; margin-bottom: 20px; text-align: center; line-height: 1.2; text-shadow: 0 0 30px rgba(59,130,246,0.3); }
+        .gradient-text { background: linear-gradient(135deg, #60a5fa, #c084fc); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        p.desc { font-size: 1.5rem; color: #cbd5e1; text-align: center; max-width: 800px; margin-bottom: 40px; line-height: 1.6; }
+
+        .btn {
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            border: none;
+            padding: 18px 45px;
+            border-radius: 99px;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(236, 72, 153, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(236, 72, 153, 0.6);
+        }
+
+        .btn:active { transform: scale(0.95); }
+
+        .input-name {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            padding: 20px 30px;
+            border-radius: 20px;
+            font-size: 1.8rem;
+            color: white;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 30px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .input-name:focus { border-color: var(--primary); background: rgba(255,255,255,0.15); box-shadow: 0 0 20px rgba(59,130,246,0.5); }
+
+        /* Game Elements: Training AI */
+        .training-area {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .data-card {
+            background: rgba(255,255,255,0.1);
+            border: 2px solid rgba(255,255,255,0.2);
+            border-radius: 20px;
+            padding: 20px;
+            cursor: pointer;
+            font-size: 6rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .data-card:hover { transform: translateY(-10px); background: rgba(255,255,255,0.2); border-color: var(--success); }
+        
+        .data-card.clicked {
+            transform: scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        /* Interactive Quiz Matrix */
+        .quiz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; width: 100%; max-width: 800px; margin-top: 20px; }
+        
+        .quiz-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            padding: 25px;
+            border-radius: 15px;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .quiz-option:hover { background: rgba(59,130,246,0.2); border-color: var(--primary); transform: translateY(-3px); }
+        .quiz-option.correct { background: rgba(16, 185, 129, 0.3); border-color: var(--success); }
+        .quiz-option.wrong { background: rgba(239, 68, 68, 0.3); border-color: var(--danger); animation: shake 0.5s; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Exploding Confetti Background */
+        .confetti {
+            position: absolute; width: 10px; height: 10px; background: #fff; border-radius: 50%;
+            animation: fall 3s linear forwards; pointer-events: none;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .badge-icon { font-size: 10rem; filter: drop-shadow(0 0 30px gold); margin-bottom: 20px; animation: pop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <div class="top-bar">
+            <div style="font-size: 1.5rem; font-weight: 800; color: #94a3b8;">👨‍💻 Eğlenceli YZ Laboratuvarı</div>
+            <div class="progress-wrapper">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div class="score-box">
+                ⭐ <span id="scoreDisplay">0</span> Puan
+            </div>
+        </div>
+
+        <div class="screens-container">
+            
+            <!-- EKRAN 1: Karşılama -->
+            <div class="screen active" id="sec-1">
+                <h1>Merhaba! <span class="gradient-text">Yapay Zeka Macerasına</span> Hoş Geldin!</h1>
+                <p class="desc">Bu derste sıkıcı yazılar yok! Sadece oyunlar, görevler ve sen varsın. Önce tanışalım, adın ne?</p>
+                <input type="text" class="input-name" id="playerName" placeholder="Adını Buraya Yaz..." autocomplete="off">
+                <button class="btn" onclick="nextScreen(1)">Maceraya Başla 🚀</button>
+            </div>
+
+            <!-- EKRAN 2: Bilgi + Öğrenme -->
+            <div class="screen" id="sec-2">
+                <h1>Makine Öğrenimi <span class="gradient-text">(Machine Learning)</span></h1>
+                <p class="desc" style="font-size: 1.8rem;">İnsanlar tecrübeyle öğrenir (Örneğin bisikletten düşerek). Peki ya bilgisayarlar? Yapay zeka, kodlarla değil <strong style="color: #4ade80;">"VERİ" (Data)</strong> ile beslenerek öğrenir.</p>
+                <div style="background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; font-size: 1.4rem; text-align:center; border: 1px dashed rgba(255,255,255,0.2);">
+                    Bir bebeğe sürekli "Bu kedi, bu kedi, bu kedi" diyerek resim gösterdiğini düşün. Binlerce resimden sonra beyin "Kediyi" öğrenir. Makinelerde aynen böyle öğrenir!
+                </div>
+                <br><br>
+                <button class="btn" onclick="nextScreen(2)">Deneyerek Görelim! ➡</button>
+            </div>
+
+            <!-- EKRAN 3: Etkileşimli Görev (Veri Eğitimi Oyunu) -->
+            <div class="screen" id="sec-3">
+                <h1>Görev 1: <span class="gradient-text">Robotu Eğit!</span></h1>
+                <p class="desc">Yapay zeka asistanımız "BARTU" <strong>Köpekleri</strong> tanımak istiyor. Ama daha önce hiç köpek görmedi. Ekrandaki köpeklere tıklayarak hafızasına gönderip onu eğit!</p>
+                
+                <div class="training-area" id="dog-cards">
+                    <div class="data-card" onclick="feedAI(this, 'dog')">🐕</div>
+                    <div class="data-card" onclick="feedAI(this, 'cat')" style="font-size: 5rem; padding-top: 30px;">🐈</div>
+                    <div class="data-card" onclick="feedAI(this, 'dog')">🦮</div>
+                    <div class="data-card" onclick="feedAI(this, 'dog')">🐩</div>
+                </div>
+                
+                <p style="font-size: 1.5rem; color: #f59e0b;" id="training-status">Bekleniyor... 0/3 Veri Geldi</p>
+            </div>
+
+            <!-- EKRAN 4: İlk Değerlendirme (Mini Quiz) -->
+            <div class="screen" id="sec-4">
+                <h1>Değerlendirme 1: <span class="gradient-text">Hafıza Testi</span></h1>
+                <p class="desc">Az önce öğrendiğimiz bilgilere bakalım ne kadar hakimsin? Doğru olanı seç!</p>
+                
+                <div style="font-size: 2rem; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+                    Soru: Makine öğrenimi algoritmaları yeni şeyleri öğrenmek için en çok neye ihtiyaç duyar?
+                </div>
+
+                <div class="quiz-grid">
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'Yanlış! Elektrik çalışmasını sağlar ama öğrenmesini sağlamaz.')">A) Daha Fazla Elektrik ⚡</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, true, '')">B) Çok Fazla Veri (Data) 💾</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'Yanlış! Kodlar kuraldır, öğrenme ise tecrübedir.')">C) Sadece Tek Bir Satır Kod ❌</div>
+                    <div class="quiz-option" onclick="checkAnswer(this, false, 'Robot kollarla değil beyinle alakalıdır. Tekrar düşün!')">D) Robot Kolları 🤖</div>
+                </div>
+            </div>
+
+            <!-- EKRAN 5: Derin Öğrenme Bilgi -->
+            <div class="screen" id="sec-5">
+                <h1>Şimdi İşler Büyüyor: <span class="gradient-text">Derin Öğrenme!</span></h1>
+                <p class="desc" style="font-size: 1.8rem;">Makine öğreniminden sonraki seviyeye <strong>Derin Öğrenme (Deep Learning)</strong> denir. Bu sistemler direkt senin <strong style="color: #ec4899;">BEYNİNİ</strong> taklit eder!</p>
+                
+                <div style="display: flex; gap: 30px; align-items: center; background: rgba(0,0,0,0.2); padding: 30px; border-radius: 20px;">
+                    <div style="font-size: 6rem;">🧠 ➡ 💻</div>
+                    <div style="font-size: 1.4rem;">Gördüğün rüyalar, hislerin ve kararların beynindeki <strong>Nöron (Sinir Hücreleri)</strong> ağı sayesinde olur.<br><br>Biz bilim insanları olarak bunu alıp bilgisayara kopyaladık ve buna <strong>"Yapay Sinir Ağları"</strong> dedik! Siri, ChatGPT ve yüz tanıyan kameralar bu devasa ağla çalışır.</div>
+                </div>
+                <br>
+                <button class="btn" onclick="nextScreen(5)">Son Büyük Sınava Geç ⚔</button>
+            </div>
+
+            <!-- EKRAN 6: Final Sınavı -->
+            <div class="screen" id="sec-6">
+                <h1>Final Sorusu: <span class="gradient-text">Büyük Karar</span></h1>
+                <p class="desc">Yapay zeka sadece faydalı mıdır? Etik kararlar verme sırası sende!</p>
+                
+                <div style="font-size: 1.8rem; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px; margin-bottom: 20px;">
+                    Soru: Kendin giden otonom bir araba (yapay zeka şoför) yaptın. İnsanlara çok yardımcı oluyor ama bazen "yetersiz veri" nedeniyle siyah renkli kıyafet giyen yayaları çok geç fark edebiliyor.
+                    <br><br><span style="color: #f59e0b;">Ne yaparsın?</span>
+                </div>
+
+                <div class="quiz-grid" style="grid-template-columns: 1fr;">
+                    <div class="quiz-option" onclick="checkFinalAnswer(this, false, 'Yanlış Etik Karar! Çözümü bulmak mühendisin işidir, saklamak değil.')">Arabayı satmaya devam ederim, çok nadir olan bir şey kimse fark etmez.</div>
+                    <div class="quiz-option" style="background: rgba(16, 185, 129, 0.1);" onclick="checkFinalAnswer(this, true, 'Süper! Bir yapay zeka mühendisi sadece kod yazmaz, YZ Etik Kurallarına da uyar.')">Arabayı durdururum ve siyah kıyafetli insanların olduğu binlerce yeni VERİ fotoğrafıyla onu tekrar EĞİTİRİM!</div>
+                    <div class="quiz-option" onclick="checkFinalAnswer(this, false, 'Bu sorunu çözmez, gece siyah mont giyen insanlar ne yapacak?')">Yayaları siyah giymemeleri için uyarırım.</div>
+                </div>
+            </div>
+
+            <!-- EKRAN 7: Bitiş & Sertifika -->
+            <div class="screen" id="sec-7">
+                <div class="badge-icon">🏆</div>
+                <h1>Tebrikler <span class="gradient-text" id="finalName">Üstat</span>!</h1>
+                <p class="desc" style="font-size: 2rem;">Harika bir performans gösterdin ve Makine Öğreniminin temellerini "Deneyimleyerek" kavradın.</p>
+                
+                <div style="background: rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; border: 2px solid gold; font-size: 1.5rem;">
+                    Toplanan Puan: <strong style="color: gold; font-size: 2.5rem;" id="finalScoreDisplay">0</strong> / 300 <br>
+                    <strong>Unvan:</strong> <span style="color: #4ade80;">Sertifikalı Yapay Zeka Çırağı</span>
+                </div>
+                <br>
+                <button class="btn" style="background: #1e293b; border: 1px solid white;" onclick="location.reload()">Baştan Oyna 🔄</button>
+            </div>
+
+        </div>
+
+        <div class="mascot-container">
+            <div class="mascot" id="mascot-face">🤖</div>
+            <div class="speech-bubble" id="mascot-speech">Hoş geldin! Seninle Makine Öğrenimini oyun oynayarak tecrübe edeceğiz.</div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentScreen = 1;
+        let score = 0;
+        let pName = "";
+        let dogsFed = 0;
+
+        const totalScreens = 7;
+        let speechTimeout;
+
+        // Sounds
+        const sfxCorrect = new Audio('data:audio/mp3;base64,//NExAAAAANIAAAAAExBTUUzLjEwMKqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq'); // Placeholder, you can implement real sounds if requested. Using visual cues instead.
+
+        function triggerConfetti() {
+            for(let i=0; i<30; i++) {
+                let conf = document.createElement('div');
+                conf.className = 'confetti';
+                conf.style.left = Math.random() * 100 + 'vw';
+                conf.style.background = ['#3b82f6', '#ec4899', '#10b981', '#f59e0b', '#fff'][Math.floor(Math.random()*5)];
+                conf.style.animationDuration = (Math.random() * 2 + 1) + 's';
+                document.body.appendChild(conf);
+                setTimeout(() => conf.remove(), 3000);
+            }
+        }
+
+        function robotSpeak(text, face="🤖", delay=0) {
+            clearTimeout(speechTimeout);
+            setTimeout(() => {
+                document.getElementById('mascot-face').innerText = face;
+                const bubble = document.getElementById('mascot-speech');
+                bubble.innerText = text;
+                bubble.classList.add('show');
+                
+                speechTimeout = setTimeout(() => {
+                    bubble.classList.remove('show');
+                }, 4000);
+            }, delay);
+        }
+
+        function updateScore(points) {
+            score += points;
+            document.getElementById('scoreDisplay').innerText = score;
+            const scoreBox = document.querySelector('.score-box');
+            scoreBox.style.transform = "scale(1.2)";
+            setTimeout(() => scoreBox.style.transform = "scale(1)", 200);
+        }
+
+        function updateProgress() {
+            const pct = ((currentScreen - 1) / (totalScreens - 1)) * 100;
+            document.getElementById('progressBar').style.width = pct + "%";
+        }
+
+        function nextScreen(curr) {
+            // Validation
+            if (curr === 1) {
+                pName = document.getElementById('playerName').value || "Maceracı";
+                document.getElementById('finalName').innerText = pName;
+            }
+
+            document.getElementById(`sec-${curr}`).classList.remove('active');
+            currentScreen = curr + 1;
+            document.getElementById(`sec-${currentScreen}`).classList.add('active');
+            
+            updateProgress();
+
+            // Mascot Context
+            if(currentScreen === 2) robotSpeak(`Süper isim ${pName}! Şimdi seninle bilgileri keşfedeceğiz.`, "🤓", 500);
+            if(currentScreen === 3) robotSpeak(`Biraz veriye ihtiyacım var! Bana köpekleri tanıtır mısın? Sadece Köpeklere tıkla!`, "🐕", 500);
+            if(currentScreen === 4) robotSpeak(`Bakalım okuduklarını anlamış mısın ${pName}? Başarılar!`, "🧐", 500);
+            if(currentScreen === 5) robotSpeak(`Derin Öğrenme! Kendi beynini hiç aynada gördün mü?`, "🧠", 500);
+            if(currentScreen === 6) robotSpeak(`Ahlaki seçim vakti. Gerçek bir mühendis olmak için bu çok önemli!`, "⚖", 500);
+            if(currentScreen === 7) {
+                robotSpeak(`Tebrikler! Sen harika bir dostsun! Eğlendiğini umuyorum.`, "🎉", 500);
+                document.getElementById('finalScoreDisplay').innerText = score;
+                triggerConfetti();
+            }
+        }
+
+        function feedAI(element, type) {
+            if (type === 'cat') {
+                robotSpeak("Ayyy Hayır!! Bu bir Kedi! Benim sadece Köpeğe (Veriye) ihtiyacım var!", "😱", 0);
+                setTimeout(() => { element.style.borderColor = "red"; element.style.background = "rgba(255,0,0,0.2)"; }, 100);
+                return;
+            }
+
+            if (!element.classList.contains('clicked')) {
+                element.classList.add('clicked');
+                dogsFed++;
+                updateScore(50);
+                document.getElementById('training-status').innerText = `Veri İşleniyor... ${dogsFed}/3 Veri Eklendi!`;
+                
+                robotSpeak("Ham hum! Veri çok lezzetli!", "😋", 0);
+
+                if (dogsFed === 3) {
+                    document.getElementById('training-status').innerText = `EĞİTİM TAMAMLANDI! (Yeni bir buton belirdi!)`;
+                    document.getElementById('training-status').style.color = "#4ade80";
+                    robotSpeak("Harika! Artık köpek neye benzer %100 biliyorum! Model Eğitildi!", "🧠", 500);
+                    
+                    const btn = document.createElement('button');
+                    btn.className = "btn";
+                    btn.style.marginTop = "20px";
+                    btn.innerHTML = "Sınava Geç ➡";
+                    btn.onclick = () => nextScreen(3);
+                    document.getElementById('sec-3').appendChild(btn);
+                }
+            }
+        }
+
+        function checkAnswer(element, isCorrect, feedbackMSG) {
+            if (element.parentElement.dataset.answered === "true") return; // Sadece 1 deneme hakkı var veya yok
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                robotSpeak("Mükemmel! Tam üstüne bastın!", "😎", 0);
+                triggerConfetti();
+                updateScore(100);
+                element.parentElement.dataset.answered = "true";
+                
+                setTimeout(() => nextScreen(4), 2500);
+            } else {
+                element.classList.add('wrong');
+                robotSpeak(feedbackMSG + " Tekrar Dene!", "🤔", 0);
+                // puan kırma yok ki hevesi kırılmasın
+                setTimeout(() => element.classList.remove('wrong'), 1000);
+            }
+        }
+
+        function checkFinalAnswer(element, isCorrect, feedbackMSG) {
+            if (element.parentElement.dataset.answered === "true") return;
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                robotSpeak(feedbackMSG, "🏆", 0);
+                triggerConfetti();
+                updateScore(150); // Son soru büyük puan
+                element.parentElement.dataset.answered = "true";
+                
+                setTimeout(() => nextScreen(6), 3500);
+            } else {
+                element.classList.add('wrong');
+                robotSpeak(feedbackMSG, "🚨", 0);
+                setTimeout(() => element.classList.remove('wrong'), 1000);
+            }
+        }
+
+        // On Load show speech
+        setTimeout(() => robotSpeak("Adını yazarak oyuna başlayalım!", "🤖"), 1000);
+
+    </script>
+</body>
+</html>

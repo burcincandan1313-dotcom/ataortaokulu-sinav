@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yapay Zeka 2. Hafta Konu Anlatımı</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Arkaplan Şekilleri */
+        .bg-shapes {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            z-index: -1;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b);
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.5;
+            animation: float 20s infinite ease-in-out alternate;
+        }
+
+        .shape-1 { background: #3b82f6; width: 40vw; height: 40vw; top: -10vw; left: -10vw; }
+        .shape-2 { background: #8b5cf6; width: 35vw; height: 35vw; bottom: -5vw; right: -10vw; animation-delay: -5s; }
+        .shape-3 { background: #ec4899; width: 30vw; height: 30vw; top: 40%; left: 30%; animation-delay: -10s; }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(100px, 50px) scale(1.2); }
+        }
+
+        /* Sunum Konteyneri (Glassmorphism) */
+        .presentation-container {
+            width: 90%;
+            height: 85vh;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Slaytlar */
+        .slides-wrapper {
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            padding: 50px 80px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(50px) scale(0.95);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(0) scale(1);
+        }
+
+        .slide.prev {
+            transform: translateX(-50px) scale(0.95);
+        }
+
+        /* İçerik Stilleri */
+        h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, #60a5fa, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 30px;
+            color: #f8fafc;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 15px;
+        }
+
+        p, li {
+            font-size: 1.6rem;
+            line-height: 1.6;
+            color: #cbd5e1;
+            margin-bottom: 20px;
+        }
+        
+        ul {
+            margin-left: 40px;
+        }
+        
+        li {
+            margin-bottom: 15px;
+        }
+
+        .highlight {
+            color: #fde047;
+            font-weight: bold;
+        }
+
+        .box {
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 5px solid #bd16dc;
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 20px 0;
+        }
+
+        /* İkonlar / Resimler için Alan */
+        .icon-container {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .flex-row {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+        
+        .flex-col {
+            flex: 1;
+        }
+
+        .badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ec4899, #8b5cf6);
+            padding: 5px 15px;
+            border-radius: 999px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        /* Kontroller */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-bar {
+            flex-grow: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 0 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #ec4899);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .slide-number {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            font-variant-numeric: tabular-nums;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+
+    <div class="presentation-container">
+        <div class="slides-wrapper" id="slides">
+            
+            <!-- Slayt 1 (Kapak) -->
+            <div class="slide active">
+                <div style="text-align: center;">
+                    <div class="icon-container">🤖✨</div>
+                    <span class="badge">6. Sınıf - 2. Hafta</span>
+                    <h1 style="font-size: 5rem; margin-bottom: 30px;">Yapay Zeka<br>Nasıl Öğrenir?</h1>
+                    <p style="font-size: 2rem;">Makine Öğrenimi ve Derin Öğrenme Dünyasına Yolculuk</p>
+                </div>
+            </div>
+
+            <!-- Slayt 2 -->
+            <div class="slide">
+                <h2>Geçen Hafta Neler Öğrendik? 🤔</h2>
+                <div class="flex-row">
+                    <div class="flex-col">
+                        <div class="box">
+                            <h3 style="color: #60a5fa; font-size: 1.8rem; margin-bottom: 10px;">Dar (Zayıf) Yapay Zeka</h3>
+                            <p>Sadece <span class="highlight">tek bir görevi</span> yapmak üzere programlanmış yapay zekalardır. (Örn: Sadece satranç oynayan YZ)</p>
+                        </div>
+                    </div>
+                    <div class="flex-col">
+                        <div class="box" style="border-left-color: #ec4899;">
+                            <h3 style="color: #f472b6; font-size: 1.8rem; margin-bottom: 10px;">Genel (Güçlü) Yapay Zeka</h3>
+                            <p>İnsan gibi düşünebilen, her türlü işi yapabilen YZ düzeyidir. Henüz filmlerde (Terminatör, Iron Man Jarvis) vardır.</p>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align: center; margin-top: 30px; font-size: 1.8rem;">Peki bu sistemler hiç bilmedikleri şeyleri nasıl anlıyorlar?</p>
+            </div>
+
+            <!-- Slayt 3 -->
+            <div class="slide">
+                <h2>Makine Öğrenimi (Machine Learning) Nedir? 📚</h2>
+                <p>Makine öğrenimi, bilgisayarların <span class="highlight">açıkça programlanmadan</span>, deneyimlerden ve verilerden ders çıkararak öğrenmesini sağlayan teknolojidir.</p>
+                <br>
+                <ul>
+                    <li>Biz kodlara "Eğer kedi görürsen miyav de" demeyiz.</li>
+                    <li>Sadece binlerce kedi resmi gösteririz.</li>
+                    <li>Makine kendisi kedi özelliklerini <strong>(iki kulak, bıyık vb.)</strong> keşfeder.</li>
+                </ul>
+                <div class="box">
+                    💡 Tıpkı bir bebeğin sıcak sobaya dokunduğunda acıyı "tecrübe" etmesi gibi, makineler de "veri" ile tecrübe edinir.
+                </div>
+            </div>
+
+            <!-- Slayt 4 -->
+            <div class="slide">
+                <h2>Derin Öğrenme (Deep Learning) 🧠</h2>
+                <div class="flex-row">
+                    <div class="flex-col" style="flex: 2;">
+                        <p>Derin öğrenme, makine öğreniminin çok daha gelişmiş halidir. İnsan beynindeki <span class="highlight">Yapay Sinir Ağlarını (Neural Networks)</span> taklit eder.</p>
+                        <ul>
+                            <li>Yazıları okuyabilir.</li>
+                            <li>Fotoğrafların içindeki yüzleri tanıyabilir (Face ID).</li>
+                            <li>Sıfırdan resim veya metin üretebilir.</li>
+                        </ul>
+                    </div>
+                    <div class="flex-col" style="flex: 1; text-align: center; font-size: 8rem;">
+                        🌐
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slayt 5 -->
+            <div class="slide">
+                <h2>O'nun Adı VERİ (Data)! 💾</h2>
+                <div style="text-align: center;">
+                    <br>
+                    <p style="font-size: 2.2rem;">Yapay zeka bir öğrenci ise,<br><span class="highlight">VERİ onun okuduğu kitaptır!</span></p>
+                    <br>
+                </div>
+                <div class="box" style="border-left-color: #10b981; background: rgba(16, 185, 129, 0.1);">
+                    <p>Makineler veriler sayesinde dünyayı tanır. Ne kadar çok ve doğru veri (fotoğraf, yazı, ses, sayı) yüklersek, kurduğumuz <strong>Model</strong> o kadar akıllı olur.</p>
+                    <p><em>Örnek:</em> Çeviri yapan bir yapay zekayı eğitmek için milyonlarca İngilizce-Türkçe kitaba ihtiyaç duyarız.</p>
+                </div>
+            </div>
+
+            <!-- Slayt 6 -->
+            <div class="slide">
+                <div style="text-align: center;">
+                    <div class="icon-container">🎮🧩</div>
+                    <span class="badge" style="background: linear-gradient(45deg, #f59e0b, #ef4444);">Pratik Vakti!</span>
+                    <h1 style="font-size: 4rem; margin-bottom: 20px;">Sıra Bizde!</h1>
+                    <p>Şimdi az önce klasöre eklediğimiz etkinlik ve oyunlara geçiyoruz.</p>
+                </div>
+                <br>
+                <div class="flex-row" style="justify-content: center; gap: 20px;">
+                    <div class="box" style="flex: 1; text-align: center;">
+                        <h3>1. Etkinlik</h3>
+                        <p style="font-size: 1.2rem;">Kedi mi Köpek mi? (Sınıf İçi Tahmin)</p>
+                    </div>
+                    <div class="box" style="flex: 1; text-align: center;">
+                        <h3>2. Etkinlik</h3>
+                        <p style="font-size: 1.2rem;">Hafıza Oyunu (Akıllı Tahtada)</p>
+                    </div>
+                    <div class="box" style="flex: 1; text-align: center;">
+                        <h3>3. Etkinlik</h3>
+                        <p style="font-size: 1.2rem;">Kendi Chatbot'umuzu Yapıyoruz</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slayt 7 -->
+            <div class="slide">
+                <h2>Sözlük - Unutmayalım 📌</h2>
+                <ul>
+                    <li><span class="highlight">Algoritma:</span> Bir problemi çözmek için adım adım izlenen kurallar veya yol tarifidir (Bir kek tarifi gibi).</li>
+                    <li><span class="highlight">Veri (Data):</span> Bilgisayarın öğrenmek için kullandığı bilgi (Resim, ses, metin vb.).</li>
+                    <li><span class="highlight">Model:</span> Bizim öğrettiğimiz verilerle eğitilmiş, karar vermeye hazır hale gelmiş bilgisayar programı. (Kek tarifinin piştikten sonraki hali).</li>
+                </ul>
+            </div>
+
+            <!-- Slayt 8 -->
+            <div class="slide">
+                <div style="text-align: center; margin-top: 50px;">
+                    <div class="icon-container">🎫</div>
+                    <h2>Çıkış Bileti (Exit Ticket)</h2>
+                    <br>
+                    <div class="box" style="border-left-color: #f59e0b; background: rgba(245, 158, 11, 0.1); display: inline-block; text-align: left; padding: 40px;">
+                        <p style="font-size: 2rem; color: #fef08a;">"Eğer bir yapay zeka tasarlayacak olsaydın, <br>onun dünyanın hangi problemini <br>çözmesini isterdin?"</p>
+                        <br>
+                        <p style="font-size: 1.4rem;"><em>Cevabınızı bir post-it'e yazıp tahtaya yapıştırarak çıkabilirsiniz!</em></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="controls">
+            <button class="btn" id="prevBtn" onclick="changeSlide(-1)">
+                <span>◀</span> Önceki
+            </button>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+            <span class="slide-number" id="slideNum">1 / 8</span>
+            <button class="btn" id="nextBtn" onclick="changeSlide(1)">
+                Sonraki <span>▶</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progress');
+        const slideNum = document.getElementById('slideNum');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const totalSlides = slides.length;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active', 'prev');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else if (index < currentSlide) {
+                    slide.classList.add('prev');
+                }
+            });
+
+            // İlerleme çubuğu ve sayı
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressBar.style.width = progress + '%';
+            slideNum.textContent = (currentSlide + 1) + ' / ' + totalSlides;
+
+            // Buton durumları
+            prevBtn.disabled = currentSlide === 0;
+            nextBtn.disabled = currentSlide === totalSlides - 1;
+        }
+
+        function changeSlide(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            updateSlides();
+        }
+
+        // Klavye Yön Tuşları
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === 'Space') {
+                if (currentSlide < totalSlides - 1) changeSlide(1);
+            } else if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) changeSlide(-1);
+            }
+        });
+
+        // Hızlı Başlatma
+        updateSlides();
+    </script>
+</body>
+</html>

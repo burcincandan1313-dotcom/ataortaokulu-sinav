@@ -1,0 +1,13 @@
+@echo off
+chcp 65001 >nul
+echo 🚀 Ata Ortaokulu Sohbet Programı Geliştirici Sunucusu Başlatılıyor...
+echo 🧹 Eski arka plan işlemleri temizleniyor...
+taskkill /F /IM node.exe >nul 2>&1
+if not exist "node_modules" (
+  echo 📦 Kurulum yapılıyor, lütfen bekleyin...
+  call npm install
+)
+echo ⚡ Sunucu başlatılıyor...
+start npm run dev
+timeout /t 3 >nul
+start http://127.0.0.1:5173/?fresh=1
