@@ -1,3 +1,7 @@
+/**
+ * State.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 export const Storage = {
   set(k, v) { localStorage.setItem(k, btoa(encodeURIComponent(JSON.stringify(v)))); },
   get(k, def) {

@@ -1,3 +1,7 @@
+/**
+ * certificate.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 export class CertificateSystem {
   constructor() {
     this.awarded = localStorage.getItem('ata_mega_certificate') === 'true';

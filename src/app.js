@@ -1,3 +1,7 @@
+/**
+ * app.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 import './style.css';
 // src/app.js
 // Uygulamanın ana orkestrasyon modülü — TÜM ÖZELLİKLER ÇALIŞIR
@@ -19,132 +23,26 @@ import { extractAndFixQuizJson } from './utils/aiParser.js';
 import { initDB } from './utils/db.js';
 import { v11SafeParse, v11Route, v11AddToMemory } from './core/v11Engine.js';
 import { marked } from 'marked';
-
-marked.setOptions({
-  breaks: true, // enter tusunu br etiketi olarak algila
-  gfm: true     // github flavored markdown
-});
+import { initTTS } from './features/tts.js';
+import { formatMessage } from './utils/formatter.js';
+import { renderModeSelector as renderModeSelectorCore, MODES } from './features/modeSelector.js';
 
 let lastSentMessage = "";
 let currentMode = 'normal';
 
-// ═══════════════════════════════════════════
-// METİN SESLENDİRME (TTS) API
-// ═══════════════════════════════════════════
-window.speakText = function(btn) {
-  const text = decodeURIComponent(btn.getAttribute('data-text') || '');
-  if (!text) return;
-  
-  if (window.speechSynthesis.speaking) {
-    window.speechSynthesis.cancel();
-    btn.textContent = '🔊 Oku';
-    return;
-  }
-  
-  // HTML ve Markdown taglarını temizle
-  const plainText = text.replace(/<[^>]+>/g, '').replace(/[*#_]+/g, '');
-  
-  const utterance = new SpeechSynthesisUtterance(plainText);
-  utterance.lang = 'tr-TR';
-  utterance.rate = 1.0;
-  
-  utterance.onstart = () => { btn.textContent = '⏹️ Durdur'; };
-  utterance.onend = () => { btn.textContent = '🔊 Oku'; };
-  utterance.onerror = () => { btn.textContent = '🔊 Oku'; };
-  
-  window.speechSynthesis.speak(utterance);
-}
+// TTS API'sini Başlat
+initTTS();
 
-// ═══════════════════════════════════════════
-// FORMAT HELPERS
-// ═══════════════════════════════════════════
-function formatMessage(role, text) {
-  if (role === 'user') {
-    // Kullanıcıdan gelen metindeki olası HTML taglerini kaçışa zorla
-    const safeText = text.replace(/<(?!br|strong|b|i|u|em|span|\/)/g, '&lt;');
-    return `<div class="user-msg-wrap">${safeText}</div>`;
-  } else {
-    let content = text;
-    // Quiz veya Oyun içi HTML UI değilse, normal makinalardan gelen cevabı Markdown olarak işle
-    if (!text.includes('quiz-container') && !text.includes('id="img') && !text.includes('bot-msg-wrap') && !text.includes('wow-container')) {
-      content = marked.parse(text);
-    }
-    
-    // Yalnızca düz metin/anlatımlarda sesli buton ekle, oyun vb arayüzlerde ekleme
-    let speakBtn = '';
-    if (!text.includes('quiz-container') && !text.includes('id="img') && !text.includes('bot-msg-wrap') && !text.includes('wow-container')) {
-        speakBtn = `<button class="tts-btn" onclick="window.speakText(this)" data-text="${encodeURIComponent(text.replace(/<[^>]+>/g, ''))}" title="Sesli Oku" style="margin-top:10px; padding:6px 12px; background:var(--bg2); color:var(--text-color); border:1px solid var(--bdr); border-radius:6px; cursor:pointer; font-size:0.85rem; display:flex; align-items:center; gap:6px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.3), 0 2px 4px -1px rgba(0,0,0,0.2); transition: all 0.2s ease;">🔊 Oku</button>`;
-    }
-
-    return `<div class="bot-msg-wrap markdown-body">${content}${speakBtn}</div>`;
-  }
-}
-
-// ═══════════════════════════════════════════
-// MOD SEÇİCİ (Mode Selector) — sidebar'daki "MOD SEÇ" bölümünü doldurur
-// ═══════════════════════════════════════════
-const MODES = [
-  { id: 'normal',   icon: '💬', label: 'Normal',     desc: 'Genel sohbet modu' },
-  { id: 'ders',     icon: '📚', label: 'Ders',       desc: 'Eğitim ve ders anlatımı' },
-  { id: 'quiz',     icon: '📊', label: 'Quiz',       desc: 'Soru-cevap testi' },
-  { id: 'yaratici', icon: '🎨', label: 'Yaratıcı',   desc: 'Hikaye, şiir, resim' },
-  { id: 'oyun',     icon: '🎮', label: 'Oyun',       desc: 'Eğitici oyunlar' },
-];
-
+// Mod seçici için proxy
 function renderModeSelector() {
-  const container = document.getElementById('modeSelector');
-  if (!container) return;
-  container.innerHTML = '';
-  MODES.forEach(m => {
-    const btn = document.createElement('button');
-    btn.className = 'mode-btn' + (m.id === currentMode ? ' active' : '');
-    btn.title = m.desc;
-    btn.innerHTML = `${m.icon} ${m.label}`;
-    btn.addEventListener('click', () => {
-      // Oyun moduna geçtiyse oyun overlay'ı aç
-      if (m.id === 'oyun') {
-        const gameOverlay = document.getElementById('gameOverlay');
-        if (gameOverlay) gameOverlay.style.display = 'flex';
-        renderGameMenu();
-        return;
-      } 
-      
-      // Ders veya Quiz seçildiyse Eğitim Sihirbazını aç
-      if (m.id === 'ders' || m.id === 'quiz') {
-        openStudyWizard(m.id);
-        return;
-      }
-
-      currentMode = m.id;
-      if (currentMode !== 'quiz') window.activeQuizSession = false;
-      
-      // Aktif sınıfı güncelle
-      container.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      // Header'ı güncelle
-      const botName = document.getElementById('botName');
-      if (botName) botName.textContent = `🏫 Ata Sohbet — ${m.label}`;
-
-      const chatbox = document.getElementById('chatbox');
-      if (chatbox && m.id !== 'normal') {
-        addMessage('bot', `Sistem: ${m.label} moduna geçildi.`);
-        let welcomeHtml = `🔄 <strong>${m.label} Modu Etkin!</strong><br><small>${m.desc}</small>`;
-        
-        // Yaratıcı moda özel interaktif butonlar ekle
-        if (m.id === 'yaratici') {
-           welcomeHtml += `<div style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
-             <button class="chip" style="font-size:0.85rem; padding:6px 12px; background:var(--acc); color:#fff; border-radius:12px;" onclick="const inp=document.getElementById('userInput'); inp.value='Bana fantastik bir hikaye yaz'; document.getElementById('btnSendMessage').click();">✍️ Hikaye Yaz</button>
-             <button class="chip" style="font-size:0.85rem; padding:6px 12px; background:#10b981; color:#fff; border-radius:12px;" onclick="const inp=document.getElementById('userInput'); inp.value='Doğa hakkında kısa bir şiir yaz'; document.getElementById('btnSendMessage').click();">📜 Şiir Yaz</button>
-             <button class="chip" style="font-size:0.85rem; padding:6px 12px; background:#f59e0b; color:#fff; border-radius:12px;" onclick="const inp=document.getElementById('userInput'); inp.value='Uçan bir araba resmi oluştur'; document.getElementById('btnSendMessage').click();">🖼️ Resim Oluştur</button>
-           </div>`;
-        }
-        
-        // Htmll content markdowndan kaçırmak için geçici wrapper
-        appendMessage('bot', formatMessage('bot', welcomeHtml));
-        chatbox.scrollTop = chatbox.scrollHeight;
-      }
-    });
-    container.appendChild(btn);
+  renderModeSelectorCore({
+    currentMode,
+    setCurrentMode: (mode) => { currentMode = mode; },
+    renderGameMenu,
+    openStudyWizard,
+    addMessage,
+    appendMessage,
+    formatMessage
   });
 }
 
@@ -775,7 +673,7 @@ KURALLAR:
    } catch(e) {
       console.warn("Quiz Gen Error:", e);
       addMessage('bot', 'Test içeriği oluşturulamadı.');
-      appendMessage('bot', formatMessage('bot', '⚠️ Yapay zeka soruları hazırlarken bir formata uymadı. Lütfen tekrar deneyin.'));
+      appendMessage('bot', formatMessage('bot', '⚠️ Soru oluşturulamadı, lütfen tekrar dene.'));
    }
 }
 
@@ -2505,6 +2403,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderBadges();
   renderDailyQuests();
   renderDailyFact();
+
+  const sidebarLowEnd = document.getElementById('sidebarToggleLowEnd');
+  if (sidebarLowEnd) {
+     const isLowEnd = localStorage.getItem('mega_low_end') === 'true';
+     sidebarLowEnd.checked = isLowEnd;
+     if(isLowEnd) document.body.classList.add('lowend');
+     
+     sidebarLowEnd.addEventListener('change', (e) => {
+        if (e.target.checked) {
+           document.body.classList.add('lowend');
+           localStorage.setItem('mega_low_end', 'true');
+        } else {
+           document.body.classList.remove('lowend');
+           localStorage.setItem('mega_low_end', 'false');
+        }
+     });
+  }
 
   // Yönlendirici (Welcome) Dashboard Ekleme 
   setTimeout(() => {

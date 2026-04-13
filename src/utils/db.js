@@ -1,6 +1,14 @@
+/**
+ * db.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/utils/db.js
 // Tarayıcı içi (IndexedDB) asenkron veritabanı sürücüsü
 
+/**
+ * db.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 const DB_NAME = 'MegaAsistanDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'app_state';

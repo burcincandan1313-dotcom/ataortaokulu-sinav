@@ -1,6 +1,14 @@
+/**
+ * state.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/state.js
 // Uygulamanın merkezi durum (state) ve depolama yönetimi
 
+/**
+ * state.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 export const StorageManager = {
   keys: {
     XP: 'mega_xp',

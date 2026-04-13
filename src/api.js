@@ -1,11 +1,22 @@
+/**
+ * api.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/api.js
 // Uygulamanın API istekleri katmanı — BEAST MODE v6 🚀
 // Gemini 2.5 Flash (Paid Tier) + Multi-Provider Fallback Zinciri
 
+/**
+ * api.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 const delay = (ms) => new Promise(r => setTimeout(r, ms));
 
 // CF Worker endpoint
 const CF_WORKER_URL = 'https://mega-asistan-proxy.mega-asistan-burcan.workers.dev/api/ai';
+
+// Client-side spam engelleme kuralı
+let _lastRequestTime = 0;
 
 /**
  * Kullanıcının mesajını yapay zekaya gönderir
@@ -18,6 +29,13 @@ const CF_WORKER_URL = 'https://mega-asistan-proxy.mega-asistan-burcan.workers.de
  *  6. AllOrigins CORS Proxy → Pollinations
  */
 export async function askAI(message, systemPrompt = '') {
+  // Client-side throttle: Aynı anda art arda mesaj atılmasını 2 sn engelle
+  const now = Date.now();
+  if (now - _lastRequestTime < 2000) {
+    return "Lütfen art arda mesaj göndermek yerine 2 saniye bekleyin. ⏳";
+  }
+  _lastRequestTime = now;
+
   const sysDefault = 'Sen Ata İlk ve Ortaokulu öğrencileri için geliştirilmiş, dost canlısı bir eğitim asistanısın. Kısa ve öz, eğitici, yaş gruplarına uygun cevaplar verirsin. Küfür/hakaret vb şeylere olumsuz tepki verir ve reddedersin. Asla kodu bozacak Markdown tagleri kullanma. HTML Çıktısı verirken <br> kullan.';
 
   const sys = systemPrompt || sysDefault;
@@ -218,7 +236,7 @@ export async function askAI(message, systemPrompt = '') {
   // 7. TÜM SİSTEMLER BAŞARISIZ
   // ════════════════════════════════════════════════════
   console.error("[API] ❌ Tüm fallback'ler başarısız oldu.");
-  return "Yapay zeka sunucuları şu an yoğun. Lütfen 5 saniye bekleyip tekrar deneyin. 🔄";
+  return "Yapay zeka sunucuları şu an yanıt veremiyor, lütfen birazdan tekrar deneyin. 🔄";
 }
 
 export async function generateImage(prompt) {

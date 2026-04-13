@@ -1,3 +1,7 @@
+/**
+ * PDFReader.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 let pdfjsLib = null;
 
 async function loadPdfJs() {

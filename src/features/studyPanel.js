@@ -1,4 +1,12 @@
+/**
+ * studyPanel.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/features/studyPanel.js
+/**
+ * studyPanel.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 import { StudyAnalyzer } from './StudyAnalyzer.js';
 import { extractTextFromPDF } from './PDFReader.js';
 

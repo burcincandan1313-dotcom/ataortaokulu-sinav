@@ -1,7 +1,15 @@
+/**
+ * visualDictionary.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/features/visualDictionary.js
 // ATA Asistan Görsel Sözlük Modülü (Kullanıcı Denetimli)
 
 // Başlangıç (Default) Veritabanı (Sabit ve Kırılmayan Linkler)
+/**
+ * visualDictionary.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 const defaultDictionaryData = [
   {
     id: "dog_parts",

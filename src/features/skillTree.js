@@ -1,3 +1,7 @@
+/**
+ * skillTree.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 import { askAI } from '../api.js';
 
 export class SkillTree {

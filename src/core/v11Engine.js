@@ -1,8 +1,16 @@
+/**
+ * v11Engine.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // ═══════════════════════════════════════════════════════════════════
 // ATA ASİSTAN V11 — STRICT AGENTIC ENGINE
 // 100/100 MİMARİ: Intent Parser → JSON Validation → Router → Engines
 // ═══════════════════════════════════════════════════════════════════
 
+/**
+ * v11Engine.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 import { askAI, generateImage } from '../api.js';
 import { state } from '../state.js';
 

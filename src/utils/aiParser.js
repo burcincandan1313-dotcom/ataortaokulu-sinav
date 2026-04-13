@@ -1,5 +1,13 @@
+/**
+ * aiParser.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/utils/aiParser.js
 
+/**
+ * aiParser.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 /**
  * Yapay Zekadan gelen ve çoğu zaman Markdown tagleri içeren,
  * veya limitlere takılıp ortasında kesilmiş JSON çıktılarını onaran (Auto-Heal) sistem.

@@ -1,6 +1,14 @@
+/**
+ * games.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/features/games.js
 // Oyun Merkezi modülü
 
+/**
+ * games.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 export const GAMES = [
   { id: 'ztype', icon: '⌨️', name: 'Klavye Ustası', desc: 'Düşen kelimeleri yaz' },
   { id: 'wordle',  icon: '🔤', name: 'Kelime Bulmaca', desc: '5 harfli kelime bul' },

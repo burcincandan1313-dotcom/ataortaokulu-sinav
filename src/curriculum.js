@@ -1,6 +1,14 @@
+/**
+ * curriculum.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/curriculum.js
 // Türkiye Yüzyılı Maarif Modeli (MEB) müfredatına göre sınıf, ders ve ünite yapısı.
 
+/**
+ * curriculum.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 export const curriculumData = {
     5: {
       "Matematik": ["Doğal Sayılar ve İşlemler","Kesirler","Ondalık Gösterim","Yüzdeler","Temel Geometrik Kavramlar","Uzunluk ve Zaman Ölçme","Alan Ölçme","Veri İşleme"],

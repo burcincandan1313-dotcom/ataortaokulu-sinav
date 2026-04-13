@@ -1,6 +1,14 @@
+/**
+ * wizard.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/features/wizard.js
 // Eğitim Seçim Sihirbazı (Ders / Quiz)
 
+/**
+ * wizard.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 import { curriculumData } from '../curriculum.js';
 
 export let studySelections = { mode: '', grade: null, subject: '', topic: '' };

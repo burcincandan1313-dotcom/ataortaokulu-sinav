@@ -1,3 +1,7 @@
+/**
+ * dashboard.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
 export class SuperZekaDashboard {
   constructor(container) {
     this.container = container;

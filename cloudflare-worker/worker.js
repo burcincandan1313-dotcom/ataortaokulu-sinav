@@ -27,14 +27,17 @@ const IMAGEN_MODELS = [
   'imagen-4.0-generate-001',
 ];
 
-// İzin verilen origin'ler
 function isAllowedOrigin(origin) {
   if (!origin || origin === 'null') return true; // file:// protokolü veya doğrudan açım
-  // Tüm localhost ve 127.0.0.1 portlarını kabul et
-  if (origin.startsWith('http://localhost') || origin.startsWith('http://127.0.0.1')) return true;
-  // Bütün surge altyapısını direkt kabul et
-  if (origin.includes('.surge.sh') || origin.includes('ata-asistan')) return true;
-  return false;
+  
+  const allowedDomains = [
+    'localhost',
+    '127.0.0.1',
+    '.surge.sh',
+    'ata-asistan'
+  ];
+  
+  return allowedDomains.some(domain => origin.includes(domain));
 }
 
 function corsHeaders(origin) {

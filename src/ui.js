@@ -1,5 +1,15 @@
+/**
+ * ui.js
+ * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ */
 // src/ui.js
 // Uygulamanın Kullanıcı Arayüzü (DOM Modifikasyon) Katmanı
+
+/**
+ * ui.js
+ * Bu dosya projenin ayrilmaz bir parcasidir.
+ */
+import DOMPurify from 'dompurify';
 
 let _chatContainer;
 let _botStatus;
@@ -20,7 +30,12 @@ export function appendMessage(role, html) {
   
   const div = document.createElement('div');
   div.className = 'chat-message ' + role;
-  div.innerHTML = html;
+  
+  // DOMPurify Güvenlik Filtresi (UI etkileşimlerini bozmamak için özel özelliklere izin veriyoruz)
+  const cleanHtml = DOMPurify.sanitize(html, { 
+    ADD_ATTR: ['onclick', 'data-text', 'data-action', 'data-qcmd', 'data-theme', 'data-t', 'target'] 
+  });
+  div.innerHTML = cleanHtml;
   
   _chatContainer.appendChild(div);
 
