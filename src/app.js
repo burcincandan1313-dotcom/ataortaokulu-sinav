@@ -298,16 +298,9 @@ async function handleSendMessage(text) {
     return;
   }
 
-  // B2. KARIŞIK QUIZ İSTEĞİ (/quiz)
-  if (lw === '/quiz' || lw === 'karışık quiz' || lw === 'karisik quiz') {
-    const grade = studySelections?.grade || 7;
-    const sub = studySelections?.subject || 'Genel Kültür';
-    addMessage('bot', 'Karışık test başlatılıyor...');
-    appendMessage('bot', formatMessage('bot', `🧪 <b>Karışık Test Hazırlanıyor:</b> ${grade}. Sınıf düzeyi için sürpriz sorular geliyor!<br><br><div class="jumping-dots"><span></span><span></span><span></span></div>`));
-    
-    if (typeof generateDynamicQuiz === 'function') {
-       generateDynamicQuiz(grade, sub, 'Karışık Sürpriz Quiz', 'medium');
-    }
+  // B2. QUIZ İSTEĞİ (/quiz) — Artık sihirbazı açar
+  if (lw === '/quiz' || lw === 'karışık quiz' || lw === 'karisik quiz' || lw === '/quiz-wizard') {
+    openQuizWizard();
     return;
   }
 
@@ -692,6 +685,178 @@ async function handleSendMessage(text) {
 // ═══════════════════════════════════════════
 // DERS MODU AKSİYON BUTONLARI
 // ═══════════════════════════════════════════
+
+// ═══════════════════════════════════════════
+// 🎯 QUIZ SİHİRBAZI — Kullanıcı seçer, AI üretir
+// ═══════════════════════════════════════════
+function openQuizWizard() {
+  // Varsa öncekini kaldır
+  const existing = document.getElementById('quizWizardOverlay');
+  if (existing) existing.remove();
+
+  const grades = [1,2,3,4,5,6,7,8,9,10,11,12];
+  const questionTypes = [
+    { id: 'coktan', label: '📋 Çoktan Seçmeli', desc: 'Klasik 4 şıklı test' },
+    { id: 'dogru_yanlis', label: '✅ Doğru / Yanlış', desc: '2 şıklı hızlı test' },
+    { id: 'bosluk', label: '📝 Boşluk Doldurma', desc: 'Eksik kelimeyi bul' },
+    { id: 'lgs', label: '🎯 LGS Tarzı', desc: 'Paragraf & çıkarım' },
+    { id: 'yks', label: '🏫 YKS/TYT Tarzı', desc: 'Analiz & sentez' },
+    { id: 'karma', label: '🎲 Karma Soru', desc: 'Karışık soru tipleri' },
+  ];
+
+  const overlay = document.createElement('div');
+  overlay.id = 'quizWizardOverlay';
+  overlay.style.cssText = `position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:99998;display:flex;align-items:center;justify-content:center;padding:16px;`;
+
+  overlay.innerHTML = `
+    <div style="background:var(--bg2,#1e293b);border-radius:20px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 80px rgba(0,0,0,.7);border:1px solid var(--bdr,rgba(255,255,255,.1));">
+      
+      <!-- HEADER -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 24px 16px;border-bottom:1px solid var(--bdr,rgba(255,255,255,.1));">
+        <div>
+          <h2 style="margin:0;font-size:1.3rem;color:var(--acc,#38bdf8);">🎯 Test Sihirbazı</h2>
+          <p id="qwStepLabel" style="margin:4px 0 0;font-size:.82rem;color:var(--sub,#64748b);">Adım 1/3 — Sınıf seçin</p>
+        </div>
+        <button id="qwClose" style="background:none;border:none;color:#94a3b8;font-size:1.5rem;cursor:pointer;padding:4px 8px;border-radius:8px;">✖</button>
+      </div>
+
+      <!-- ADIM 1: SINIF SEÇİMİ -->
+      <div id="qwStep1" style="padding:20px 24px;">
+        <p style="color:var(--sub,#64748b);font-size:.88rem;margin-bottom:14px;">Hangi sınıf düzeyinde test çözmek istiyorsun?</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          ${grades.map(g => `
+            <button class="qw-grade-btn" data-grade="${g}" style="padding:12px 8px;border-radius:12px;border:2px solid var(--bdr,rgba(255,255,255,.1));background:var(--bg,#0f172a);color:var(--txt,#e2e8f0);font-weight:700;font-size:.95rem;cursor:pointer;transition:all .2s;">
+              ${g}. Sınıf
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- ADIM 2: DERS SEÇİMİ -->
+      <div id="qwStep2" style="padding:20px 24px;display:none;">
+        <p style="color:var(--sub,#64748b);font-size:.88rem;margin-bottom:14px;">Hangi dersten test çözmek istiyorsun?</p>
+        <div id="qwSubjectGrid" style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;"></div>
+      </div>
+
+      <!-- ADIM 3: SORU TİPİ SEÇİMİ -->
+      <div id="qwStep3" style="padding:20px 24px;display:none;">
+        <p style="color:var(--sub,#64748b);font-size:.88rem;margin-bottom:14px;">Nasıl bir soru tipi istersin?</p>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          ${questionTypes.map(qt => `
+            <button class="qw-type-btn" data-type="${qt.id}" style="padding:12px 16px;border-radius:12px;border:2px solid var(--bdr,rgba(255,255,255,.1));background:var(--bg,#0f172a);color:var(--txt,#e2e8f0);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;text-align:left;">
+              <span style="font-size:1.1rem;">${qt.label}</span>
+              <span style="font-size:.8rem;color:var(--sub,#64748b);margin-left:auto;">${qt.desc}</span>
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
+      <!-- FOOTER NAVİGASYON -->
+      <div style="padding:16px 24px;border-top:1px solid var(--bdr,rgba(255,255,255,.1));display:flex;justify-content:space-between;">
+        <button id="qwBack" style="padding:10px 20px;border-radius:10px;border:1px solid var(--bdr,rgba(255,255,255,.15));background:none;color:var(--sub,#64748b);cursor:pointer;display:none;">← Geri</button>
+        <div id="qwSelection" style="font-size:.82rem;color:var(--acc,#38bdf8);align-self:center;"></div>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(overlay);
+
+  // State
+  let selectedGrade = null;
+  let selectedSubject = null;
+  let step = 1;
+
+  const stepLabel = overlay.querySelector('#qwStepLabel');
+  const selectionDisplay = overlay.querySelector('#qwSelection');
+  const backBtn = overlay.querySelector('#qwBack');
+
+  // KAPAT
+  overlay.querySelector('#qwClose').addEventListener('click', () => overlay.remove());
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+  // GERİ
+  backBtn.addEventListener('click', () => {
+    if (step === 2) {
+      step = 1;
+      overlay.querySelector('#qwStep1').style.display = '';
+      overlay.querySelector('#qwStep2').style.display = 'none';
+      stepLabel.textContent = 'Adım 1/3 — Sınıf seçin';
+      backBtn.style.display = 'none';
+      selectionDisplay.textContent = '';
+    } else if (step === 3) {
+      step = 2;
+      overlay.querySelector('#qwStep2').style.display = '';
+      overlay.querySelector('#qwStep3').style.display = 'none';
+      stepLabel.textContent = 'Adım 2/3 — Ders seçin';
+      selectionDisplay.textContent = `${selectedGrade}. Sınıf`;
+    }
+  });
+
+  // ADIM 1: Sınıf seçimi
+  overlay.querySelectorAll('.qw-grade-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => btn.style.borderColor = 'var(--acc,#38bdf8)');
+    btn.addEventListener('mouseleave', () => { if (!btn.classList.contains('selected')) btn.style.borderColor = 'var(--bdr,rgba(255,255,255,.1))'; });
+    btn.addEventListener('click', () => {
+      selectedGrade = parseInt(btn.dataset.grade);
+      step = 2;
+
+      // Dersleri yükle
+      const subjects = Object.keys(curriculumData[selectedGrade] || {});
+      const subGrid = overlay.querySelector('#qwSubjectGrid');
+      subGrid.innerHTML = subjects.map(s => `
+        <button class="qw-sub-btn" data-subject="${s}" style="padding:10px 12px;border-radius:10px;border:2px solid var(--bdr,rgba(255,255,255,.1));background:var(--bg,#0f172a);color:var(--txt,#e2e8f0);font-size:.88rem;cursor:pointer;transition:all .2s;">
+          ${s}
+        </button>
+      `).join('');
+
+      overlay.querySelector('#qwStep1').style.display = 'none';
+      overlay.querySelector('#qwStep2').style.display = '';
+      stepLabel.textContent = `Adım 2/3 — Ders seçin`;
+      selectionDisplay.textContent = `${selectedGrade}. Sınıf`;
+      backBtn.style.display = '';
+
+      // Ders seçimi
+      subGrid.querySelectorAll('.qw-sub-btn').forEach(sb => {
+        sb.addEventListener('mouseenter', () => sb.style.borderColor = 'var(--acc,#38bdf8)');
+        sb.addEventListener('mouseleave', () => { if (!sb.classList.contains('selected')) sb.style.borderColor = 'var(--bdr,rgba(255,255,255,.1))'; });
+        sb.addEventListener('click', () => {
+          selectedSubject = sb.dataset.subject;
+          step = 3;
+          overlay.querySelector('#qwStep2').style.display = 'none';
+          overlay.querySelector('#qwStep3').style.display = '';
+          stepLabel.textContent = 'Adım 3/3 — Soru tipini seçin';
+          selectionDisplay.textContent = `${selectedGrade}. Sınıf • ${selectedSubject}`;
+        });
+      });
+    });
+  });
+
+  // ADIM 3: Soru tipi seçimi → Quiz başlat
+  overlay.querySelectorAll('.qw-type-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => btn.style.borderColor = 'var(--acc2,#818cf8)');
+    btn.addEventListener('mouseleave', () => btn.style.borderColor = 'var(--bdr,rgba(255,255,255,.1))');
+    btn.addEventListener('click', () => {
+      const qType = btn.dataset.type;
+      overlay.remove();
+
+      const typeLabels = {
+        coktan: 'Çoktan Seçmeli',
+        dogru_yanlis: 'Doğru/Yanlış',
+        bosluk: 'Boşluk Doldurma',
+        lgs: 'LGS Tarzı',
+        yks: 'YKS/TYT Tarzı',
+        karma: 'Karma Soru',
+      };
+      const topicList = curriculumData[selectedGrade]?.[selectedSubject] || ['Genel Konu'];
+      const randomTopic = topicList[Math.floor(Math.random() * topicList.length)];
+      const quizTitle = `${selectedGrade}. Sınıf ${selectedSubject} — ${typeLabels[qType] || 'Test'}`;
+
+      addMessage('bot', `${quizTitle} hazırlanıyor...`);
+      appendMessage('bot', formatMessage('bot', `🎯 <b>${quizTitle}</b><br>Konu: <b>${randomTopic}</b><br><br><div class="jumping-dots"><span></span><span></span><span></span></div>`));
+      generateDynamicQuiz(selectedGrade, selectedSubject, randomTopic, qType === 'yks' ? 'hard' : qType === 'lgs' ? 'medium' : 'medium', qType);
+    });
+  });
+}
 
 // V10: DINAMIK QUIZ ENGINE (State Machine)
 async function generateDynamicQuiz(grade, subject, topic, difficulty) {
@@ -1403,6 +1568,13 @@ function setupEventListeners() {
   const btnCloseStudyModal = document.getElementById('btnCloseStudyModal');
   const btnStartStudy = document.getElementById('btnStartStudy');
   const studyOverlay = document.getElementById('studyOverlay');
+
+  // 🎯 Test Sihirbazı butonu
+  const btnOpenQuizWizard = document.getElementById('btnOpenQuizWizard');
+  if (btnOpenQuizWizard) {
+    btnOpenQuizWizard.addEventListener('click', () => openQuizWizard());
+  }
+
 
   if (btnCloseStudyModal && studyOverlay) {
     btnCloseStudyModal.addEventListener('click', () => {
