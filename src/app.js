@@ -243,6 +243,16 @@ async function handleSendMessage(text) {
     return;
   }
 
+  // A4. GÖRSEL ÇİZ
+  if (lw === '/çiz' || lw === '/ciz' || lw === 'görsel çiz') {
+    addMessage('bot', 'Görsel çizme modu.');
+    appendMessage('bot', formatMessage('bot', '🎨 <b>Görsel Çiz Modu</b> aktif!<br>Ne çizmemi istersin? Örnek:<br><code>bir elma resmi çiz</code><br><code>3 köpek resmi çiz</code>'));
+    const inputEl = document.getElementById('userInput');
+    if (inputEl) { inputEl.value = ''; inputEl.focus(); }
+    return;
+  }
+
+
   // B. OYUN MERKEZİ & OYUNLAR (/oyun, oyun modu, vb.)
   const gameKeywords = ['/oyun', '/wordle', '/sudoku', '/hafıza', '/mateyar', '/macera', '/xox'];
   const isGameCommand = gameKeywords.some(k => lw.startsWith(k)) || ['oyun', 'oyun modu', 'oyun oyna', 'oyunlar'].includes(lw);
@@ -1027,20 +1037,16 @@ function setupEventListeners() {
     });
   }
 
-  // Sol menü "Hızlı Komut" (.chip) butonları
+  // Sağ/Sol menü "Hızlı Komut" (.chip[data-qcmd]) butonları
+  // chatInput'a bağımlı değil — doğrudan handleSendMessage çağrılır
   const chips = document.querySelectorAll('.chip[data-qcmd]');
   chips.forEach(chip => {
     chip.addEventListener('click', () => {
       const cmd = chip.getAttribute('data-qcmd');
-      if (chatInput) {
-        chatInput.value = cmd;
-        chatInput.focus();
-        
-        if (!cmd.endsWith(' ')) {
-           handleSendMessage(cmd);
-           chatInput.value = '';
-        }
-      }
+      if (!cmd) return;
+      // Input'u temizle (varsa)
+      if (chatInput) chatInput.value = '';
+      handleSendMessage(cmd);
     });
   });
 
