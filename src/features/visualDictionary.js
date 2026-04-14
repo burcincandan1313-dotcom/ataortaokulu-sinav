@@ -14,23 +14,27 @@ const defaultDictionaryData = [
   {
     id: "dog_parts",
     title: "🐶 Parts of a Dog (Köpeğin Bölümleri)",
-    // Wikipedia Commons güvenilir link
-    image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/43/Cute_dog.jpg/800px-Cute_dog.jpg",
+    // Güvenilir ve CORS destekli kaynak
+    image_url: "https://images.dog.ceo/breeds/labrador/n02099712_4323.jpg",
     hotspots: [
-      { x: 25, y: 30, label: "Ear" },
-      { x: 38, y: 44, label: "Eye" },
-      { x: 50, y: 64, label: "Nose" },
-      { x: 49, y: 76, label: "Mouth" }
+      { x: 30, y: 22, label: "Ear" },
+      { x: 42, y: 38, label: "Eye" },
+      { x: 52, y: 58, label: "Nose" },
+      { x: 52, y: 67, label: "Mouth" },
+      { x: 70, y: 50, label: "Body" },
+      { x: 85, y: 80, label: "Tail" },
+      { x: 38, y: 85, label: "Paw" }
     ]
   },
   {
     id: "fruit_basket",
     title: "🍎 Fruits (Meyveler)",
-    image_url: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Culinary_fruits_front_view.jpg/800px-Culinary_fruits_front_view.jpg",
+    image_url: "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=800&q=80",
     hotspots: [
       { x: 45, y: 65, label: "Apple" },
       { x: 25, y: 50, label: "Banana" },
-      { x: 70, y: 55, label: "Orange" }
+      { x: 70, y: 55, label: "Orange" },
+      { x: 55, y: 35, label: "Grapes" }
     ]
   }
 ];

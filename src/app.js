@@ -245,14 +245,47 @@ async function handleSendMessage(text) {
 
   // A4. GÖRSEL ÇİZ
   if (lw === '/çiz' || lw === '/ciz' || lw === 'görsel çiz') {
-    addMessage('bot', 'Görsel çizme modu.');
-    appendMessage('bot', formatMessage('bot', '🎨 <b>Görsel Çiz Modu</b> aktif!<br>Ne çizmemi istersin? Örnek:<br><code>bir elma resmi çiz</code><br><code>3 köpek resmi çiz</code>'));
+    window._drawMode = true;  // Sonraki mesajı resim isteği olarak işle
+    addMessage('bot', 'Görsel çizme modu aktif.');
+    appendMessage('bot', formatMessage('bot', '🎨 <b>Görsel Çiz Modu</b> aktif!<br>Ne çizmemi istersin? Sadece yaz, ben resim yapayım!<br><small style="color:var(--sub)">Örn: <code>mavi kedi</code> veya <code>güneşli orman</code></small>'));
     const inputEl = document.getElementById('userInput');
     if (inputEl) { inputEl.value = ''; inputEl.focus(); }
     return;
   }
 
-
+  // A4b. ÇİZ MODU AKTİFSE → mesajı resim isteği'ne dönüştür
+  if (window._drawMode) {
+    window._drawMode = false;  // Bir kerelik, sonra normal moda dön
+    // Kullanıcının yazdığını resim prompt'una çevir
+    const drawPrompt = msg + ' resmi çiz';
+    addMessage('bot', 'Resim hazırlanıyor...');
+    appendMessage('bot', formatMessage('bot', `🎨 <b>"${msg}"</b> için resim oluşturuluyor... ⏳`));
+    setIsLoading(true);
+    toggleTypingIndicator(true);
+    updateBotStatus('🟡 Çiziyor...', '#fbbf24');
+    try {
+      const imgData = await generateImage(msg + ', artistic illustration, colorful, high quality');
+      toggleTypingIndicator(false);
+      updateBotStatus('🟢 Çevrimiçi', '#4ade80');
+      if (imgData) {
+        const imageHtml = `<div style="background:rgba(0,0,0,.45);padding:14px;border-radius:12px;margin-top:8px;">
+          <p style="font-weight:700;color:#c084fc;">🖼️ "${msg}" — Görsel Hazır!</p>
+          <img src="${imgData}" style="width:100%;border-radius:8px;display:block;" alt="${msg}">
+        </div>`;
+        addMessage('bot', `(Görsel: ${msg})`);
+        appendMessage('bot', formatMessage('bot', imageHtml));
+      } else {
+        appendMessage('bot', formatMessage('bot', '⚠️ Görsel oluşturulamadı, lütfen tekrar dene.'));
+      }
+    } catch(e) {
+      toggleTypingIndicator(false);
+      appendMessage('bot', formatMessage('bot', '⚠️ Görsel oluşturma hatası: ' + e.message));
+    } finally {
+      setIsLoading(false);
+      updateBotStatus('🟢 Çevrimiçi', '#4ade80');
+    }
+    return;
+  }
   // B. OYUN MERKEZİ & OYUNLAR (/oyun, oyun modu, vb.)
   const gameKeywords = ['/oyun', '/wordle', '/sudoku', '/hafıza', '/mateyar', '/macera', '/xox'];
   const isGameCommand = gameKeywords.some(k => lw.startsWith(k)) || ['oyun', 'oyun modu', 'oyun oyna', 'oyunlar'].includes(lw);
