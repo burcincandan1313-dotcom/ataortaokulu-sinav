@@ -27,11 +27,21 @@ export class DuelArena {
     // Throttle bypass: 2.1 sn bekle (son API çağrısından sonra)
     await new Promise(r => setTimeout(r, 2100));
 
-    const prompt = `Sen bir eğitim soru jeneratörüsün.
-Bana ${grade} seviyesinde, ${subject} dersinin ${topic} konusuyla ilgili 5 adet çoktan seçmeli soru hazırla.
-SADECE aşağıdaki JSON formatında yanıt ver, başka hiçbir şey yazma:
+    const gradeNum = parseInt(grade);
+    let kademeTalimat = gradeNum <= 4
+      ? 'Çok kısa, somut, günlük hayattan sorular. 3 şık (A, B, C). Şıkları çok kısa tut.'
+      : gradeNum <= 8
+      ? 'LGS tarzı, okuduğunu anlama gerektiren. 4 şık (A, B, C, D). MEB müfredatına uygun.'
+      : 'YKS tarzı, analiz gerektiren. 4 şık (A, B, C, D). Akademik dil kullan.';
+
+    const prompt = `Sen bir soru üretme motorusun.
+${grade} düzeyinde, ${subject} dersinin ${topic} konusundan 5 adet çoktan seçmeli soru hazırla.
+${kademeTalimat}
+Kavram yanılgılarını hedefleyen çeldiriciler kullan. Ezber değil, düşündüren sorular olsun.
+SADECE şu JSON array formatında dön, başka hiçbir şey yazma:
 [{"q":"Soru metni","opts":["A şıkkı","B şıkkı","C şıkkı","D şıkkı"],"ans":0}]
 Not: ans = doğru cevabın 0-3 arası indeksi.`;
+
 
     // Yedek sorular (AI başarısız olursa)
     const fallbackQuestions = [

@@ -207,19 +207,15 @@ async function imageEngine(data, onImageOutput, onError) {
 // 🧠 QUIZ ENGINE (Madde 5)
 // ──────────────────────────────────────────
 async function quizEngine(data, onQuizOutput, onError, studySelections) {
-  // Wizard'dan gelen seçim varsa önceliklendir, yoksa parser datasını kullan
   let parsedGrade = parseInt(data.grade);
   if (isNaN(parsedGrade)) parsedGrade = studySelections?.grade || null;
   const finalGrade = parsedGrade ? parsedGrade + '. Sınıf' : 'Genel';
-  
-  // prompt'a 'subject' ekledik, doğrudan onu kullan. Yoksa studySelections, o da yoksa 'Genel'
+
   let subject = data.subject || studySelections?.subject || 'Genel';
   if (subject.toLowerCase() === 'math' || subject.toLowerCase() === 'mathematics') subject = 'Matematik';
-  
+
   let topic = data.topic || studySelections?.topic || 'Genel Kültür';
-  if (topic.toLowerCase() === 'math') topic = 'Genel'; // fallbacks against LLM English output
-  
-  const difficulty = data.difficulty || 'medium';
+  let difficulty = data.difficulty || 'medium';
 
   onQuizOutput({ grade: finalGrade, subject, topic, difficulty });
 }

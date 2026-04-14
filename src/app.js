@@ -695,38 +695,94 @@ async function handleSendMessage(text) {
 
 // V10: DINAMIK QUIZ ENGINE (State Machine)
 async function generateDynamicQuiz(grade, subject, topic, difficulty) {
-   const qMsg = `Sen eğitim materyalleri hazırlayan bir yapay zekasın. 
-Görev: ${grade} seviyesinde, ${subject} dersinin ${topic} konusu üzerine ${difficulty} zorlukta 5 soruluk interaktif bir test hazırla.
-KURALLAR:
-1. SADECE JSON formatında obje dön: { "quiz": [ ... ] }
-2. Her soru şu yapıda olsun: { "soru": "Metin", "secenekler": {"A": "Şık 1", "B": "Şık 2", "C": "Şık 3", "D": "Şık 4"}, "dogru_cevap": "A" }
-3. CRITICAL: Metinlerin içinde asla gerçek alt satır boşluğu (Enter) kullanma. Eğer alt satır gerekiyorsa literal olarak '\\n' yaz. İç tırnakları her zaman escape et (\\").  4. VIZYON: Geçmiş yıllarda çıkmış LGS ve YKS (ÖSS) sorularına benzer, muhakeme gücünü ölçen soruları tercih et.\n  Sadece JSON gönder!`;
-   
-   try {
-      const res = await askAI(qMsg, 'You are a strict quiz-building engine returning RAW JSON.');
-      let parsed = null;
-      if (res) {
-         // Auto-Heal JSON Extract
-         parsed = extractAndFixQuizJson(res);
-      }
-      
-      if (parsed && parsed.quiz && Array.isArray(parsed.quiz)) {
-         setTimeout(() => {
-           if (typeof launchInteractiveQuiz === 'function') {
-             launchInteractiveQuiz(parsed.quiz, { subject, topic, grade });
-           } else {
-             console.error("launchInteractiveQuiz bulunamadı!");
-           }
-         }, 500);
-      } else {
-         throw new Error("Invalid output format");
-      }
-   } catch(e) {
-      console.warn("Quiz Gen Error:", e);
-      addMessage('bot', 'Test içeriği oluşturulamadı.');
-      appendMessage('bot', formatMessage('bot', '⚠️ Soru oluşturulamadı, lütfen tekrar dene.'));
-   }
+
+  // ── Kademe tespiti ──────────────────────────────────────────────
+  const gradeNum = parseInt(grade);
+  let kademeTalimat = '';
+  let formatTalimat = '';
+  let zorluklarDagilim = '';
+
+  if (gradeNum >= 1 && gradeNum <= 4) {
+    kademeTalimat = `İlkokul ${gradeNum}. Sınıf düzeyinde: somut örnekler ve günlük hayat nesneleriyle açıkla, cümleler kısa ve net olsun, hikayeleştirme tekniğinden yararlan, oyunsu ve sevecen bir dil kullan. Soyut kavramlardan kaçın.`;
+    formatTalimat = 'Çoktan seçmeli, 3 şık (A, B, C). Şıklar çok kısa olsun.';
+    zorluklarDagilim = '2 kolay, 2 orta, 1 biraz zorlu';
+  } else if (gradeNum >= 5 && gradeNum <= 8) {
+    kademeTalimat = `Ortaokul ${gradeNum}. Sınıf düzeyinde: LGS formatına yakın sorular oluştur. Okuduğunu anlama ve çıkarım yapma gerektiren sorular tercih et. Gerekirse "Aşağıdakilerden hangisi doğrudur?" veya "I, II, III" formatındaki sorular kullan. MEB müfredatına uygun ol.`;
+    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D).';
+    zorluklarDagilim = '1 kolay, 3 orta, 1 zor (akıl yürütme gerektiren)';
+  } else if (gradeNum >= 9 && gradeNum <= 12) {
+    kademeTalimat = `Lise ${gradeNum}. Sınıf düzeyinde: YKS/TYT-AYT formatında sorular oluştur. Akademik terminoloji kullan, analiz ve sentez düzeyinde düşünme gerektirsin.`;
+    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D). YKS tarzında.';
+    zorluklarDagilim = '1 kolay, 2 orta, 2 zor';
+  } else {
+    kademeTalimat = `Ortaokul genel düzeyinde, MEB müfredatına uygun.`;
+    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D).';
+    zorluklarDagilim = '1 kolay, 3 orta, 1 zor';
+  }
+
+  // ── Zorluk ayarı ───────────────────────────────────────────────
+  const difficultyMap = {
+    easy:   'Tüm sorular kolay, kavram tanıma düzeyinde olsun.',
+    medium: `Zorluk dağılımı: ${zorluklarDagilim}.`,
+    hard:   'Tüm sorular zor; akıl yürütme, analiz ve kavram yanılgılarını hedefleyen çeldiriciler kullan.'
+  };
+  const difficultyTalimat = difficultyMap[difficulty] || difficultyMap['medium'];
+
+  // ── Ana pedagojik prompt ────────────────────────────────────────
+  const qMsg = `Sen deneyimli bir öğretmen ve soru hazırlama uzmanısın.
+
+GÖREV: ${grade} düzeyindeki öğrenciler için "${subject}" dersinin "${topic}" konusundan 5 adet soru hazırla.
+
+KADEME TALİMATI:
+${kademeTalimat}
+
+SORU TİPİ: ${formatTalimat}
+
+ZORLUK: ${difficultyTalimat}
+
+PEDAGOJİK KURALLAR:
+1. Yeni Nesil Soru: Sorular salt ezber değil; günlük hayat senaryosu veya paragraftan çıkarım yapma içersin.
+2. Kavram Yanılgısı: Bu konuda öğrencilerin en sık düştüğü yanılgıları tespit et ve çeldiricileri bu yanılgılar üzerine inşa et. Çeldiriciler mantıklı ama yanlış olsun.
+3. Dil: Seçilen sınıf düzeyinin kelime hazinesine uygun, net Türkçe kullan.
+4. Açıklama: Her sorunun sonuna doğru cevap + kısa açıklama ekle (neden doğru olduğunu belirt).
+
+ÇIKTI KURALLARI (KESİNLİKLE UYGULA):
+- SADECE JSON formatında dön: { "quiz": [ ... ] }
+- Metin içinde gerçek Enter/newline kullanma, yerine \\n yaz.
+- İç tırnakları escape et (\\"): 
+- Her soru tam olarak şu yapıda olsun:
+{
+  "soru": "Soru metni",
+  "secenekler": {"A": "Şık 1", "B": "Şık 2", "C": "Şık 3", "D": "Şık 4"},
+  "dogru_cevap": "A",
+  "aciklama": "Doğru cevap A çünkü..."
+}`;
+
+  try {
+    const res = await askAI(qMsg, 'Sen bir soru üretme motorusun. SADECE geçerli JSON döndür. Hiçbir açıklama, selamlama veya Markdown ekleme.');
+    let parsed = null;
+    if (res) {
+      parsed = extractAndFixQuizJson(res);
+    }
+
+    if (parsed && parsed.quiz && Array.isArray(parsed.quiz)) {
+      setTimeout(() => {
+        if (typeof launchInteractiveQuiz === 'function') {
+          launchInteractiveQuiz(parsed.quiz, { subject, topic, grade });
+        } else {
+          console.error('launchInteractiveQuiz bulunamadı!');
+        }
+      }, 500);
+    } else {
+      throw new Error('Invalid output format');
+    }
+  } catch(e) {
+    console.warn('Quiz Gen Error:', e);
+    addMessage('bot', 'Test içeriği oluşturulamadı.');
+    appendMessage('bot', formatMessage('bot', '⚠️ Soru oluşturulamadı, lütfen tekrar dene.'));
+  }
 }
+
 
 function appendLessonActionButtons() {
   const chatbox = document.getElementById('chatbox');
@@ -1855,7 +1911,8 @@ function launchInteractiveQuiz(questions, meta) {
 
           const fb = document.getElementById('iqFeedback');
           if (fb) {
-            fb.innerHTML = `<div class="iq-feedback correct-fb">✅ Doğru! Harika iş çıkardın!</div>`;
+            const aciklama = q.aciklama ? `<div style="margin-top:8px;font-size:0.88em;background:rgba(34,197,94,0.12);padding:10px;border-radius:8px;border-left:4px solid #22c55e;"><b>📖 Açıklama:</b> ${q.aciklama}</div>` : '';
+            fb.innerHTML = `<div class="iq-feedback correct-fb">✅ Doğru! Harika iş çıkardın! 🎉${aciklama}</div>`;
           }
 
           const nextBtn = document.getElementById('iqNextBtn');
