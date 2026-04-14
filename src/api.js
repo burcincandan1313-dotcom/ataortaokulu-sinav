@@ -71,7 +71,7 @@ export async function askAI(message, systemPrompt = '') {
         body: JSON.stringify({
           input: message.substring(0, 800),
           systemPrompt: sys,
-          maxTokens: 600
+          maxTokens: 350   // Hız için düşürüldü (kısa eğitim cevapları için yeterli)
         }),
         signal: AbortSignal.timeout(15000)
       }).catch((e) => { console.warn('[API] CF fetch error:', e.message); return null; });

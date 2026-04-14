@@ -56,6 +56,61 @@ export function appendMessage(role, html) {
 }
 
 /**
+ * Typewriter animasyonuyla mesajı kelime kelime yazar
+ * — Bekleme hissi sıfırlanır, cevap anında geliyormuş gibi görünür
+ * @param {string} html Final HTML içerik
+ * @param {Function} onDone Animasyon bitince çağrılır (opsiyonel)
+ * @returns {HTMLElement} Oluşturulan mesaj elementi
+ */
+export function streamMessage(html, onDone) {
+  if (!_chatContainer) return null;
+
+  const div = document.createElement('div');
+  div.className = 'chat-message bot';
+  _chatContainer.appendChild(div);
+  scrollToBottom();
+
+  // HTML'i DOMPurify ile temizle
+  const cleanHtml = DOMPurify.sanitize(html, {
+    ADD_ATTR: ['onclick', 'data-text', 'data-action', 'data-qcmd', 'data-theme', 'data-t', 'target']
+  });
+
+  // Düz metni çıkar (kelime kelime animasyon için)
+  const tmp = document.createElement('div');
+  tmp.innerHTML = cleanHtml;
+  const plainText = tmp.textContent || tmp.innerText || '';
+
+  // Kısa metinleri direkt göster (70 kelimeden az)
+  const words = plainText.split(' ');
+  if (words.length < 70) {
+    div.innerHTML = cleanHtml;
+    scrollToBottom();
+    if (onDone) onDone(div);
+    return div;
+  }
+
+  // Uzun metinleri kelime kelime yaz
+  let i = 0;
+  const speed = 18; // ms per word — hızlı ama okunabilir
+  const interval = setInterval(() => {
+    div.textContent = words.slice(0, i + 1).join(' ');
+    i++;
+    // Son batch'te tam HTML'i koy
+    if (i >= words.length) {
+      clearInterval(interval);
+      div.innerHTML = cleanHtml;
+      scrollToBottom();
+      if (onDone) onDone(div);
+    }
+    // Her 5 kelimede bir scroll
+    if (i % 5 === 0) scrollToBottom();
+  }, speed);
+
+  return div;
+}
+
+
+/**
  * Otomatik scroll
  */
 export function scrollToBottom() {

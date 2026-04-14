@@ -13,7 +13,7 @@ window.updateMissionProgress = updateMissionProgress; // Make available globally
 
 import { state, setIsLoading, addMessage, loadUserData, saveUserData } from './state.js';
 import { askAI, generateImage } from './api.js';
-import { initUI, appendMessage, toggleTypingIndicator, showError, updateBotStatus } from './ui.js';
+import { initUI, appendMessage, streamMessage, toggleTypingIndicator, showError, updateBotStatus } from './ui.js';
 import { curriculumData } from './curriculum.js';
 import { openStudyWizard, studySelections } from './features/wizard.js';
 import { DuelArena } from './features/duelArena.js';
@@ -594,12 +594,14 @@ async function handleSendMessage(text) {
 
          // suggest_quiz check: eğitim konusu sohbeti → quiz teklif et
          const isEduTopic = /(matematik|fizik|kimya|biyoloji|tarih|coğrafya|fen|edebiyat|türkçe|konu)/i.test(msg);
-         let renderHtml = text;
+         let renderHtml = formatMessage('bot', text);
          if (isEduTopic && currentMode !== 'quiz') {
            renderHtml += `<br><br><div class="smart-suggestion-box"><p style="margin:0 0 10px 0;font-size:0.95em;">🌟 <b>Öneri:</b> Bu konuyu pekiştirmek için bir quiz çözmek ister misin?</p><button class="smart-btn wow-card" onclick="document.getElementById('userInput').value='Bu konuda quiz yap'; document.getElementById('btnSendMessage').click();" style="width:100%;padding:10px;background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;">🟢 Quiz Başlat</button></div>`;
          }
-         appendMessage('bot', formatMessage('bot', renderHtml));
-         if (currentMode === 'ders') appendLessonActionButtons();
+         // Typewriter animasyonuyla yaz (uzun cevaplarda bekleme hissi ortadan kalkar)
+         streamMessage(renderHtml, () => {
+           if (currentMode === 'ders') appendLessonActionButtons();
+         });
        },
 
        // ── IMAGE ENGINE CALLBACK ──
