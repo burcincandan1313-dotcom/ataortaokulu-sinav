@@ -1022,17 +1022,23 @@ function setupEventListeners() {
   const sendBtn = document.getElementById('btnSendMessage');
   const chatInput = document.getElementById('userInput');
   
-  // Mesaj gönder
+  // Mesaj gönder — input ANINDA temizle (async bekleme yok)
   if (sendBtn) {
     sendBtn.addEventListener('click', () => {
-      if (chatInput) handleSendMessage(chatInput.value);
+      if (chatInput) {
+        const val = chatInput.value;
+        chatInput.value = '';   // ← senkron temizle, hemen boşalsın
+        handleSendMessage(val);
+      }
     });
   }
   
   if (chatInput) {
     chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
-        handleSendMessage(chatInput.value);
+        const val = chatInput.value;
+        chatInput.value = '';   // ← senkron temizle, hemen boşalsın
+        handleSendMessage(val);
       }
     });
   }
