@@ -552,16 +552,18 @@ async function handleSendMessage(text) {
      // STEP 1: UI mod bypass (Quiz/Ders wizard'dan geliyorsa parser'ı atla)
      let intentData = null;
      if (currentMode === 'quiz' && window.activeQuizSession) {
+       // Quiz modu aktif → direkt quiz intent
        intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic, difficulty: 'medium' };
      } else if (lw.startsWith('/quiz')) {
+       // /quiz komutu → direkt quiz intent (AI parse'a gerek yok)
        intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic || msg, difficulty: 'medium' };
+     } else if (lw.startsWith('/ders')) {
+       // /ders komutu → DOĞRUDAN chat intent (v11SafeParse atla!)
+       // Çünkü SafeParse de askAI çağırır → throttle'a takılır → "2 saniye bekleyin" mesajı çıkar
+       intentData = { intent: 'chat', object: '', count: 1, subject: '', topic: '', difficulty: 'medium', grade: null };
      } else {
        // STEP 2: SafeParse (3 deneme retry ile intent tespiti)
        intentData = await v11SafeParse(msg);
-       // Eğer /ders ile başlıyorsa, pre-classifier'dan ne çıkarsa çıksın, kesinlikle quiz değil bir konuyu anlatmasını istiyoruz.
-       if (lw.startsWith('/ders ') && intentData.intent === 'quiz') {
-           intentData.intent = 'chat';
-       }
      }
 
      console.log('[V11] Parsed intent:', intentData);
