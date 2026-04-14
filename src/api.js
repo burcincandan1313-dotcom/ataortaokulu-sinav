@@ -29,12 +29,8 @@ let _lastRequestTime = 0;
  *  6. AllOrigins CORS Proxy → Pollinations
  */
 export async function askAI(message, systemPrompt = '', maxTokens = 350) {
-  // Client-side throttle: Aynı anda art arda mesaj atılmasını 2 sn engelle
-  const now = Date.now();
-  if (now - _lastRequestTime < 2000) {
-    return "Lütfen art arda mesaj göndermek yerine 2 saniye bekleyin. ⏳";
-  }
-  _lastRequestTime = now;
+  // Throttle kaldırıldı: Çünkü V11 Engine arka planda "Niyet Analizi" ve "Cevap Üretimi" olarak 
+  // ardışık iki AI çağrısı yapıyor. Arayüzde zaten bekleme kilidi olduğu için kullanıcı spamlara karşı korunuyor.
 
   const sysDefault = 'Sen Ata İlk ve Ortaokulu öğrencileri için geliştirilmiş, dost canlısı bir eğitim asistanısın. Kısa ve öz, eğitici, yaş gruplarına uygun cevaplar verirsin. Küfür/hakaret vb şeylere olumsuz tepki verir ve reddedersin. Asla kodu bozacak Markdown tagleri kullanma. HTML Çıktısı verirken <br> kullan.';
 

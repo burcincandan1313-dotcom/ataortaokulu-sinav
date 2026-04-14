@@ -13,7 +13,7 @@ if not exist "node_modules" (
 echo Sunucu aciliyor... Lutfen siyah ekrani kapatmayiniz!
 start "Ata Sunucu" cmd.exe /k "npm run dev"
 
-echo 6 saniye bekleniyor...
-ping 127.0.0.1 -n 7 > nul
+echo Sunucunun tam acilmasi bekleniyor (12 saniye)...
+ping 127.0.0.1 -n 13 > nul
 
 start http://localhost:5173/?fresh=1

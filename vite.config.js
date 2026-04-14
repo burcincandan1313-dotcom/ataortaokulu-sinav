@@ -8,7 +8,7 @@ export default defineConfig(({ command }) => {
     server: {
       port: 5173,
       strictPort: false,
-      host: '127.0.0.1',
+      host: true,
     },
     publicDir: 'public',
     build: {

@@ -129,7 +129,7 @@ export async function v11SafeParse(userInput) {
 
   // Kesin quiz intent'leri — SADECE standart test/sınav istekleri
   // "soru üret/hazırla" burada YOK, onlar yukarıda chat'e yönlendirildi
-  if (/\b(quiz|test\b|sınav|testi\b|sınavı\b)\b/i.test(lw) && !/\banlat\b/i.test(lw)) {
+  if (/\b(quiz|test\b|sınav|testi\b|sınavı\b)\b/i.test(lw) && !/\banlat\b/i.test(lw) && !/\bsözlü\b/i.test(lw)) {
     console.log('[V11 Parser] Local pre-classifier → quiz');
     return { intent: 'quiz', object: '', count: 1, subject: '', topic: '', difficulty: 'medium', grade: null };
   }
@@ -265,6 +265,10 @@ async function chatEngine(userInput, onTextOutput, onError, context) {
 
   if (currentMode === 'ders' && studySelections?.topic) {
     systemPrompt += `\n\n[AKTİF DERS BAĞLAMI]: Öğrenci şu an ${studySelections.grade}. Sınıf "${studySelections.subject}" dersinin "${studySelections.topic}" konusunu çalışıyor. SADECE bu ders ve konuyla ilgili sorulara cevap ver! Diğer tüm konuları ve genel kültür sorularını kesinlikle "Şu anda ${studySelections.subject} dersindeyiz, lütfen sadece bu dersle ilgili soru sor." diyerek reddet.`;
+  }
+
+  if (window.activeOralSession) {
+    systemPrompt += `\n\n[SÖZLÜ MÜLAKAT (SINAV) MODU AKTİF]: Öğrencinin şu an gönderdiği kısa kelimeler veya cümleler YENİ BİR KONU İSTEĞİ DEĞİL, senin sorduğun bir önceki mülakat sorusunun 'CEVABI'dır! Kullanıcının cevabını değerlendir, doğruysa öv, yanlışsa mantığını açıkla ve ardından SIRADAKİ YENİ SÖZLÜ SORUSUNU SOR.`;
   }
 
   const finalInput = userInput + memContext;

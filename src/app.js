@@ -545,6 +545,7 @@ async function handleSendMessage(text) {
   if (lw.startsWith('/normal')) {
      currentMode = 'normal';
      window.activeQuizSession = false;
+     window.activeOralSession = false;
      window._activeCharacter = null;
      const modeContainer = document.getElementById('modeSelector');
      if (modeContainer) {
@@ -567,6 +568,13 @@ async function handleSendMessage(text) {
      return;
   }
 
+  // UI üzerinden gönderilen 'Sınav Modu' komutunu direkt Sihirbaza bağla
+  if (lw === 'sınav modu' || lw === 'test sihirbazı' || lw === 'sınav menüsü') {
+     document.getElementById('userInput').value = '';
+     openQuizWizard();
+     return;
+  }
+
   // ==== 2. YÜKLENİYOR & AI ROUTER SÜRECİ (V11 ENGİNE) ====
   if (lw.startsWith('/ders')) {
      currentMode = 'ders';
@@ -575,7 +583,7 @@ async function handleSendMessage(text) {
   setIsLoading(true);
   toggleTypingIndicator(true);
   updateBotStatus('🟢 Düşünüyor...', '#4ade80');
-
+  
   // Kullanıcı mesajını V11 memory'e ekle
   v11AddToMemory('user', msg);
   
@@ -751,6 +759,18 @@ function openQuizWizard() {
         </div>
       </div>
 
+      <!-- ADIM 4: SORU SAYISI SEÇİMİ -->
+      <div id="qwStep4" style="padding:20px 24px;display:none;">
+        <p style="color:var(--sub,#64748b);font-size:.88rem;margin-bottom:14px;">Testte kaç soru olsun?</p>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+          ${[2, 5, 8, 10].map(cnt => `
+            <button class="qw-count-btn" data-count="${cnt}" style="padding:12px 8px;border-radius:12px;border:2px solid var(--bdr,rgba(255,255,255,.1));background:var(--bg,#0f172a);color:var(--txt,#e2e8f0);font-weight:700;font-size:1.1rem;cursor:pointer;transition:all .2s;">
+              ${cnt}
+            </button>
+          `).join('')}
+        </div>
+      </div>
+
       <!-- FOOTER NAVİGASYON -->
       <div style="padding:16px 24px;border-top:1px solid var(--bdr,rgba(255,255,255,.1));display:flex;justify-content:space-between;">
         <button id="qwBack" style="padding:10px 20px;border-radius:10px;border:1px solid var(--bdr,rgba(255,255,255,.15));background:none;color:var(--sub,#64748b);cursor:pointer;display:none;">← Geri</button>
@@ -789,6 +809,11 @@ function openQuizWizard() {
       overlay.querySelector('#qwStep3').style.display = 'none';
       stepLabel.textContent = 'Adım 2/3 — Ders seçin';
       selectionDisplay.textContent = `${selectedGrade}. Sınıf`;
+    } else if (step === 4) {
+      step = 3;
+      overlay.querySelector('#qwStep3').style.display = '';
+      overlay.querySelector('#qwStep4').style.display = 'none';
+      stepLabel.textContent = 'Adım 3/3 — Soru tipini seçin';
     }
   });
 
@@ -826,17 +851,43 @@ function openQuizWizard() {
           overlay.querySelector('#qwStep3').style.display = '';
           stepLabel.textContent = 'Adım 3/3 — Soru tipini seçin';
           selectionDisplay.textContent = `${selectedGrade}. Sınıf • ${selectedSubject}`;
+          
+          // Kademe bazlı LGS ve YKS filtresi
+          overlay.querySelectorAll('.qw-type-btn').forEach(btn => {
+            const type = btn.dataset.type;
+            if (type === 'lgs' && selectedGrade !== 8) {
+               btn.style.display = 'none';
+            } else if (type === 'yks' && selectedGrade < 8) {
+               btn.style.display = 'none';
+            } else {
+               btn.style.display = 'flex';
+            }
+          });
         });
       });
     });
   });
 
-  // ADIM 3: Soru tipi seçimi → Quiz başlat
+  // ADIM 3: Soru tipi seçimi → Adım 4'e Geçiş
+  let selectedType = null;
   overlay.querySelectorAll('.qw-type-btn').forEach(btn => {
     btn.addEventListener('mouseenter', () => btn.style.borderColor = 'var(--acc2,#818cf8)');
     btn.addEventListener('mouseleave', () => btn.style.borderColor = 'var(--bdr,rgba(255,255,255,.1))');
     btn.addEventListener('click', () => {
-      const qType = btn.dataset.type;
+      selectedType = btn.dataset.type;
+      step = 4;
+      overlay.querySelector('#qwStep3').style.display = 'none';
+      overlay.querySelector('#qwStep4').style.display = '';
+      stepLabel.textContent = 'Adım 4/4 — Soru sayısı seçin';
+    });
+  });
+
+  // ADIM 4: Soru sayısı seçimi → Quiz Başlat
+  overlay.querySelectorAll('.qw-count-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => btn.style.borderColor = 'var(--acc2,#818cf8)');
+    btn.addEventListener('mouseleave', () => btn.style.borderColor = 'var(--bdr,rgba(255,255,255,.1))');
+    btn.addEventListener('click', () => {
+      const qCount = parseInt(btn.dataset.count);
       overlay.remove();
 
       const typeLabels = {
@@ -849,23 +900,24 @@ function openQuizWizard() {
       };
       const topicList = curriculumData[selectedGrade]?.[selectedSubject] || ['Genel Konu'];
       const randomTopic = topicList[Math.floor(Math.random() * topicList.length)];
-      const quizTitle = `${selectedGrade}. Sınıf ${selectedSubject} — ${typeLabels[qType] || 'Test'}`;
+      const quizTitle = `${selectedGrade}. Sınıf ${selectedSubject} — ${typeLabels[selectedType] || 'Test'}`;
 
       addMessage('bot', `${quizTitle} hazırlanıyor...`);
-      appendMessage('bot', formatMessage('bot', `🎯 <b>${quizTitle}</b><br>Konu: <b>${randomTopic}</b><br><br><div class="jumping-dots"><span></span><span></span><span></span></div>`));
-      generateDynamicQuiz(selectedGrade, selectedSubject, randomTopic, qType === 'yks' ? 'hard' : qType === 'lgs' ? 'medium' : 'medium', qType);
+      appendMessage('bot', formatMessage('bot', `🎯 <b>${quizTitle}</b><br>Konu: <b>${randomTopic}</b><br>Soru Sayısı: ${qCount}<br><div class="jumping-dots"><span></span><span></span><span></span></div>`));
+      generateDynamicQuiz(selectedGrade, selectedSubject, randomTopic, selectedType === 'yks' ? 'hard' : selectedType === 'lgs' ? 'medium' : 'medium', selectedType, qCount);
     });
   });
 }
 
 // V10: DINAMIK QUIZ ENGINE (State Machine)
-async function generateDynamicQuiz(grade, subject, topic, difficulty) {
+async function generateDynamicQuiz(grade, subject, topic, difficulty, qType, customCount = null) {
 
   // ── Kademe tespiti ──────────────────────────────────────────────
   const gradeNum = parseInt(grade);
   let kademeTalimat = '';
-  let formatTalimat = '';
-  let zorluklarDagilim = '';
+  let formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D).';
+  let zorluklarDagilim = '1 kolay, 3 orta, 1 zor';
+  let typeRule = '';
 
   if (gradeNum >= 1 && gradeNum <= 4) {
     kademeTalimat = `İlkokul ${gradeNum}. Sınıf düzeyinde: somut örnekler ve günlük hayat nesneleriyle açıkla, cümleler kısa ve net olsun, hikayeleştirme tekniğinden yararlan, oyunsu ve sevecen bir dil kullan. Soyut kavramlardan kaçın.`;
@@ -873,16 +925,25 @@ async function generateDynamicQuiz(grade, subject, topic, difficulty) {
     zorluklarDagilim = '2 kolay, 2 orta, 1 biraz zorlu';
   } else if (gradeNum >= 5 && gradeNum <= 8) {
     kademeTalimat = `Ortaokul ${gradeNum}. Sınıf düzeyinde: LGS formatına yakın sorular oluştur. Okuduğunu anlama ve çıkarım yapma gerektiren sorular tercih et. Gerekirse "Aşağıdakilerden hangisi doğrudur?" veya "I, II, III" formatındaki sorular kullan. MEB müfredatına uygun ol.`;
-    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D).';
-    zorluklarDagilim = '1 kolay, 3 orta, 1 zor (akıl yürütme gerektiren)';
   } else if (gradeNum >= 9 && gradeNum <= 12) {
     kademeTalimat = `Lise ${gradeNum}. Sınıf düzeyinde: YKS/TYT-AYT formatında sorular oluştur. Akademik terminoloji kullan, analiz ve sentez düzeyinde düşünme gerektirsin.`;
-    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D). YKS tarzında.';
     zorluklarDagilim = '1 kolay, 2 orta, 2 zor';
   } else {
     kademeTalimat = `Ortaokul genel düzeyinde, MEB müfredatına uygun.`;
-    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D).';
-    zorluklarDagilim = '1 kolay, 3 orta, 1 zor';
+  }
+
+  let templateOptions = `{ "A": "...", "B": "...", "C": "...", "D": "..." }`;
+
+  // qType zorlamaları (Front-end 4 şıklı yapı bekler, o yüzden bunu maskeliyoruz)
+  if (qType === 'bosluk') {
+    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D). Soru metni "....." şeklinde bir boşluk içersin. (Örn: I have a ..... in my bag). Lütfen tırnak işareti kullanmamaya çalış.';
+  } else if (qType === 'dogru_yanlis') {
+    formatTalimat = 'Soru metni doğrudan kesin bir İDDİA (cümle) olmalıdır. (Örn: "Dünya Güneş etrafında döner.") SADECE 2 şık ver! Şıkların içeriği KESİNLİKLE "Doğru" ve "Yanlış" kelimeleri olsun.';
+    templateOptions = `{ "A": "Doğru", "B": "Yanlış" }`;
+  } else if (qType === 'lgs') {
+    formatTalimat = 'Okuduğunu anlama, grafik yorumlama veya mantık çıkarımına dayalı yeni nesil çoktan seçmeli, 4 şıklı.';
+  } else if (qType === 'yks') {
+    formatTalimat = 'YKS/TYT tarzında, çeldiricisi güçlü, analiz ve önbilgi gerektiren çoktan seçmeli, 4 şıklı.';
   }
 
   // ── Zorluk ayarı ───────────────────────────────────────────────
@@ -894,38 +955,34 @@ async function generateDynamicQuiz(grade, subject, topic, difficulty) {
   const difficultyTalimat = difficultyMap[difficulty] || difficultyMap['medium'];
 
   // ── Ana pedagojik prompt ────────────────────────────────────────
-  const qMsg = `Sen deneyimli bir öğretmen ve soru hazırlama uzmanısın.
-
-GÖREV: ${grade} düzeyindeki öğrenciler için "${subject}" dersinin "${topic}" konusundan 5 adet soru hazırla.
-
-KADEME TALİMATI:
-${kademeTalimat}
-
-SORU TİPİ: ${formatTalimat}
+  const isKarmaTen = qType === 'karma';
+  const soruSayisi = customCount || (isKarmaTen ? 10 : 3);
+  const qMsg = `GÖREV: ${grade} sınıf "${subject}" dersi "${topic}" konusu için ${soruSayisi} soru hazırla. ${soruSayisi >= 5 ? "DİKKAT: Yarıda kesilmemesi için soruların 'aciklama' (açıklama) kısımlarını ÇOK KISA tut (1 cümle)." : ""}
 
 ZORLUK: ${difficultyTalimat}
+KADEME/FORMAT: ${kademeTalimat} ${formatTalimat}
 
-PEDAGOJİK KURALLAR:
-1. Yeni Nesil Soru: Sorular salt ezber değil; günlük hayat senaryosu veya paragraftan çıkarım yapma içersin.
-2. Kavram Yanılgısı: Bu konuda öğrencilerin en sık düştüğü yanılgıları tespit et ve çeldiricileri bu yanılgılar üzerine inşa et. Çeldiriciler mantıklı ama yanlış olsun.
-3. Dil: Seçilen sınıf düzeyinin kelime hazinesine uygun, net Türkçe kullan.
-4. Açıklama: Her sorunun sonuna doğru cevap + kısa açıklama ekle (neden doğru olduğunu belirt).
+MECBURİ JSON FORMATI (SADECE AŞAĞIDAKİ YAPIYI DÖNDÜR, BAŞKA HİÇBİR ŞEY YAZMA!):
+[
+  {
+    "soru": "Soru metni...",
+    "secenekler": ${templateOptions},
+    "dogru_cevap": "A",
+    "aciklama": "Neden doğru..."
+  }
+]
 
-ÇIKTI KURALLARI (KESİNLİKLE UYGULA):
-- SADECE JSON formatında dön: { "quiz": [ ... ] }
-- Metin içinde gerçek Enter/newline kullanma, yerine \\n yaz.
-- İç tırnakları escape et (\\"): 
-- Her soru tam olarak şu yapıda olsun:
-{
-  "soru": "Soru metni",
-  "secenekler": {"A": "Şık 1", "B": "Şık 2", "C": "Şık 3", "D": "Şık 4"},
-  "dogru_cevap": "A",
-  "aciklama": "Doğru cevap A çünkü..."
-}`;
+ÇOK ÖNEMLİ:
+- İçeriklerde kesinlikle çift tırnak (") kullanma, formatı koparır. Eğik tırnak (') kullanabilirsin.
+- JSON içine ekstra anahtar (konu, id vb) EKLEME. Sadece yukarıdaki diziyi dön.`;
 
+  let rawRes = "<Bos>";
   try {
-    // Quiz için yüksek token — 5 sorulu JSON + açıklama için yeterli alan
-    const res = await askAI(qMsg, 'Sen bir soru üretme motorusun. SADECE geçerli JSON döndür. Hiçbir açıklama, selamlama veya Markdown ekleme.', 800);
+    // Quiz için 2000 Token sınırı: uzun Türkçe hikayeleştirmeler tokenları çabuk doldurur.
+    const res = await askAI(qMsg, 'Sen bir soru üretme motorusun. SADECE geçerli JSON döndür. Hiçbir açıklama, selamlama veya Markdown ekleme.', 2000);
+    rawRes = res;
+    console.log("[Quiz Engine] RAW AI Output:\n", res);
+    
     let parsed = null;
     if (res) {
       parsed = extractAndFixQuizJson(res);
@@ -945,7 +1002,7 @@ PEDAGOJİK KURALLAR:
   } catch(e) {
     console.warn('Quiz Gen Error:', e);
     addMessage('bot', 'Test içeriği oluşturulamadı.');
-    appendMessage('bot', formatMessage('bot', '⚠️ Soru oluşturulamadı, lütfen tekrar dene.'));
+    appendMessage('bot', formatMessage('bot', '⚠️ Soru oluşturulamadı, lütfen tekrar dene.\n\n<span style="font-size:0.7em;color:gray;">AI Çıktısı (ilk 300 harf): ' + (rawRes ? rawRes.substring(0, 300) : "null") + '</span>'));
   }
 }
 
@@ -1181,6 +1238,7 @@ document.addEventListener('DOMContentLoaded', () => {
          const btnToggleVoice = document.getElementById('btnToggleVoice');
          
          if(btnSend && userInput) {
+            window.activeOralSession = true;
             userInput.value = "Şu andan itibaren Sözlü Mülakat Modundasın. Bana dersimle ilgili kısa bir sözlü sorusu sor. Ben cevaplayınca not verip diğerine geç.";
             btnSend.click();
             setTimeout(() => {
@@ -1997,7 +2055,26 @@ function launchInteractiveQuiz(questions, meta) {
     const progress = ((currentQ) / total) * 100;
     answered = false;
 
-    const optionKeys = Object.keys(q.secenekler);
+    // AI HATA ÖNLEYİCİ: secenekler eksikse veya array olarak geldiyse toparla
+    let sOpts = q.secenekler;
+    if (!sOpts || typeof sOpts !== 'object') {
+       // Tamamen uydurma şıklar üret ki UI çökmesin (Boşluk/Doğru-Yanlış hatası)
+       sOpts = { "A": "Doğru / Evet", "B": "Yanlış / Hayır" };
+       q.secenekler = sOpts;
+       if (!q.dogru_cevap) q.dogru_cevap = "A";
+    } else if (Array.isArray(sOpts)) {
+       // Eğer ["Elma", "Armut"] gibi liste döndüyse {"A": "Elma", "B": "Armut"} yap
+       const newOpts = {};
+       const letters = ['A','B','C','D','E'];
+       sOpts.forEach((opt, idx) => {
+          newOpts[letters[idx] || idx] = opt;
+          // Eğer dogru_cevap "Elma" ise onu "A" yap
+          if (q.dogru_cevap === opt) q.dogru_cevap = letters[idx] || String(idx);
+       });
+       q.secenekler = newOpts;
+       sOpts = newOpts;
+    }
+    const optionKeys = Object.keys(sOpts);
 
     gameBody.innerHTML = `
       <div class="iq-container">
@@ -2185,19 +2262,32 @@ function launchInteractiveQuiz(questions, meta) {
           </button>
           
           <div style="display:flex; gap:10px;">
-             <button class="iq-result-btn secondary" id="iqHistoryBtn" style="padding:12px 20px;border-radius:12px;font-weight:bold;flex:1;">📋 Sınav Geçmişi</button>
+             <button class="iq-result-btn secondary" id="iqHistoryBtn" style="padding:12px 20px;border-radius:12px;font-weight:bold;flex:1;">📋 Geçmiş</button>
              <button class="iq-result-btn secondary" id="iqCloseBtn" style="padding:12px 20px;border-radius:12px;font-weight:bold;flex:1;">✖ Kapat</button>
           </div>
+          
+          <button class="iq-result-btn primary" id="iqNewQuizBtn" style="padding:12px 20px;border-radius:12px;font-weight:bold; background:linear-gradient(90deg, #f59e0b, #ea580c); color:white; border:none; border-bottom:3px solid #c2410c; margin-top: 5px;">
+             🚀 Yeni Test Çöz
+          </button>
         </div>
       </div>
     `;
 
     // Button handlers
+    document.getElementById('iqNewQuizBtn')?.addEventListener('click', () => {
+       const gameOverlay = document.getElementById('gameOverlay');
+       if (gameOverlay) gameOverlay.style.display = 'none';
+       window.activeQuizSession = false;
+       window.activeOralSession = false;
+       currentMode = 'normal';
+       openQuizWizard();
+    });
     document.getElementById('iqAnalyzeBtn')?.addEventListener('click', () => {
        const gameOverlay = document.getElementById('gameOverlay');
        if (gameOverlay) gameOverlay.style.display = 'none';
 
        window.activeQuizSession = false;
+       window.activeOralSession = false;
        currentMode = 'ders';
 
        // Hangi sorular yanlış yapıldı metnini çıkar
@@ -2220,6 +2310,7 @@ function launchInteractiveQuiz(questions, meta) {
       const gameOverlay = document.getElementById('gameOverlay');
       if (gameOverlay) gameOverlay.style.display = 'none';
       window.activeQuizSession = false;
+      window.activeOralSession = false;
       currentMode = 'normal';
       const botName = document.getElementById('botName');
       if (botName) botName.textContent = '🤖 Ata Sohbet - Normal';
@@ -2839,11 +2930,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <div class="dash-card-desc">Eksik konularını tamamla</div>
                  </div>
                </button>
-               <button class="dash-card-btn c3" onclick="document.querySelector('.chip[data-qcmd=\\'/quiz\\']')?.click()">
-                 <div class="dash-card-icon">🧪</div>
+               <button class="dash-card-btn c3" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
+                 <div class="dash-card-icon">🎯</div>
                  <div class="dash-card-content">
-                    <div class="dash-card-title">3. BÖLÜM (Karışık Test)</div>
-                    <div class="dash-card-desc">Çoktan seçmeli sorular çöz</div>
+                    <div class="dash-card-title">3. BÖLÜM (Test Sihirbazı)</div>
+                    <div class="dash-card-desc">Sınıfına özel soru tipleriyle testler oluştur</div>
                  </div>
                </button>
                <button class="dash-card-btn c4" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
@@ -2927,6 +3018,16 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // VAY BE REÇETESİ ENTEGRASYONLARI
   setupVayBeFeatures();
+  
+  // Güncel Yenilikler Popup'ı (Sadece bir kez gösterilir ve 3.5 sn sonra kapanır)
+  const updateChangelogOverlay = document.getElementById('updateChangelogOverlay');
+  if (updateChangelogOverlay && !localStorage.getItem('changelog_v18_seen')) {
+    updateChangelogOverlay.style.display = 'flex';
+    localStorage.setItem('changelog_v18_seen', 'true');
+    window.updateChangelogTimer = setTimeout(() => {
+      updateChangelogOverlay.style.display = 'none';
+    }, 3500);
+  }
   
   // Başlangıç mesajı iptal edildi (Seçim Duvarı otomatik olarak tetikliyor)
 });

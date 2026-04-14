@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
@@ -444,6 +444,23 @@
         <button class="btn-save" id="btnStartStudy" style="background: linear-gradient(135deg, var(--acc), var(--acc2)); font-size: 1.1rem; padding: 12px 30px;">🚀 Eğitime Başla!</button>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- YENİLİKLER MODALI (3 saniye sonra oto kapanır) -->
+<div class="onboard-overlay" id="updateChangelogOverlay" style="display:none; z-index:99999;">
+  <div class="onboard-card" style="text-align:center; padding: 25px; border-left: 4px solid #4ade80; box-shadow: 0 10px 40px rgba(74, 222, 128, 0.2);">
+    <div style="display:flex; justify-content:flex-end;">
+      <button onclick="document.getElementById('updateChangelogOverlay').style.display='none'; clearTimeout(window.updateChangelogTimer);" style="background:transparent; border:none; color:var(--sub); font-size:1.5rem; cursor:pointer;" aria-label="Kapat">&times;</button>
+    </div>
+    <div style="font-size:3rem; margin-bottom:10px;">🚀</div>
+    <h2 style="margin:0 0 10px 0; color:#4ade80;">Yenilikler Yayında!</h2>
+    <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:10px; text-align:left; color:#f8fafc; font-size:.9rem; line-height:1.6; margin-bottom:15px;">
+      <p style="margin:0 0 5px 0;">🎯 <b>Test Sihirbazı</b>: Artık kademe, ders ve soru tipini seçerek test oluşturabilirsiniz.</p>
+      <p style="margin:0 0 5px 0;">🧠 <b>Pedagojik Eğitim</b>: Yapay zeka artık seviyenize göre detaylı konu anlatımı yapıyor.</p>
+      <p style="margin:0;">⚡ <b>Performans Modu</b>: Duello arenası hata çözümlemeleri başarıyla tamamlandı.</p>
+    </div>
+    <p style="margin-top:10px; font-size:.78rem; color:var(--sub);">Bu pencere 3 saniye içinde otomatik kapanacaktır...</p>
   </div>
 </div>
 
