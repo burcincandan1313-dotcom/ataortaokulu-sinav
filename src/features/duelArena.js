@@ -24,48 +24,55 @@ export class DuelArena {
     this.setupUI();
     this.showLoading();
 
+    // Throttle bypass: 2.1 sn bekle (son API çağrısından sonra)
+    await new Promise(r => setTimeout(r, 2100));
+
     const prompt = `Sen bir eğitim soru jeneratörüsün.
-Bana ${grade} seviyesinde, ${subject} dersinin ${topic} konusuyla ilgili 5 adet çoktan seçmeli zor soru hazırla.
-Çıktın KESİNLİKLE sadece aşağıdaki JSON formatında olmalıdır. Hiçbir açıklama yazma:
-[
-  {
-    "q": "Soru metni",
-    "opts": ["A şıkkı", "B şıkkı", "C şıkkı", "D şıkkı"],
-    "ans": 0 
-  }
-]
-Not: 'ans' doğru cevabın 0-3 arası indeksidir.`;
+Bana ${grade} seviyesinde, ${subject} dersinin ${topic} konusuyla ilgili 5 adet çoktan seçmeli soru hazırla.
+SADECE aşağıdaki JSON formatında yanıt ver, başka hiçbir şey yazma:
+[{"q":"Soru metni","opts":["A şıkkı","B şıkkı","C şıkkı","D şıkkı"],"ans":0}]
+Not: ans = doğru cevabın 0-3 arası indeksi.`;
+
+    // Yedek sorular (AI başarısız olursa)
+    const fallbackQuestions = [
+      { q: "Türkiye'nin başkenti hangisidir?", opts: ["İstanbul", "Ankara", "İzmir", "Bursa"], ans: 1 },
+      { q: "Güneş sistemindeki en büyük gezegen hangisidir?", opts: ["Satürn", "Mars", "Jüpiter", "Neptün"], ans: 2 },
+      { q: "Su'nun kimyasal formülü nedir?", opts: ["CO2", "NaCl", "H2O", "O2"], ans: 2 },
+      { q: "Bir yılda kaç ay vardır?", opts: ["10", "11", "12", "13"], ans: 2 },
+      { q: "Fotosentez hangi organda gerçekleşir?", opts: ["Kök", "Gövde", "Kloroplast", "Çekirdek"], ans: 2 },
+    ];
 
     try {
-      const raw = await askAI(prompt, "Sadece JSON formatında çıktı ver. Markdown bezeleme.");
-      let cleaned = raw.trim();
-      if(cleaned.startsWith('```json')) cleaned = cleaned.replace(/^```json/i, '').replace(/```$/i, '').trim();
-      else if(cleaned.startsWith('```')) cleaned = cleaned.replace(/^```/i, '').replace(/```$/i, '').trim();
+      const raw = await askAI(prompt, "Sadece JSON dizisi döndür. Açıklama yazma. Markdown kullanma.");
+
+      if (!raw || raw.includes('bekleyin') || raw.length < 20) {
+        throw new Error("Geçersiz yanıt");
+      }
+
+      let cleaned = raw.trim()
+        .replace(/^```json/i, '').replace(/^```/i, '').replace(/```$/i, '').trim();
       
       let parsed = [];
       try {
-         parsed = JSON.parse(cleaned);
-      } catch (err) {
-         const match = cleaned.match(/\[[\s\S]*\]/);
-         if(!match) throw new Error("JSON dizisi bulunamadı");
-         parsed = JSON.parse(match[0]);
+        parsed = JSON.parse(cleaned);
+      } catch {
+        const match = cleaned.match(/\[[\s\S]*\]/);
+        if (!match) throw new Error("JSON bulunamadı");
+        parsed = JSON.parse(match[0]);
       }
       
-      this.questions = parsed;
-      if(this.questions.length < 1) throw new Error("Soru yok");
-      
-      this.userScore = 0;
-      this.botScore = 0;
-      this.currentIndex = 0;
-      
-      this.renderQuestion();
-      
+      this.questions = (Array.isArray(parsed) && parsed.length > 0) ? parsed : fallbackQuestions;
     } catch (e) {
-      console.error(e);
-      alert("Düello başlatılamadı, sorular hazırlanamadı.");
-      this.close();
+      console.warn('[DuelArena] AI başarısız, yedek sorular kullanılıyor:', e.message);
+      this.questions = fallbackQuestions;
     }
+
+    this.userScore = 0;
+    this.botScore = 0;
+    this.currentIndex = 0;
+    this.renderQuestion();
   }
+
 
   setupUI() {
     this.overlay = document.createElement('div');
