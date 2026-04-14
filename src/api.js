@@ -28,7 +28,7 @@ let _lastRequestTime = 0;
  *  5. Airforce API
  *  6. AllOrigins CORS Proxy → Pollinations
  */
-export async function askAI(message, systemPrompt = '') {
+export async function askAI(message, systemPrompt = '', maxTokens = 350) {
   // Client-side throttle: Aynı anda art arda mesaj atılmasını 2 sn engelle
   const now = Date.now();
   if (now - _lastRequestTime < 2000) {
@@ -71,7 +71,7 @@ export async function askAI(message, systemPrompt = '') {
         body: JSON.stringify({
           input: message.substring(0, 800),
           systemPrompt: sys,
-          maxTokens: 350   // Hız için düşürüldü (kısa eğitim cevapları için yeterli)
+          maxTokens: maxTokens   // Chat: 350 (hızlı), Quiz: 800 (JSON için yeterli)
         }),
         signal: AbortSignal.timeout(15000)
       }).catch((e) => { console.warn('[API] CF fetch error:', e.message); return null; });

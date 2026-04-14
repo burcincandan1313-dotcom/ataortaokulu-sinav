@@ -53,7 +53,7 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
     ];
 
     try {
-      const raw = await askAI(prompt, "Sadece JSON dizisi döndür. Açıklama yazma. Markdown kullanma.");
+      const raw = await askAI(prompt, "Sadece JSON dizisi döndür. Açıklama yazma. Markdown kullanma.", 800);
 
       if (!raw || raw.includes('bekleyin') || raw.length < 20) {
         throw new Error("Geçersiz yanıt");

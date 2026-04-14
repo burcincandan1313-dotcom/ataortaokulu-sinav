@@ -759,7 +759,8 @@ PEDAGOJİK KURALLAR:
 }`;
 
   try {
-    const res = await askAI(qMsg, 'Sen bir soru üretme motorusun. SADECE geçerli JSON döndür. Hiçbir açıklama, selamlama veya Markdown ekleme.');
+    // Quiz için yüksek token — 5 sorulu JSON + açıklama için yeterli alan
+    const res = await askAI(qMsg, 'Sen bir soru üretme motorusun. SADECE geçerli JSON döndür. Hiçbir açıklama, selamlama veya Markdown ekleme.', 800);
     let parsed = null;
     if (res) {
       parsed = extractAndFixQuizJson(res);
