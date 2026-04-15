@@ -109,8 +109,8 @@ async function handleAI(request, env, ctx) {
     return jsonResponse({ error: 'Invalid JSON body.' }, 400);
   }
 
-  const { input, systemPrompt, maxTokens = 400 } = body;
-  if (!input || typeof input !== 'string' || input.length > 1200) {
+  const { input, systemPrompt, maxTokens = 800 } = body;
+  if (!input || typeof input !== 'string' || input.length > 2500) {
     return jsonResponse({ error: 'Invalid input.' }, 400);
   }
 
@@ -146,7 +146,7 @@ async function handleAI(request, env, ctx) {
       const apiUrl = `https://generativelanguage.googleapis.com/${base}/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
 
       const genConfig = {
-        maxOutputTokens: Math.min(maxTokens, 800),
+        maxOutputTokens: Math.min(maxTokens, 2000),
         temperature: 0.7,
         topP: 0.9,
       };
