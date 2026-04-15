@@ -944,7 +944,13 @@ async function generateDynamicQuiz(grade, subject, topic, difficulty, qType, cus
 
   // qType zorlamaları (Front-end 4 şıklı yapı bekler, o yüzden bunu maskeliyoruz)
   if (qType === 'bosluk') {
-    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D). Soru metni yan yana 5 nokta (.....) içersin. (Örn: I have a ..... in my bag). LÜTFEN HİÇBİR YERDE ÇİFT TIRNAK İŞARETİ KULLANMA, TEK TIRNAK (\') KULLAN.';
+    formatTalimat = `Çoktan seçmeli, 4 şık (A, B, C, D). Soru metni içinde tamamlanması gereken bir boşluk için alt tireler (______) kullan. 
+    İstersen cümlenin sonuna ipucu şıkları parantez içinde ekleyebilirsin.
+    Örnek Kalıplar:
+    - I ______ a student. (am / is / are)
+    - Türkiye'nin başkenti ______'dır.
+    - Ders çalıştı ______ sınavda başarılı olamadı. (fakat / veya / çünkü)
+    LÜTFEN HİÇBİR YERDE ÇİFT TIRNAK (") İŞARETİ KULLANMA, TEK TIRNAK (') KULLAN. Açıklamaları (aciklama alanını) EN FAZLA 3 kelime tut ki sorular yarım kesilmesin.`;
   } else if (qType === 'dogru_yanlis') {
     formatTalimat = 'Soru metni doğrudan kesin bir İDDİA (cümle) olmalıdır. (Örn: "Dünya Güneş etrafında döner.") SADECE 2 şık ver! Şıkların içeriği KESİNLİKLE "Doğru" ve "Yanlış" kelimeleri olsun.';
     templateOptions = `{ "A": "Doğru", "B": "Yanlış" }`;
