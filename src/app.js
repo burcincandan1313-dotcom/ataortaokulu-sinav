@@ -2954,16 +2954,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <input type="text" id="dashSearchInput" class="dash-search-input" placeholder="Örn: İngilizce zamanlar, Hücrenin yapısı..." autocomplete="off" style="flex: 1; min-width: 0; background: transparent; border: none; outline: none; color: var(--txt); padding: 12px; font-size: 1rem; opacity: 0.85;">
                 <button class="dash-search-btn" id="dashSearchBtn" title="Ara" style="background: linear-gradient(135deg, var(--acc), var(--acc2)); border: none; height: 42px; width: 42px; border-radius: 50%; color: #fff; cursor: pointer; transition: 0.2s;"><i class="fa-solid fa-arrow-up"></i></button>
               </div>
-            </div>
-            
-            <!-- Filtre Chip'leri -->
-            <div class="dash-filter-row">
-              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenStudyWizard')?.click()"><i class="fa-solid fa-book-open"></i> Konu Çalış</button>
-              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenQuizWizard')?.click()"><i class="fa-solid fa-crosshairs"></i> Test Oluştur</button>
-              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenVoiceExam')?.click()"><i class="fa-solid fa-microphone-lines"></i> Sözlü Sınav</button>
-              <button class="dash-filter-chip" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()"><i class="fa-solid fa-comment-dots"></i> Sohbet</button>
-            </div>
-
             <!-- Kompakt Alt Butonlar yerine 4 Ana Glow Kart -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; width: 100%;">
                <!-- Kart 1: Konu Çalış -->
