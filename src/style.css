@@ -37,8 +37,8 @@
 [data-theme=neon]{--bg:#001a00;--acc:#4ade80;--acc2:#22d3ee;--pan:rgba(0,30,5,0.92);--bmsg:rgba(74,222,128,0.18);--glow:rgba(74,222,128,0.2);}
 [data-theme=cyber]{--bg:#0d0800;--acc:#fbbf24;--acc2:#f97316;--pan:rgba(30,20,0,0.92);--bmsg:rgba(251,191,36,0.15);--glow:rgba(251,191,36,0.2);}
 
-[data-theme=light]{--bg:#f8fafc;--acc:#2563eb;--acc2:#4f46e5;--pan:rgba(255,255,255,0.95);--bmsg:rgba(37,99,235,0.15);--glow:rgba(226,232,240,0.5);--txt:#0f172a;--sub:#475569;--bdr:#cbd5e1;}
-
+[data-theme=light]{--bg:#f8fafc;--nav:#e2e8f0;--acc:#2563eb;--acc2:#4f46e5;--pan:rgba(255,255,255,0.85);--bmsg:rgba(37,99,235,0.15);--glow:rgba(226,232,240,0.5);--txt:#0f172a;--sub:#475569;--bdr:#cbd5e1;}
+[data-theme=light] body { background: linear-gradient(-45deg, #f8fafc, #bae6fd, #e0e7ff, #f8fafc); background-size: 400% 400%; }
 /* === GLOBAL FOR SELECT OPTIONS === */
 select option { background: var(--nav, #1e293b); color: #fff; font-weight: 500; }
 

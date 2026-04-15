@@ -3303,7 +3303,30 @@ if(btnThemeToggle) {
     isDark = !isDark;
     const icon = btnThemeToggle.querySelector('i');
     icon.className = isDark ? "fa-solid fa-moon" : "fa-solid fa-sun";
-    // Gerçek bir aydınlık mode ileride style.css'e eklenecek, şu an dark tabanlı ilerleniyor
-    document.body.style.filter = isDark ? "none" : "invert(0.9) hue-rotate(180deg)";
+    
+    // Gerçek tema değişimi
+    if (!isDark) {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+    }
+  });
+}
+
+// === BİLDİRİM BAZI ===
+const btnNotif = document.getElementById('btnNotif');
+if (btnNotif) {
+  btnNotif.addEventListener('click', () => {
+    if(typeof Swal !== 'undefined') {
+      Swal.fire({
+        title: 'Bildirimler',
+        text: 'Şu an okunmamış yeni bir bildirimin yok!',
+        icon: 'info',
+        confirmButtonText: 'Tamam',
+        confirmButtonColor: '#38bdf8'
+      });
+    } else {
+      alert("Şu an okunmamış yeni bir bildirimin yok!");
+    }
   });
 }
