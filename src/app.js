@@ -3080,6 +3080,45 @@ document.addEventListener('DOMContentLoaded', async () => {
     }, 3500);
   }
   
+  // --- LOGO HOME BUTTON (Ana Sayfaya Dön) ---
+  const btnLogoHome = document.getElementById('btnLogoHome');
+  if (btnLogoHome) {
+     btnLogoHome.addEventListener('click', () => {
+        // Overlay'leri kapat
+        document.querySelectorAll('.game-overlay, .onboard-overlay, .modal-overlay, .cmd-overlay').forEach(el => {
+           el.style.display = 'none';
+        });
+        
+        // Sınav / Ders modlarını sıfırla
+        window.activeQuizSession = false;
+        window.activeOralSession = false;
+        window._activeCharacter = null;
+        
+        // Mode Selector Normal moda ayarla
+        const modeContainer = document.getElementById('modeSelector');
+        if (modeContainer) {
+           modeContainer.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+           const normalBtn = modeContainer.querySelector('.mode-btn'); // first one is normal
+           if (normalBtn) normalBtn.classList.add('active');
+        }
+        
+        // Üst panel başlığını düzelt 
+        const botName = document.getElementById('botName');
+        if (botName) botName.textContent = '🏫 Ata Sohbet — Normal';
+        
+        // Mobildeyse sidebar kapansın
+        const sidebar = document.querySelector('.sidebar');
+        const backdrop = document.getElementById('sidebarBackdrop');
+        if (sidebar && sidebar.classList.contains('active')) {
+           sidebar.classList.remove('active');
+           if (backdrop) backdrop.classList.remove('active');
+        }
+
+        // location reload çalışmıyorsa URL'ye yönlendir
+        window.location.href = window.location.pathname;
+     });
+  }
+  
   // Başlangıç mesajı iptal edildi (Seçim Duvarı otomatik olarak tetikliyor)
 });
 
