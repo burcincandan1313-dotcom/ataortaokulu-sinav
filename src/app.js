@@ -2942,48 +2942,44 @@ document.addEventListener('DOMContentLoaded', async () => {
         const userName = savedNm || 'Öğrenci';
         const dHtml = `
           <div class="welcome-dash-v2">
-            <!-- Renkli Başlık -->
-            <h2 class="dash-hero-title">
-              <span class="dh-b">B</span><span class="dh-u">u</span><span class="dh-g">g</span><span class="dh-u2">ü</span><span class="dh-n">n</span>
-              <span class="dh-space"> </span>
-              <span class="dh-n2">n</span><span class="dh-e">e</span>
-              <span class="dh-space"> </span>
-              <span class="dh-o">ö</span><span class="dh-g2">ğ</span><span class="dh-r">r</span><span class="dh-e2">e</span><span class="dh-n3">n</span><span class="dh-e3">e</span><span class="dh-c">c</span><span class="dh-e4">e</span><span class="dh-k">k</span><span class="dh-s">s</span><span class="dh-i">i</span><span class="dh-n4">n</span><span class="dh-soru">?</span>
+            <!-- Modern Accent Başlık -->
+            <h2 class="dash-hero-title" style="background: linear-gradient(135deg, var(--acc), var(--acc2)); -webkit-background-clip: text; color: transparent; font-weight: 800; letter-spacing: -0.5px;">
+              Bugün ne öğreneceksin?
             </h2>
             
-            <!-- Arama Çubuğu -->
-            <div class="dash-search-wrapper">
-              <div class="dash-search-box">
-                <span class="dash-search-icon">🔍</span>
-                <input type="text" id="dashSearchInput" class="dash-search-input" placeholder="Örn: Kesirler 5. sınıf, Osmanlı Tarihi, İngilizce zamanlar..." autocomplete="off">
-                <button class="dash-search-btn" id="dashSearchBtn" title="Ara">➤</button>
+            <!-- Geniş Arama Çubuğu -->
+            <div class="dash-search-wrapper" style="width: 100%; max-width: 600px; margin: 0 auto;">
+              <div class="dash-search-box" style="display: flex; align-items: center; background: rgba(255,255,255,0.06); border: 2px solid var(--bdr); border-radius: 99px; padding: 4px 6px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.2);">
+                <span class="dash-search-icon" style="margin-left: 12px; color: var(--sub);"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" id="dashSearchInput" class="dash-search-input" placeholder="Örn: İngilizce zamanlar, Hücrenin yapısı..." autocomplete="off" style="flex: 1; min-width: 0; background: transparent; border: none; outline: none; color: var(--txt); padding: 12px; font-size: 1rem; opacity: 0.85;">
+                <button class="dash-search-btn" id="dashSearchBtn" title="Ara" style="background: linear-gradient(135deg, var(--acc), var(--acc2)); border: none; height: 42px; width: 42px; border-radius: 50%; color: #fff; cursor: pointer; transition: 0.2s;"><i class="fa-solid fa-arrow-up"></i></button>
               </div>
             </div>
             
             <!-- Filtre Chip'leri -->
             <div class="dash-filter-row">
-              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenStudyWizard')?.click()">📚 Konu Çalış</button>
-              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenQuizWizard')?.click()">🎯 Test Oluştur</button>
-              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenVoiceExam')?.click()">🎤 Sözlü Sınav</button>
-              <button class="dash-filter-chip" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">💬 Sohbet</button>
+              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenStudyWizard')?.click()"><i class="fa-solid fa-book-open"></i> Konu Çalış</button>
+              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenQuizWizard')?.click()"><i class="fa-solid fa-crosshairs"></i> Test Oluştur</button>
+              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenVoiceExam')?.click()"><i class="fa-solid fa-microphone-lines"></i> Sözlü Sınav</button>
+              <button class="dash-filter-chip" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()"><i class="fa-solid fa-comment-dots"></i> Sohbet</button>
             </div>
 
             <!-- Kompakt Alt Butonlar -->
             <div class="dash-mini-grid">
                <button class="dash-mini-btn" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
-                 <span class="dmb-icon">📚</span>
+                 <span class="dmb-icon"><i class="fa-solid fa-book-open"></i></span>
                  <span class="dmb-text">Konu Çalış</span>
                </button>
                <button class="dash-mini-btn" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
-                 <span class="dmb-icon">🎯</span>
+                 <span class="dmb-icon"><i class="fa-solid fa-crosshairs"></i></span>
                  <span class="dmb-text">Test Sihirbazı</span>
                </button>
                <button class="dash-mini-btn" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
-                 <span class="dmb-icon">🎤</span>
+                 <span class="dmb-icon"><i class="fa-solid fa-microphone-lines"></i></span>
                  <span class="dmb-text">Sözlü Sınav</span>
                </button>
                <button class="dash-mini-btn" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
-                 <span class="dmb-icon">💬</span>
+                 <span class="dmb-icon"><i class="fa-solid fa-comment-dots"></i></span>
                  <span class="dmb-text">Sohbet Başlat</span>
                </button>
             </div>

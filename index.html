@@ -49,6 +49,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- FontAwesome İkonları (Modern, Outline) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <!-- ↓↓↓ TÜM STILLER INLINE — style.css dışa bağımlılık yok ↓↓↓ -->
   <script type="module" src="/src/app.js"></script>
   
@@ -192,16 +194,16 @@
     <div class="v18-sidebar-menu">
        <!-- 1. Eğitim & Sınav -->
        <details class="sb-accordion" open>
-         <summary class="sb-summary">📚 Eğitim & Sınav</summary>
+         <summary class="sb-summary"><i class="fa-solid fa-graduation-cap"></i> Eğitim & Sınav</summary>
          <div class="sb-acc-content">
-            <button class="chip v18-btn" data-qcmd="/normal">💬 Soru Sor (Chat)</button>
-            <button class="chip v18-btn" id="btnOpenQuizWizard">🎯 Test Sihirbazı</button>
-            <button class="chip v18-btn" id="btnOpenStudyWizard">📚 Konu Çalış</button>
-            <button class="chip v18-btn" id="btnOpenSkillTree">🌳 Yetenek Ağacım</button>
-            <button class="chip v18-btn" id="btnOpenVoiceExam">🎤 Sözlü Sınav Modu</button>
-            <button class="chip v18-btn" id="btnOpenLeaderboard" style="color:var(--acc);">🏆 Sınıf Sıralaması</button>
-            <button class="chip v18-btn" id="btnOpenDnaMap" style="color:#22c55e;">🧬 DNA Haritam (Güçlü/Zayıf)</button>
-            <button class="chip v18-btn" id="btnOpenExamHistory">📋 Sınav Geçmişim</button>
+            <button class="chip v18-btn" data-qcmd="/normal"><i class="fa-regular fa-comment-dots"></i> Soru Sor (Chat)</button>
+            <button class="chip v18-btn" id="btnOpenQuizWizard"><i class="fa-solid fa-crosshairs"></i> Test Sihirbazı</button>
+            <button class="chip v18-btn" id="btnOpenStudyWizard"><i class="fa-solid fa-book-open"></i> Konu Çalış</button>
+            <button class="chip v18-btn" id="btnOpenSkillTree"><i class="fa-solid fa-network-wired"></i> Yetenek Ağacım</button>
+            <button class="chip v18-btn" id="btnOpenVoiceExam"><i class="fa-solid fa-microphone-lines"></i> Sözlü Sınav Modu</button>
+            <button class="chip v18-btn" id="btnOpenLeaderboard" style="color:var(--acc);"><i class="fa-solid fa-trophy"></i> Sınıf Sıralaması</button>
+            <button class="chip v18-btn" id="btnOpenDnaMap" style="color:#22c55e;"><i class="fa-solid fa-dna"></i> DNA Haritam</button>
+            <button class="chip v18-btn" id="btnOpenExamHistory"><i class="fa-solid fa-clock-rotate-left"></i> Sınav Geçmişim</button>
          </div>
        </details>
     </div>
@@ -220,11 +222,11 @@
     <div class="quest-card" id="questCard"></div>
 
     <!-- BADGES -->
-    <div class="sec-lbl">🏆 Rozetler</div>
+    <div class="sec-lbl"><i class="fa-solid fa-medal"></i> Rozetler</div>
     <div class="badge-grid" id="badgeGrid"></div>
 
     <div class="divider"></div>
-    <div class="sec-lbl">🎨 Tema</div>
+    <div class="sec-lbl"><i class="fa-solid fa-palette"></i> Tema</div>
     <div class="theme-row">
       <button class="tbtn active" data-t="default" title="Gece Mavisi" data-theme="default"></button>
       <button class="tbtn" data-t="purple" title="Mor Galaksi" data-theme="purple"></button>
@@ -245,7 +247,7 @@
     </div>
 
     <div class="divider"></div>
-    <div class="sec-lbl">📊 İstatistikler</div>
+    <div class="sec-lbl"><i class="fa-solid fa-chart-simple"></i> İstatistikler</div>
     <div class="stat-grid">
       <div class="stat-card"><div class="v" id="stMsg">0</div><div class="l">Mesaj</div></div>
       <div class="stat-card"><div class="v" id="stRules">0</div><div class="l">Öğrenilen</div></div>
@@ -290,23 +292,23 @@
     <div class="v18-sidebar-menu">
        <!-- 2. Oyun & Etkinlik -->
        <details class="sb-accordion" id="gamesAccordion" open>
-         <summary class="sb-summary">🎮 Oyun & Etkinlik</summary>
+         <summary class="sb-summary"><i class="fa-solid fa-gamepad"></i> Oyun & Etkinlik</summary>
          <div class="sb-acc-content">
-            <button class="chip v18-btn" id="btnOpenDuelArena">⚔️ Düello Arenası</button>
-            <button class="chip v18-btn" id="btnOpenGameMenu">🎯 Oyunlar & Klavye Ustası</button>
-            <button class="chip v18-btn" data-qcmd="/sozluk">🖼️ Görsel Sözlük Modülü</button>
-            <button class="chip v18-btn" data-qcmd="/karakter">🎭 Karakter Modu</button>
-            <button class="chip v18-btn" data-qcmd="/çiz">🎨 Görsel Çiz</button>
+            <button class="chip v18-btn" id="btnOpenDuelArena"><i class="fa-solid fa-khanda"></i> Düello Arenası</button>
+            <button class="chip v18-btn" id="btnOpenGameMenu"><i class="fa-solid fa-bullseye"></i> Oyunlar & Klavye Ustası</button>
+            <button class="chip v18-btn" data-qcmd="/sozluk"><i class="fa-solid fa-image"></i> Görsel Sözlük Modülü</button>
+            <button class="chip v18-btn" data-qcmd="/karakter"><i class="fa-solid fa-masks-theater"></i> Karakter Modu</button>
+            <button class="chip v18-btn" data-qcmd="/çiz"><i class="fa-solid fa-paintbrush"></i> Görsel Çiz</button>
          </div>
        </details>
 
        <!-- 3. Rapor & Araçlar -->
        <details class="sb-accordion" open>
-          <summary class="sb-summary">⚙️ Rapor & Araçlar</summary>
+          <summary class="sb-summary"><i class="fa-solid fa-gear"></i> Rapor & Araçlar</summary>
           <div class="sb-acc-content">
-             <button class="chip v18-btn" data-qcmd="/rapor">📊 Veli Karnesi</button>
-             <button class="chip v18-btn" id="btnLogoutUser">🚪 Çıkış</button>
-             <button class="chip v18-btn" id="btnOpenSettings">⚙️ Kuralları Yönet</button>
+             <button class="chip v18-btn" data-qcmd="/rapor"><i class="fa-solid fa-file-invoice"></i> Veli Karnesi</button>
+             <button class="chip v18-btn" id="btnLogoutUser"><i class="fa-solid fa-arrow-right-from-bracket"></i> Çıkış</button>
+             <button class="chip v18-btn" id="btnOpenSettings"><i class="fa-solid fa-sliders"></i> Kuralları Yönet</button>
           </div>
        </details>
     </div>
@@ -325,8 +327,8 @@
 <div class="modal-overlay" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 id="settingsTitle">⚙️ Ayarlar</h2>
-      <button class="btn-close" id="btnCloseSettings" aria-label="Kapat">✖</button>
+      <h2 id="settingsTitle"><i class="fa-solid fa-gear"></i> Ayarlar</h2>
+      <button class="btn-close" id="btnCloseSettings" aria-label="Kapat"><i class="fa-solid fa-xmark"></i></button>
     </div>
 
     <!-- SETTINGS TABS -->
