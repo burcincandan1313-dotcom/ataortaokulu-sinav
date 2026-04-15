@@ -608,7 +608,7 @@ async function handleSendMessage(text) {
        intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic, difficulty: 'medium' };
      } else if (lw.startsWith('/quiz')) {
        // /quiz komutu → direkt quiz intent (AI parse'a gerek yok)
-       intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic || msg, difficulty: 'medium' };
+       intentData = { intent: 'quiz', grade: studySelections.grade, subject: studySelections.subject || 'Genel', topic: studySelections.topic || msg, difficulty: 'medium' };
      } else if (isDersRequest) {
        // /ders komutu veya doğal dilde ders isteği → DOĞRUDAN chat intent (v11SafeParse atla!)
        // Çünkü SafeParse de askAI çağırır → throttle'a takılır → "2 saniye bekleyin" mesajı çıkar
@@ -3330,3 +3330,4 @@ if (btnNotif) {
     }
   });
 }
+

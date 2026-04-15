@@ -60,8 +60,8 @@ export class SkillTree {
       const exp = matchKey ? stats[matchKey] : 0;
       
       let level = 1; // Başlangıçta hepsi 1. level açık olsun
-      if(exp > 5) level = 2;
-      if(exp > 15) level = 3;
+      if(exp > 0) level = 2;
+      if(exp >= 5) level = 3;
 
       let subHtml = '';
       branch.sub.forEach((s, i) => {
@@ -134,6 +134,9 @@ export class SkillTree {
             this.close();
             // Direkt quiz komutunu chat'e bas ve yolla
             const grade = window.studySelections?.grade || 7;
+            if(!window.studySelections) window.studySelections = {};
+            window.studySelections.subject = subject;
+            window.studySelections.topic = sub;
             const msg = `/quiz ${grade}. Sınıf ${subject}, ${sub} konusu hakkında 3 soruluk test oluştur.`;
             const inp = document.getElementById('userInput');
             const btn = document.getElementById('btnSendMessage');
@@ -153,3 +156,4 @@ export class SkillTree {
     }
   }
 }
+
