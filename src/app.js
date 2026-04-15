@@ -944,7 +944,7 @@ async function generateDynamicQuiz(grade, subject, topic, difficulty, qType, cus
 
   // qType zorlamaları (Front-end 4 şıklı yapı bekler, o yüzden bunu maskeliyoruz)
   if (qType === 'bosluk') {
-    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D). Soru metni "....." şeklinde bir boşluk içersin. (Örn: I have a ..... in my bag). Lütfen tırnak işareti kullanmamaya çalış.';
+    formatTalimat = 'Çoktan seçmeli, 4 şık (A, B, C, D). Soru metni yan yana 5 nokta (.....) içersin. (Örn: I have a ..... in my bag). LÜTFEN HİÇBİR YERDE ÇİFT TIRNAK İŞARETİ KULLANMA, TEK TIRNAK (\') KULLAN.';
   } else if (qType === 'dogru_yanlis') {
     formatTalimat = 'Soru metni doğrudan kesin bir İDDİA (cümle) olmalıdır. (Örn: "Dünya Güneş etrafında döner.") SADECE 2 şık ver! Şıkların içeriği KESİNLİKLE "Doğru" ve "Yanlış" kelimeleri olsun.';
     templateOptions = `{ "A": "Doğru", "B": "Yanlış" }`;
@@ -986,8 +986,10 @@ MECBURİ JSON FORMATI (SADECE AŞAĞIDAKİ YAPIYI DÖNDÜR, BAŞKA HİÇBİR ŞE
 
   let rawRes = "<Bos>";
   try {
+    // Cache'de kalmış hatalı üretilmiş küçük JSON'ları ezip yeni response almak için timestamp ekliyoruz
+    const cacheBuster = `\n_noCache: ${Date.now()}_`;
     // Quiz için 2000 Token sınırı: uzun Türkçe hikayeleştirmeler tokenları çabuk doldurur.
-    const res = await askAI(qMsg, 'Sen bir soru üretme motorusun. SADECE geçerli JSON döndür. Hiçbir açıklama, selamlama veya Markdown ekleme.', 2000);
+    const res = await askAI(qMsg + cacheBuster, 'Sen bir soru üretme motorusun. SADECE geçerli JSON dizisi döndür. Asla başka bir karakter ekleme.', 2000);
     rawRes = res;
     console.log("[Quiz Engine] RAW AI Output:\n", res);
     
