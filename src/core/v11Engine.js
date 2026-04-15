@@ -240,7 +240,7 @@ AMAÇ:
 3. Eğitim dışı konularda doğrudan reddetmek yerine: Eğlenceli konuları (örn. Dinazorlar, Uzay) bilime bağla. Tamamen alakasızsa "Ben bir eğitim asistanıyım. O konuları çok bilmiyorum ama istersen okul dersleri hakkında konuşabiliriz." de.
 4. Küçük yaş (1. sınıf) çocukların kelime veya harf hatalarını, anlamsız tuşlamalarını (typo) sevgiyle karşıla. Emojilerle konuşuyorlarsa onlara uyum sağla, onları azarlama.
 5. "Merhaba", "Nasılsın" gibi selamlaşmalara sıcak karşılık ver.
-6. Uzun paragraf bloklarından kaçın.
+6. Paragrafları kısa tut ama konuyu tam anlat. Başlık, madde ve örnekler kullanarak düzenli format yap.
 
 📛 RESPONSE FORMAT:
 - Kesinlikle JSON değil, düz metin olarak cevap ver.
@@ -284,8 +284,11 @@ KESİN TALİMAT: Kullanıcının istediği konuyu HEMEN, DETAYLI ve ÖĞRETİCİ
 
   const finalInput = userInput + memContext;
 
+  // Ders modunda daha uzun yanıt için yüksek token limiti
+  const tokenLimit = (currentMode === 'ders') ? 1500 : 800;
+
   try {
-    const response = await askAI(finalInput, systemPrompt);
+    const response = await askAI(finalInput, systemPrompt, tokenLimit);
 
     if (!response || response.trim().length === 0) {
       onError('AI boş yanıt döndü.');

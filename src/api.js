@@ -28,7 +28,7 @@ let _lastRequestTime = 0;
  *  5. Airforce API
  *  6. AllOrigins CORS Proxy → Pollinations
  */
-export async function askAI(message, systemPrompt = '', maxTokens = 350) {
+export async function askAI(message, systemPrompt = '', maxTokens = 800) {
   // Throttle kaldırıldı: Çünkü V11 Engine arka planda "Niyet Analizi" ve "Cevap Üretimi" olarak 
   // ardışık iki AI çağrısı yapıyor. Arayüzde zaten bekleme kilidi olduğu için kullanıcı spamlara karşı korunuyor.
 
@@ -65,7 +65,7 @@ export async function askAI(message, systemPrompt = '', maxTokens = 350) {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          input: message.substring(0, 800),
+          input: message.substring(0, 1500),
           systemPrompt: sys,
           maxTokens: maxTokens
         }),
