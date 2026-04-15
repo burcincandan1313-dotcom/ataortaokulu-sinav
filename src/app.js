@@ -1938,8 +1938,8 @@ function initOnboarding() {
   if (savedName) {
     if (overlay) overlay.style.display = 'none';
     document.body.classList.remove('ui-locked');
-    const userMeta = document.querySelector('.user-meta');
-    if(userMeta) userMeta.textContent = savedName;
+    const userNameEl = document.querySelector('.user-info h3');
+    if(userNameEl) userNameEl.textContent = savedName;
     // Avatar da varsa güncelle
     const savedAvatar = localStorage.getItem('selectedAvatar') || '🧑‍🎓';
     const avatarEl = document.querySelector('.user-avatar');

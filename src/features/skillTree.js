@@ -59,8 +59,7 @@ export class SkillTree {
       const matchKey = Object.keys(stats).find(k => k.includes(branch.name.toLowerCase().substring(0,3)));
       const exp = matchKey ? stats[matchKey] : 0;
       
-      let level = 0;
-      if(exp > 0) level = 1;
+      let level = 1; // Başlangıçta hepsi 1. level açık olsun
       if(exp > 5) level = 2;
       if(exp > 15) level = 3;
 
@@ -131,10 +130,11 @@ export class SkillTree {
          const sub = node.getAttribute('data-sub');
          const subject = node.getAttribute('data-subject');
          
-         if(typeof window.openStudyWizard !== 'undefined') {
+         if(typeof window.openStudyWizard !== 'undefined' || true) { // Bypass check
             this.close();
-            // Programmatically start a quiz or lesson
-            const msg = `/quiz Ben ${subject} - ${sub} becerimi test etmek istiyorum.`;
+            // Direkt quiz komutunu chat'e bas ve yolla
+            const grade = window.studySelections?.grade || 7;
+            const msg = `/quiz ${grade}. Sınıf ${subject}, ${sub} konusu hakkında 3 soruluk test oluştur.`;
             const inp = document.getElementById('userInput');
             const btn = document.getElementById('btnSendMessage');
             if(inp && btn) {

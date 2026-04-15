@@ -69,7 +69,7 @@ export async function askAI(message, systemPrompt = '', maxTokens = 800) {
           systemPrompt: sys,
           maxTokens: maxTokens
         }),
-        signal: AbortSignal.timeout(15000)
+        signal: AbortSignal.timeout(25000)
       }).catch((e) => { console.warn('[API] CF fetch error:', e.message); return null; });
 
       if (res && res.ok) {
