@@ -576,8 +576,16 @@ async function handleSendMessage(text) {
   }
 
   // ==== 2. YÜKLENİYOR & AI ROUTER SÜRECİ (V11 ENGİNE) ====
-  if (lw.startsWith('/ders')) {
+  // Doğal dilde "ders anlat" kalıbı varsa otomatik ders moduna al
+  const isDersRequest = lw.startsWith('/ders') || (/ders/.test(lw) && /anlat/.test(lw)) || (/konu/.test(lw) && /anlat/.test(lw));
+  if (isDersRequest) {
      currentMode = 'ders';
+     // /ders komutu gelince eski studySelections bağlamı yeni konuyla çakışmasın
+     // Eğer sihirbazdan gelmiyorsa (studySelections.topic=boş ise) eski topic'i temizle
+     if (!studySelections.topic) {
+        studySelections.grade = null;
+        studySelections.subject = '';
+     }
   }
 
   setIsLoading(true);
@@ -601,8 +609,8 @@ async function handleSendMessage(text) {
      } else if (lw.startsWith('/quiz')) {
        // /quiz komutu → direkt quiz intent (AI parse'a gerek yok)
        intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic || msg, difficulty: 'medium' };
-     } else if (lw.startsWith('/ders')) {
-       // /ders komutu → DOĞRUDAN chat intent (v11SafeParse atla!)
+     } else if (isDersRequest) {
+       // /ders komutu veya doğal dilde ders isteği → DOĞRUDAN chat intent (v11SafeParse atla!)
        // Çünkü SafeParse de askAI çağırır → throttle'a takılır → "2 saniye bekleyin" mesajı çıkar
        intentData = { intent: 'chat', object: '', count: 1, subject: '', topic: '', difficulty: 'medium', grade: null };
      } else {
@@ -1160,6 +1168,12 @@ function openTopicChangePopup() {
     }
 
     closePopup();
+
+    // ÖNEMLİ: Eski ders bağlamını temizle ki AI eski konuya takılmasın
+    studySelections.topic = '';
+    studySelections.subject = '';
+    studySelections.grade = null;
+    studySelections.mode = '';
 
     // Ders modu aktif kalsın, yeni konuyu gönder
     handleSendMessage(`/ders ${topic} konusunu detaylıca ve öğretici bir şekilde anlat.`);

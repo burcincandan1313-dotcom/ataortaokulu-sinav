@@ -264,7 +264,18 @@ async function chatEngine(userInput, onTextOutput, onError, context) {
   }
 
   if (currentMode === 'ders' && studySelections?.topic) {
-    systemPrompt += `\n\n[AKTİF DERS BAĞLAMI]: Öğrenci şu an ${studySelections.grade}. Sınıf "${studySelections.subject}" dersinin "${studySelections.topic}" konusunu çalışıyor. SADECE bu ders ve konuyla ilgili sorulara cevap ver! Diğer tüm konuları ve genel kültür sorularını kesinlikle "Şu anda ${studySelections.subject} dersindeyiz, lütfen sadece bu dersle ilgili soru sor." diyerek reddet.`;
+    systemPrompt += `\n\n[AKTİF DERS BAĞLAMI]: Öğrenci şu an ${studySelections.grade}. Sınıf "${studySelections.subject}" dersinin "${studySelections.topic}" konusunu çalışıyor.
+KESİN TALİMAT: Bu konuyu HEMEN ve DETAYLI anlat! "Harika seçim" gibi gereksiz girişler yapma, DOĞRUDAN konuyu öğretmeye başla.
+SADECE bu ders ve konuyla ilgili sorulara cevap ver! Diğer tüm konuları kesinlikle "Şu anda ${studySelections.subject} dersindeyiz, lütfen sadece bu dersle ilgili soru sor." diyerek reddet.`;
+  } else if (currentMode === 'ders') {
+    // Başka Konuya Geç popup'ından veya serbest /ders komutundan geliyorsa
+    // studySelections boş ama kullanıcının mesajında konu var
+    systemPrompt += `\n\n[DERS ANLATIM MODU AKTİF]: Kullanıcı yeni bir konu öğrenmek istiyor.
+KESİN TALİMAT: Kullanıcının istediği konuyu HEMEN, DETAYLI ve ÖĞRETİCİ şekilde anlat!
+- "Harika seçim!", "Güzel konu!" gibi gereksiz övgüler yapma, DOĞRUDAN konuyu öğretmeye başla.
+- Konunun temel kavramlarını, örneklerle ve adım adım açıkla.
+- Önceki konularla veya derslerle bağlantı kurma, SADECE istenen konuya odaklan.
+- "Başka zaman çalışırız" gibi erteleme yapma, ŞİMDİ anlat!`;
   }
 
   if (window.activeOralSession) {

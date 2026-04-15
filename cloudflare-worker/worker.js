@@ -34,7 +34,8 @@ function isAllowedOrigin(origin) {
     'localhost',
     '127.0.0.1',
     '.surge.sh',
-    'ata-asistan'
+    'ata-asistan',
+    'github.io'
   ];
   
   return allowedDomains.some(domain => origin.includes(domain));
@@ -59,7 +60,7 @@ function jsonResponse(data, status = 200, origin = '') {
 }
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     if (request.method === 'OPTIONS') {
       return new Response(null, { status: 204, headers: corsHeaders(request.headers.get('Origin')) });
     }
@@ -67,7 +68,7 @@ export default {
     const url = new URL(request.url);
 
     if (url.pathname === '/api/ai' && request.method === 'POST') {
-      return handleAI(request, env);
+      return handleAI(request, env, ctx);
     }
 
     if (url.pathname === '/api/image' && request.method === 'POST') {
@@ -77,12 +78,12 @@ export default {
     if (url.pathname === '/api/health') {
       return jsonResponse({
         status: 'ok',
-        version: '5.1.0',
-        provider: 'Google Gemini 2.5 + Imagen 4',
+        version: '6.0.0',
+        provider: 'Google Gemini 2.5 + Cloudflare Cache + Pollinations Fallback',
         models: MODEL_CONFIGS.map(c => `${c.model}@${c.base}`),
         imageModels: IMAGEN_MODELS,
         keySet: !!env.GEMINI_API_KEY,
-        tier: 'paid',
+        tier: 'uninterruptible',
       });
     }
 
@@ -90,15 +91,15 @@ export default {
   },
 };
 
-// ===== GEMINI AI PROXY — Gemini 2.5 Beast Mode =====
-async function handleAI(request, env) {
+// ===== GEMINI AI PROXY — ZERO DOWNTIME =====
+async function handleAI(request, env, ctx) {
   const origin = request.headers.get('Origin');
   if (!isAllowedOrigin(origin)) {
     return jsonResponse({ error: 'Unauthorized. İzin verilmeyen kaynak.' }, 403, origin);
   }
 
   if (!env.GEMINI_API_KEY) {
-    return jsonResponse({ error: 'API key not configured on server.' }, 503, request.headers.get('Origin'));
+    return jsonResponse({ error: 'API key not configured on server.' }, 503, origin);
   }
 
   let body;
@@ -116,8 +117,30 @@ async function handleAI(request, env) {
   const sysText = systemPrompt ||
     'Sen yardımcı bir eğitim asistanısın. Türkçe, kısa ve anlaşılır yanıt ver. 6. sınıf öğrencisi seviyesinde konuş.';
 
+  // 1. CLOUDFLARE EDGE CACHE (Önbellek)
+  const cache = caches.default;
+  const cacheString = `sys:${sysText}|user:${input}|maxTokens:${maxTokens}`;
+  const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(cacheString));
+  const hexHash = Array.from(new Uint8Array(hashBuffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+  
+  const url = new URL(request.url);
+  url.pathname = '/api/ai/cache/' + hexHash;
+  const cacheKey = new Request(url.toString(), { method: 'GET' });
+  
+  try {
+    const cachedResponse = await cache.match(cacheKey);
+    if (cachedResponse) {
+      const resClone = cachedResponse.clone();
+      const newHeaders = new Headers(resClone.headers);
+      const corsH = corsHeaders(origin);
+      for (let k in corsH) newHeaders.set(k, corsH[k]);
+      return new Response(resClone.body, { status: resClone.status, headers: newHeaders });
+    }
+  } catch(e) { }
+
   const errors = [];
 
+  // 2. GEMINI 2.5 PRIMARY SYSTEM
   for (const { model, base } of MODEL_CONFIGS) {
     try {
       const apiUrl = `https://generativelanguage.googleapis.com/${base}/models/${model}:generateContent?key=${env.GEMINI_API_KEY}`;
@@ -127,11 +150,6 @@ async function handleAI(request, env) {
         temperature: 0.7,
         topP: 0.9,
       };
-
-      // thinkingBudget: 0 → thinking tokenları üretilmez, maliyet düşer
-      if (model.startsWith('gemini-2.5')) {
-        genConfig.thinkingConfig = { thinkingBudget: 0 };
-      }
 
       const reqBody = {
         system_instruction: { parts: [{ text: sysText }] },
@@ -180,7 +198,7 @@ async function handleAI(request, env) {
 
       const usage = data.usageMetadata || {};
 
-      return jsonResponse({
+      const responseData = {
         text,
         model: `${model}@${base}`,
         tokens: {
@@ -188,14 +206,47 @@ async function handleAI(request, env) {
           output: usage.candidatesTokenCount || 0,
           total: usage.totalTokenCount || 0,
         },
+      };
+
+      // Kaydet (24 Saat Cache)
+      const cached = new Response(JSON.stringify(responseData), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 's-maxage=86400' }
       });
+      ctx.waitUntil(cache.put(cacheKey, cached));
+
+      return jsonResponse(responseData, 200, origin);
 
     } catch (err) {
       errors.push(`${model}@${base}: ${err.message}`);
     }
   }
 
+  // 3. SERVER-SIDE FALLBACK SYSTEM (Polllinations) 
+  // Bypass all Client-Side CORS / IP rate limits!
+  try {
+    const polliUrl = 'https://text.pollinations.ai/' + encodeURIComponent(input.substring(0, 800));
+    const pRes = await fetch(polliUrl, { method: 'GET' });
+    if (pRes.ok) {
+      let t = await pRes.text();
+      t = t.replace(/\n*\[.*?Pollinations.*?\][\s\S]*/gi, '').trim();
+      if (t.length > 2) {
+        const responseData = { text: t, model: 'server-pollinations-fallback', tokens: { total: 0 } };
+        // Cache this fallback too! So we don't spam Pollinations
+        const cached = new Response(JSON.stringify(responseData), {
+          status: 200,
+          headers: { 'Content-Type': 'application/json', 'Cache-Control': 's-maxage=86400' }
+        });
+        ctx.waitUntil(cache.put(cacheKey, cached));
+        return jsonResponse(responseData, 200, origin);
+      }
+    }
+  } catch (err) {
+    errors.push(`pollinations: ${err.message}`);
+  }
+
   console.error('All models failed:', errors);
+  // Hata durumunu 503 olarak don!
   return jsonResponse({ error: 'All AI models unavailable.', details: errors }, 503);
 }
 
@@ -207,7 +258,7 @@ async function handleImage(request, env) {
   }
 
   if (!env.GEMINI_API_KEY) {
-    return jsonResponse({ error: 'API key not configured on server.' }, 503, request.headers.get('Origin'));
+    return jsonResponse({ error: 'API key not configured on server.' }, 503, origin);
   }
 
   let body;
@@ -254,13 +305,12 @@ async function handleImage(request, env) {
         continue;
       }
 
-      // Return image as base64 data URL
       const mimeType = prediction.mimeType || 'image/png';
       return jsonResponse({
         image: `data:${mimeType};base64,${prediction.bytesBase64Encoded}`,
         model,
         mimeType,
-      });
+      }, 200, origin);
 
     } catch (err) {
       errors.push(`${model}: ${err.message}`);
