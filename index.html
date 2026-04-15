@@ -185,7 +185,8 @@
     <!-- USER CARD -->
     <div class="user-card" id="userCard">
       <div class="user-avatar">🧑‍🎓</div>
-      <div class="user-info"><h3>Kullanıcı</h3><div class="user-meta">Giriş yapılmadı</div></div>
+      <div class="user-info"><h3>Kullanıcı</h3><div class="user-meta" id="lvText">Lv.1 Çırak</div></div>
+      <div class="streak-badge" title="Günlük Serisi"><i class="fa-solid fa-fire"></i> 3</div>
     </div>
 
     <div class="divider"></div>
@@ -265,12 +266,21 @@
   <!-- CHAT -->
   <div class="chat-container" role="main" aria-label="Sohbet alanı">
     <div class="chat-header">
+      <button class="mic-btn" id="btnToggleLeft" title="Menüyü Gizle/Aç" style="margin-right:8px;"><i class="fa-solid fa-bars-staggered"></i></button>
       <div class="bot-avatar" id="avatarIcon"><img src="https://img.icons8.com/fluency/96/robot-2.png" alt="Bot"></div>
       <div class="bot-info">
         <h3 id="botName">🏫 Ata Sohbet — Normal</h3>
         <span id="botStatus">🟢 Çevrimiçi</span>
       </div>
-      <button id="btnAudioToggle" class="sound-btn" title="Ses aç/kapat" aria-label="Ses aç/kapat">🔊</button>
+      <div style="display:flex; gap:8px;">
+        <div style="position:relative;">
+          <button id="btnNotif" class="mic-btn" title="Bildirimler"><i class="fa-regular fa-bell"></i></button>
+          <span style="position:absolute; top:-2px; right:-2px; background:var(--acc2); color:white; font-size:0.55rem; padding:2px 4px; border-radius:99px; box-shadow:0 0 5px var(--acc2);">2</span>
+        </div>
+        <button id="btnThemeToggle" class="mic-btn" title="Aydınlık/Karanlık Mod"><i class="fa-solid fa-moon"></i></button>
+        <button id="btnAudioToggle" class="mic-btn" title="Ses aç/kapat" aria-label="Ses aç/kapat"><i class="fa-solid fa-volume-high"></i></button>
+        <button class="mic-btn" id="btnToggleRight" title="Oyunları Gizle/Aç"><i class="fa-solid fa-gamepad"></i></button>
+      </div>
     </div>
     <!-- aria-live: Ekran okuyucular bot yanıtlarını otomatik okur -->
     <div class="chat-body" id="chatbox" aria-live="polite" aria-atomic="false" aria-label="Sohbet geçmişi" role="log">

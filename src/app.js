@@ -2964,24 +2964,35 @@ document.addEventListener('DOMContentLoaded', async () => {
               <button class="dash-filter-chip" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()"><i class="fa-solid fa-comment-dots"></i> Sohbet</button>
             </div>
 
-            <!-- Kompakt Alt Butonlar -->
-            <div class="dash-mini-grid">
-               <button class="dash-mini-btn" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
-                 <span class="dmb-icon"><i class="fa-solid fa-book-open"></i></span>
-                 <span class="dmb-text">Konu Çalış</span>
-               </button>
-               <button class="dash-mini-btn" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
-                 <span class="dmb-icon"><i class="fa-solid fa-crosshairs"></i></span>
-                 <span class="dmb-text">Test Sihirbazı</span>
-               </button>
-               <button class="dash-mini-btn" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
-                 <span class="dmb-icon"><i class="fa-solid fa-microphone-lines"></i></span>
-                 <span class="dmb-text">Sözlü Sınav</span>
-               </button>
-               <button class="dash-mini-btn" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
-                 <span class="dmb-icon"><i class="fa-solid fa-comment-dots"></i></span>
-                 <span class="dmb-text">Sohbet Başlat</span>
-               </button>
+            <!-- Kompakt Alt Butonlar yerine 4 Ana Glow Kart -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; width: 100%;">
+               <!-- Kart 1: Konu Çalış -->
+               <div class="dash-dev-card card-pink" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
+                 <i class="fa-solid fa-book-open"></i>
+                 <h3>Konu Çalış</h3>
+                 <p>Yapay zeka ile adım adım öğren</p>
+               </div>
+               
+               <!-- Kart 2: Test Çöz -->
+               <div class="dash-dev-card card-cyan" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
+                 <i class="fa-solid fa-crosshairs"></i>
+                 <h3>Test Sihirbazı</h3>
+                 <p>Sınav düzeyinde anlık quizler</p>
+               </div>
+               
+               <!-- Kart 3: Sözlü Sınav -->
+               <div class="dash-dev-card card-blue" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
+                 <i class="fa-solid fa-microphone-lines"></i>
+                 <h3>Sözlü Sınav</h3>
+                 <p>Diksiyon ve mikrofon ile test</p>
+               </div>
+               
+               <!-- Kart 4: Normal Sohbet -->
+               <div class="dash-dev-card card-orange" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
+                 <i class="fa-solid fa-comment-dots"></i>
+                 <h3>Sohbet Odası</h3>
+                 <p>Özgürce sorularını sor</p>
+               </div>
             </div>
           </div>
         `;
@@ -3232,5 +3243,77 @@ if ('serviceWorker' in navigator) {
     }).catch(err => {
       console.log('ServiceWorker hata: ', err);
     });
+  });
+}
+
+// === RIPPLE EFFECT (Click Animasyonu) ===
+document.addEventListener('mousedown', function(e) {
+  const target = e.target.closest('button, .dash-dev-card, .v18-btn');
+  if (!target) return;
+  
+  const circle = document.createElement('span');
+  const diameter = Math.max(target.clientWidth, target.clientHeight);
+  const radius = diameter / 2;
+  const rect = target.getBoundingClientRect();
+  
+  circle.style.width = circle.style.height = `${diameter}px`;
+  circle.style.left = `${e.clientX - rect.left - radius}px`;
+  circle.style.top = `${e.clientY - rect.top - radius}px`;
+  circle.classList.add('ripple');
+  
+  if(getComputedStyle(target).position === 'static') {
+    target.style.position = 'relative'; 
+  }
+  target.style.overflow = 'hidden';
+  
+  const rippleElements = target.getElementsByClassName('ripple');
+  for (let r of rippleElements) { r.remove(); }
+  
+  target.appendChild(circle);
+  setTimeout(() => circle.remove(), 600);
+});
+
+// === LAYOUT TOGGLES (V20 Collapsible) ===
+const btnToggleLeft = document.getElementById('btnToggleLeft');
+const btnToggleRight = document.getElementById('btnToggleRight');
+const sidebar = document.querySelector('.sidebar');
+const rightSidebar = document.querySelector('.right-sidebar');
+
+if (btnToggleLeft && sidebar) {
+  btnToggleLeft.addEventListener('click', () => {
+    sidebar.classList.toggle('collapsed');
+    const icon = btnToggleLeft.querySelector('i');
+    if(sidebar.classList.contains('collapsed')) {
+      icon.className = "fa-solid fa-bars";
+    } else {
+      icon.className = "fa-solid fa-bars-staggered";
+    }
+  });
+}
+
+if (btnToggleRight && rightSidebar) {
+  btnToggleRight.addEventListener('click', () => {
+    rightSidebar.classList.toggle('collapsed');
+    const icon = btnToggleRight.querySelector('i');
+    if(rightSidebar.classList.contains('collapsed')) {
+      icon.className = "fa-solid fa-gamepad";
+      icon.style.opacity = "0.5";
+    } else {
+      icon.className = "fa-solid fa-gamepad";
+      icon.style.opacity = "1";
+    }
+  });
+}
+
+// === TEMA TOGGLE ===
+const btnThemeToggle = document.getElementById('btnThemeToggle');
+if(btnThemeToggle) {
+  let isDark = true;
+  btnThemeToggle.addEventListener('click', () => {
+    isDark = !isDark;
+    const icon = btnThemeToggle.querySelector('i');
+    icon.className = isDark ? "fa-solid fa-moon" : "fa-solid fa-sun";
+    // Gerçek bir aydınlık mode ileride style.css'e eklenecek, şu an dark tabanlı ilerleniyor
+    document.body.style.filter = isDark ? "none" : "invert(0.9) hue-rotate(180deg)";
   });
 }
