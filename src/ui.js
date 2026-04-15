@@ -92,6 +92,12 @@ export function streamMessage(html, onDone) {
   // Uzun metinleri kelime kelime yaz
   let i = 0;
   const speed = 18; // ms per word — hızlı ama okunabilir
+
+  // Uzun mesaj: mesajın başlangıcına kaydır (üst kısmı görsün kullanıcı)
+  setTimeout(() => {
+    div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 60);
+
   const interval = setInterval(() => {
     div.textContent = words.slice(0, i + 1).join(' ');
     i++;
@@ -99,11 +105,12 @@ export function streamMessage(html, onDone) {
     if (i >= words.length) {
       clearInterval(interval);
       div.innerHTML = cleanHtml;
-      scrollToBottom();
+      // Bitince mesajın başına kaydır (kullanıcı baştan okusun)
+      setTimeout(() => {
+        div.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 50);
       if (onDone) onDone(div);
     }
-    // Her 5 kelimede bir scroll
-    if (i % 5 === 0) scrollToBottom();
   }, speed);
 
   return div;
