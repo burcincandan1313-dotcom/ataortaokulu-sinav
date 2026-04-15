@@ -2751,7 +2751,12 @@ function initV17SystemWizard() {
   }
 
   const memOverlay = document.getElementById('memorySystemOverlay');
-  if (latestFailedSubject && memOverlay) {
+  
+  // Eğer bu oturumda zaten gösterildiyse bir daha gösterme (Ana sayfa logosuna tıklandığında sürekli çıkmasını engeller)
+  const isMemOverlayShownBefore = sessionStorage.getItem('memOverlayShown');
+
+  if (latestFailedSubject && memOverlay && !isMemOverlayShownBefore) {
+     sessionStorage.setItem('memOverlayShown', 'true');
      s1.classList.add('hidden');
      memOverlay.classList.remove('hidden');
      const uName = localStorage.getItem('mega_name') || "Şampiyon";
