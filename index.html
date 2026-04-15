@@ -421,26 +421,26 @@
         <button class="game-hbtn gcl" onclick="document.getElementById('studyOverlay').style.display='none';" title="Kapat" aria-label="Kapat">✖</button>
       </div>
     </div>
-    <div class="game-body" id="studyBody" style="padding: 20px; overflow-y: auto; max-height: 60vh;">
+    <div class="game-body" id="studyBody" style="padding: 14px 20px; overflow-y: auto; max-height: 75vh;">
       <!-- Step 1: Sınıf Seçimi -->
       <div id="studyStep1">
         <div class="sec-lbl">1️⃣ Sınıfını Seç</div>
-        <div id="studyClassGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px;"></div>
+        <div id="studyClassGrid" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 12px;"></div>
       </div>
       
       <!-- Step 2: Ders Seçimi -->
       <div id="studyStep2" style="display:none;">
         <div class="sec-lbl">2️⃣ Hangi Dersi Çalışmak İstiyorsun?</div>
-        <div id="studySubjectGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin-bottom: 20px;"></div>
+        <div id="studySubjectGrid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 6px; margin-bottom: 12px;"></div>
       </div>
       
       <!-- Step 3: Konu Seçimi -->
       <div id="studyStep3" style="display:none;">
         <div class="sec-lbl">3️⃣ Konuyu Belirle</div>
-        <div id="studyTopicGrid" style="display: grid; grid-template-columns: repeat(1, 1fr); gap: 10px; margin-bottom: 20px;"></div>
+        <div id="studyTopicGrid" style="display: grid; grid-template-columns: repeat(1, 1fr); gap: 6px; margin-bottom: 12px; max-height: 25vh; overflow-y: auto;"></div>
       </div>
       
-      <div id="btnStartStudyContainer" style="display:none; text-align: center; margin-top: 15px;">
+      <div id="btnStartStudyContainer" style="display:none; text-align: center; margin-top: 10px;">
         <button class="btn-save" id="btnStartStudy" style="background: linear-gradient(135deg, var(--acc), var(--acc2)); font-size: 1.1rem; padding: 12px 30px;">🚀 Eğitime Başla!</button>
       </div>
     </div>
