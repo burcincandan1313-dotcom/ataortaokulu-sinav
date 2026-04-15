@@ -99,18 +99,47 @@ export function extractAndFixQuizJson(text) {
       
       let arrEnd = arrPart.lastIndexOf(']');
       
-      if (arrEnd === -1) {
-        // En son başarılı kapanmış objeyi (}) bul
-        const lastObjEnd = arrPart.lastIndexOf('}');
-        if (lastObjEnd !== -1) {
-          // Diziyi force ederek kapat (kırık olan son soruyu dahil etmezk)
-          arrPart = arrPart.substring(0, lastObjEnd + 1) + ']';
-        } else {
-          return null; // Obje bile çıkmamış
-        }
+      // Dacă array-ul e deja închis corect (însă JSON-ul poate avea ceva garbage), tăiem pănă la ]
+      if (arrEnd !== -1 && arrEnd > arrPart.indexOf('}')) {
+          arrPart = arrPart.substring(0, arrEnd + 1);
       } else {
-        // Dizi kapanmış ama ekstra çöp metin varsa temizle
-        arrPart = arrPart.substring(0, arrEnd + 1);
+          // Parantez sayma yöntemi (Brace Counting)
+          let braceCount = 0;
+          let inString = false;
+          let escapeNext = false;
+          let lastValidIndex = -1;
+
+          for (let i = 0; i < arrPart.length; i++) {
+            const char = arrPart[i];
+            if (escapeNext) {
+              escapeNext = false;
+              continue;
+            }
+            if (char === '\\') {
+              escapeNext = true;
+              continue;
+            }
+            if (char === '"') {
+              inString = !inString;
+              continue;
+            }
+            if (!inString) {
+              if (char === '{') {
+                braceCount++;
+              } else if (char === '}') {
+                braceCount--;
+                if (braceCount === 0) {
+                  lastValidIndex = i; // Tamamen kapanmış bir kök objesi bulduk!
+                }
+              }
+            }
+          }
+
+          if (lastValidIndex !== -1) {
+            arrPart = arrPart.substring(0, lastValidIndex + 1) + ']';
+          } else {
+            return null; // Hiçbir obje tam kapanmamış
+          }
       }
 
       // Arrays formatındaki stringi güvenle parse et
