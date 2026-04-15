@@ -27,10 +27,14 @@ export function openStudyWizard(mode) {
   
   studyTitle.textContent = mode === 'quiz' ? '📊 Soru-Cevap Sınavı Oluştur' : '📚 Ders / Konu Anlatımı';
   
-  // Reset steps
+  // Reset steps — sadece step1 görünsün
+  step1.style.display = 'block';
   step2.style.display = 'none';
   step3.style.display = 'none';
   if (btnStartContainer) btnStartContainer.style.display = 'none';
+  
+  // Özet satırlarını temizle
+  clearSummaryBars();
   
   // Sınıf ızgarasını doldur
   const classGrid = document.getElementById('studyClassGrid');
@@ -55,6 +59,18 @@ export function openStudyWizard(mode) {
       studySelections.topic = '';
       step3.style.display = 'none';
       if (btnStartContainer) btnStartContainer.style.display = 'none';
+      
+      // Step 1'i gizle, özet göster
+      step1.style.display = 'none';
+      showSummaryBar('summaryStep1', '1️⃣ Sınıf', i + '. Sınıf', () => {
+        // Geri dönüş: step1'i göster, step2/3 gizle
+        clearSummaryBars();
+        step1.style.display = 'block';
+        step2.style.display = 'none';
+        step3.style.display = 'none';
+        if (btnStartContainer) btnStartContainer.style.display = 'none';
+      });
+      
       populateStudySubjects(i);
       step2.style.display = 'block';
     };
@@ -87,6 +103,40 @@ export function openStudyWizard(mode) {
   }
 }
 
+// Özet çubuğu oluştur (tamamlanan adım için compact satır)
+function showSummaryBar(id, label, value, onClickBack) {
+  const body = document.getElementById('studyBody');
+  if (!body) return;
+  
+  // Varsa eskisini sil
+  const existing = document.getElementById(id);
+  if (existing) existing.remove();
+  
+  const bar = document.createElement('div');
+  bar.id = id;
+  bar.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:8px 12px;margin-bottom:8px;background:rgba(255,255,255,.04);border:1px solid var(--bdr);border-radius:10px;cursor:pointer;transition:.2s;';
+  bar.innerHTML = `
+    <div style="display:flex;align-items:center;gap:8px;">
+      <span style="font-size:.72rem;font-weight:700;color:var(--sub);text-transform:uppercase;">${label}:</span>
+      <span style="font-size:.88rem;font-weight:700;color:var(--acc);">${value}</span>
+    </div>
+    <span style="font-size:.72rem;color:var(--sub);">✏️ Değiştir</span>
+  `;
+  bar.onmouseenter = () => { bar.style.borderColor = 'var(--acc)'; };
+  bar.onmouseleave = () => { bar.style.borderColor = 'var(--bdr)'; };
+  bar.onclick = onClickBack;
+  
+  // step1 öncesine ekle (body'nin başına)
+  body.insertBefore(bar, body.firstChild);
+}
+
+function clearSummaryBars() {
+  ['summaryStep1', 'summaryStep2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.remove();
+  });
+}
+
 function populateStudySubjects(grade) {
   const data = curriculumData[grade];
   if (!data) return;
@@ -110,8 +160,23 @@ function populateStudySubjects(grade) {
       
       studySelections.subject = subj;
       studySelections.topic = '';
-      populateStudyTopics(grade, subj);
+      
+      // Step 2'yi gizle, özet göster
+      const step2 = document.getElementById('studyStep2');
       const step3 = document.getElementById('studyStep3');
+      const btnStartContainer = document.getElementById('btnStartStudyContainer');
+      
+      step2.style.display = 'none';
+      showSummaryBar('summaryStep2', '2️⃣ Ders', subj, () => {
+        // Geri dönüş: step2'yi göster, step3 gizle
+        const s2bar = document.getElementById('summaryStep2');
+        if (s2bar) s2bar.remove();
+        step2.style.display = 'block';
+        step3.style.display = 'none';
+        if (btnStartContainer) btnStartContainer.style.display = 'none';
+      });
+      
+      populateStudyTopics(grade, subj);
       step3.style.display = 'block';
     };
     subjectGrid.appendChild(btn);
