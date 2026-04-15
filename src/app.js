@@ -2926,42 +2926,79 @@ document.addEventListener('DOMContentLoaded', async () => {
      // Chatbox boşsa veya sadece gizli typing-indicator varsa dashboard'u göster!
      const messageElements = chatbox ? chatbox.querySelectorAll('.msg-bot, .msg-user') : [];
      if (savedNm && chatbox && messageElements.length === 0) {
+        const userName = savedNm || 'Öğrenci';
         const dHtml = `
-          <div class="welcome-dash">
-            <h2 class="dash-title">Nereden Başlamak İstersin? 🚀</h2>
-            <div class="dash-grid">
-               <button class="dash-card-btn c1" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
-                 <div class="dash-card-icon">💬</div>
-                 <div class="dash-card-content">
-                    <div class="dash-card-title">1. BÖLÜM (Sohbet Başlat)</div>
-                    <div class="dash-card-desc">Konuş, soru sor, yardım al</div>
-                 </div>
+          <div class="welcome-dash-v2">
+            <!-- Renkli Başlık -->
+            <h2 class="dash-hero-title">
+              <span class="dh-b">B</span><span class="dh-u">u</span><span class="dh-g">g</span><span class="dh-u2">ü</span><span class="dh-n">n</span>
+              <span class="dh-space"> </span>
+              <span class="dh-n2">n</span><span class="dh-e">e</span>
+              <span class="dh-space"> </span>
+              <span class="dh-o">ö</span><span class="dh-g2">ğ</span><span class="dh-r">r</span><span class="dh-e2">e</span><span class="dh-n3">n</span><span class="dh-e3">e</span><span class="dh-c">c</span><span class="dh-e4">e</span><span class="dh-k">k</span><span class="dh-s">s</span><span class="dh-i">i</span><span class="dh-n4">n</span><span class="dh-soru">?</span>
+            </h2>
+            
+            <!-- Arama Çubuğu -->
+            <div class="dash-search-wrapper">
+              <div class="dash-search-box">
+                <span class="dash-search-icon">🔍</span>
+                <input type="text" id="dashSearchInput" class="dash-search-input" placeholder="Örn: Kesirler 5. sınıf, Osmanlı Tarihi, İngilizce zamanlar..." autocomplete="off">
+                <button class="dash-search-btn" id="dashSearchBtn" title="Ara">➤</button>
+              </div>
+            </div>
+            
+            <!-- Filtre Chip'leri -->
+            <div class="dash-filter-row">
+              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenStudyWizard')?.click()">📚 Konu Çalış</button>
+              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenQuizWizard')?.click()">🎯 Test Oluştur</button>
+              <button class="dash-filter-chip" onclick="document.getElementById('btnOpenVoiceExam')?.click()">🎤 Sözlü Sınav</button>
+              <button class="dash-filter-chip" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">💬 Sohbet</button>
+            </div>
+
+            <!-- Kompakt Alt Butonlar -->
+            <div class="dash-mini-grid">
+               <button class="dash-mini-btn" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
+                 <span class="dmb-icon">📚</span>
+                 <span class="dmb-text">Konu Çalış</span>
                </button>
-               <button class="dash-card-btn c2" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
-                 <div class="dash-card-icon">📚</div>
-                 <div class="dash-card-content">
-                    <div class="dash-card-title">2. BÖLÜM (Konu Çalış)</div>
-                    <div class="dash-card-desc">Eksik konularını tamamla</div>
-                 </div>
+               <button class="dash-mini-btn" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
+                 <span class="dmb-icon">🎯</span>
+                 <span class="dmb-text">Test Sihirbazı</span>
                </button>
-               <button class="dash-card-btn c3" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
-                 <div class="dash-card-icon">🎯</div>
-                 <div class="dash-card-content">
-                    <div class="dash-card-title">3. BÖLÜM (Test Sihirbazı)</div>
-                    <div class="dash-card-desc">Sınıfına özel soru tipleriyle testler oluştur</div>
-                 </div>
+               <button class="dash-mini-btn" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
+                 <span class="dmb-icon">🎤</span>
+                 <span class="dmb-text">Sözlü Sınav</span>
                </button>
-               <button class="dash-card-btn c4" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
-                 <div class="dash-card-icon">🎤</div>
-                 <div class="dash-card-content">
-                    <div class="dash-card-title">4. BÖLÜM (Sözlü Sınav)</div>
-                    <div class="dash-card-desc">Yapay zeka öğretmene cevap ver</div>
-                 </div>
+               <button class="dash-mini-btn" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
+                 <span class="dmb-icon">💬</span>
+                 <span class="dmb-text">Sohbet Başlat</span>
                </button>
             </div>
           </div>
         `;
         appendMessage('bot', dHtml);
+
+        // Arama çubuğu event listener
+        setTimeout(() => {
+          const searchInput = document.getElementById('dashSearchInput');
+          const searchBtn = document.getElementById('dashSearchBtn');
+          if (searchInput && searchBtn) {
+            const doSearch = () => {
+              const q = searchInput.value.trim();
+              if (!q) return;
+              // Dashboard'u kaldır
+              const dashEl = document.querySelector('.welcome-dash-v2');
+              if (dashEl) dashEl.closest('.chat-message')?.remove();
+              // Ders modunda arama yap
+              handleSendMessage(q + ' konusunu detaylıca ders anlat');
+            };
+            searchBtn.addEventListener('click', doSearch);
+            searchInput.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter') doSearch();
+            });
+            searchInput.focus();
+          }
+        }, 100);
      }
   }, 400);
   
