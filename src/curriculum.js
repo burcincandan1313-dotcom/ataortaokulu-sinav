@@ -208,13 +208,32 @@ export const curriculumData = {
     }
   };
   
-  for (let i = 1; i <= 4; i++) {
-     if (!curriculumData[i]) {
-         curriculumData[i] = {
-             "Matematik": ["Sayılar ve Nitelikleri", "Niceliklerin Değişimi", "Geometrik Şekiller", "Kesirler", "Zaman Ölçme"],
-             "Türkçe": ["Sözlü İletişim", "Okuma", "Yazılı Üretim", "Anlam Bilgisi", "Noktalama"],
-             "Hayat Bilgisi": ["Okulumuz", "Evimiz", "Sağlıklı Hayat", "Güvenlik", "Doğa ve Toplum"],
-             "İngilizce": ["Words", "Friends", "In the Classroom", "Numbers", "Colors", "Toys and Games"]
-         };
-     }
-  }
+  curriculumData[1] = {
+      "Türkçe": ["Okuma Yazma Hazırlığı", "Sözlü İletişim", "Temel Okuma Anlama"],
+      "Matematik": ["Sayılar ve Nitelikleri", "Niceliklerin Değişimi (Toplama/Çıkarma)", "Uzamsal Şekiller"],
+      "Hayat Bilgisi": ["Okulumuzda Hayat", "Evimizde Hayat", "Sağlıklı Hayat"]
+  };
+
+  curriculumData[2] = {
+      "Türkçe": ["Okuma Kültürü", "Dinleme/İzleme Becerisi", "Yazılı Anlatım Stratejileri"],
+      "Matematik": ["Doğal Sayılarla İşlemler", "Uzunluk ve Zaman Ölçme", "Geometrik Şekiller"],
+      "Hayat Bilgisi": ["Güvenli Hayat", "Ülkemizde Hayat", "Doğada Hayat"],
+      "İngilizce": ["Words", "Friends", "In the Classroom", "Numbers", "Colors"]
+  };
+
+  curriculumData[3] = {
+      "Türkçe": ["Görsel Okuma", "Çıkarım Yapma", "Metin Üretimi", "Dil Bilgisi Temelleri"],
+      "Matematik": ["Üç Basamaklı Sayılar", "Çarpma/Bölme", "Kesirsel Çokluklar", "Veri Toplama"],
+      "Fen Bilimleri": ["Gezegenimiz Dünya", "Beş Duyumuz", "Katı/Sıvı/Gaz Maddeleri", "Çevremizdeki Işık ve Ses"],
+      "Hayat Bilgisi": ["Çevre Bilinci", "Yönetim Birimleri"],
+      "İngilizce": ["Greeting", "My Family", "Feelings", "Toys and Games"]
+  };
+
+  curriculumData[4] = {
+      "Türkçe": ["Bağlamdan Anlam Çıkarma", "Bilgilendirici ve Edebi Metinler", "İleri Yazılı Anlatım"],
+      "Matematik": ["Dört Basamaklı Sayılar", "Kesirlerde İşlemler", "Şekillerin Çevresi/Alanı", "Açı Ölçme"],
+      "Fen Bilimleri": ["Yer Kabuğu", "Besinlerimiz", "Gündelik Yaşamda Kuvvet", "Madde ve Hal Değişimi", "Basit Elektrik Devreleri"],
+      "Sosyal Bilgiler": ["Birey ve Toplum", "Kültür ve Miras", "İnsanlar/Yerler", "Üretim/Tüketim"],
+      "Din Kültürü ve Ahlak Bilgisi": ["Din ve Ahlak Hakkında İfadeler", "İslam'ı Tanıyoruz"],
+      "İngilizce": ["Classroom Rules", "Nationality", "Cartoon Characters", "Free Time", "Jobs"]
+  };
