@@ -1,5 +1,5 @@
 /* ============================================
-   MEGA Asistan Bot v10.0 PRO â€” Styles
+   MEGA Asistan Bot v10.0 PRO "” Styles
    ============================================ */
 
 /* === DESIGN TOKENS (V18 MIDNIGHT PREMÄ°UM TEMA) === */
@@ -351,7 +351,7 @@ h1, h2, h3, h4, h5, h6, .onb-title, .main-site-title { font-family: 'Poppins', s
 .hacker-mode #matrixCanvas{display:block;}
 #confettiCanvas{position:fixed;inset:0;z-index:9997;pointer-events:none;display:none;}
 
-/* === MOBILE (Overhauled â€” Off-Canvas Sidebar + Overflow Fix) === */
+/* === MOBILE (Overhauled "” Off-Canvas Sidebar + Overflow Fix) === */
 .mobile-menu-btn{display:none;position:fixed;top:12px;left:12px;z-index:1050;background:var(--pan);border:1px solid var(--bdr);border-radius:10px;padding:8px 11px;cursor:pointer;font-size:1.2rem;backdrop-filter:blur(10px);}
 .sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1040;backdrop-filter:blur(4px);opacity:0;transition:opacity .3s;}
 .sidebar-backdrop.active{display:block;opacity:1;}
@@ -386,7 +386,7 @@ h1, h2, h3, h4, h5, h6, .onb-title, .main-site-title { font-family: 'Poppins', s
   .main-container{padding:0 6px 6px;flex-direction:column;overflow-x:hidden;width:100%;box-sizing:border-box;}
   .ticker-bar{margin-top:50px;border-radius:8px;max-width:100%;}
 
-  /* Chat ayarlarÄ± â€” mobilde tam geniÅŸlik */
+  /* Chat ayarlarÄ± "” mobilde tam geniÅŸlik */
   .chat-container{border-radius:14px;max-height:calc(100dvh - 80px);}
   .chat-header{padding:10px 12px;}
   .chat-footer{padding:10px 8px;gap:6px;}
@@ -879,7 +879,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   MODAL DISPLAY FIX â€” display:flex ile gÃ¶ster
+   MODAL DISPLAY FIX "” display:flex ile gÃ¶ster
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .modal-overlay[style*="display: flex"],
 .modal-overlay[style*="display:flex"] {
@@ -898,7 +898,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   SIDEBAR BACKDROP (Mobile) â€” unified with .active above
+   SIDEBAR BACKDROP (Mobile) "” unified with .active above
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -959,7 +959,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 .daily-fact-text b { color: var(--acc); }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   GAME MENU GRID â€” Oyun kartlarÄ±
+   GAME MENU GRID "” Oyun kartlarÄ±
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .game-menu-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
@@ -1135,7 +1135,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 .markdown-body blockquote { border-left: 3px solid var(--acc); padding-left: 10px; color: var(--sub); margin-bottom: 12px; font-style: italic; }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   INTERACTIVE QUIZ ENGINE â€” Step-by-step Question System
+   INTERACTIVE QUIZ ENGINE "” Step-by-step Question System
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .iq-container {
   width: 100%; max-width: 580px; margin: 0 auto;
@@ -1268,7 +1268,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 .iq-result-btn.secondary { background: rgba(255,255,255,.06); border: 1px solid var(--bdr); color: var(--txt); }
 .iq-result-btn.secondary:hover { border-color: var(--acc); background: rgba(59,130,246,.08); }
 
-/* === SINAVLARIM â€” Exam History Panel === */
+/* === SINAVLARIM "” Exam History Panel === */
 .iq-history { width: 100%; max-width: 580px; margin: 0 auto; animation: fadeIn .3s ease-out; }
 .iq-history-title {
   font-size: 1.1rem; font-weight: 800; color: var(--txt);
@@ -1315,7 +1315,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 .iq-history-clear:hover { background: rgba(239,68,68,.2); border-color: #ef4444; }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   DERS MODU AKSÄ°YON BUTONLARI â€” Devam Et / SÄ±nav / BaÅŸka Konu
+   DERS MODU AKSÄ°YON BUTONLARI "” Devam Et / SÄ±nav / BaÅŸka Konu
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .lesson-action-bar {
   display: flex;
@@ -1433,7 +1433,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   KONU DEÄÄ°ÅTÄ°R POPUP â€” Glassmorphism Mini Modal
+   KONU DEÄÄ°ÅTÄ°R POPUP "” Glassmorphism Mini Modal
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .topic-popup-overlay {
   position: fixed;
@@ -1801,12 +1801,8 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
   display: flex; align-items: center; justify-content: space-between;
 }
 .sb-summary::-webkit-details-marker { display: none; }
-.sb-summary::after {
-  content: "â–¼"; font-size: 0.8rem; color: var(--sub); transition: transform 0.3s ease;
-}
-.sb-accordion[open] .sb-summary::after {
-  transform: rotate(180deg); color: var(--acc);
-}
+
+.sb-accordion[open] 
 .sb-acc-content {
   padding: 8px 12px 16px 12px; display: flex; flex-direction: column; gap: 6px;
   border-top: 1px dashed var(--bdr);
@@ -2385,7 +2381,7 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
 .etb-text { font-weight: 600; line-height: 1.2; }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   WELCOME DASHBOARD V2 â€” Google Style
+   WELCOME DASHBOARD V2 "” Google Style
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .welcome-dash-v2 {
   width: 100%;
@@ -2594,4 +2590,14 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
   background: rgba(255,255,255,0.25);
   border-color: rgba(255,255,255,0.6);
   transform: scale(1.15);
+}
+
+.sb-summary .acc-arrow {
+  color: var(--sub);
+  font-size: 0.8rem;
+  transition: transform 0.3s ease;
+}
+.sb-accordion[open] .sb-summary .acc-arrow {
+  transform: rotate(180deg);
+  color: var(--acc);
 }
