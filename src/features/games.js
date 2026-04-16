@@ -422,6 +422,28 @@ function renderSudoku(body) {
 
 // —— Klavye Ustası (ZType Clone) ——
 function renderZTypeGame(body) {
+  body.innerHTML = `
+    <div style="text-align:center;padding:30px 20px;max-width:400px;margin:0 auto;">
+      <div style="font-size:3.5rem;margin-bottom:12px;">⌨️</div>
+      <h3 style="color:var(--acc);margin-bottom:8px;font-size:1.4rem;">Klavye Ustası</h3>
+      <p style="color:var(--sub);font-size:0.85rem;margin-bottom:24px;">Düşen kelimeleri hızlıca yazarak imha et!</p>
+      <div style="display:flex;flex-direction:column;gap:10px;max-width:280px;margin:0 auto;">
+        <button data-speed="slow" class="zt-lvl-btn" style="padding:14px 20px;border-radius:12px;border:2px solid #22c55e;background:rgba(34,197,94,.12);color:#22c55e;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;">🐢 Yavaş — Kolay</button>
+        <button data-speed="medium" class="zt-lvl-btn" style="padding:14px 20px;border-radius:12px;border:2px solid #f59e0b;background:rgba(245,158,11,.12);color:#f59e0b;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;">⚡ Orta — Normal</button>
+        <button data-speed="fast" class="zt-lvl-btn" style="padding:14px 20px;border-radius:12px;border:2px solid #ef4444;background:rgba(239,68,68,.12);color:#ef4444;font-weight:700;font-size:1rem;cursor:pointer;transition:all .2s;">🔥 Hızlı — Zor</button>
+      </div>
+    </div>
+  `;
+  body.querySelectorAll('.zt-lvl-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => { btn.style.transform = 'scale(1.04)'; });
+    btn.addEventListener('mouseleave', () => { btn.style.transform = 'scale(1)'; });
+    btn.addEventListener('click', () => startZTypeCore(body, btn.getAttribute('data-speed')));
+  });
+}
+
+function startZTypeCore(body, speedLevel) {
+  const speedCfg = { slow: { drop: 0.55, spawn: 3000 }, medium: { drop: 1.0, spawn: 2000 }, fast: { drop: 1.8, spawn: 1200 } };
+  const cfg = speedCfg[speedLevel] || speedCfg.medium;
   const dictionary = [
     "ATATÜRK", "BİLİM", "SANAT", "EVREN", "GÜNEŞ", "BİLGİSAYAR", "YAZILIM", "KODLAMA",
     "KLAVYE", "EKRAN", "TÜRKİYE", "İSTANBUL", "ANKARA", "YILDIZ", "GEZEGEN", "ASTRONOMİ",
@@ -434,8 +456,8 @@ function renderZTypeGame(body) {
   let health = 5;
   let activeWords = [];
   let currentTarget = null;
-  let dropSpeed = 1; // px per frame
-  let spawnRate = 2000; // ms
+  let dropSpeed = cfg.drop;
+  let spawnRate = cfg.spawn;
   let isGameOver = false;
   let gameLoop;
   let spawnLoop;
@@ -445,11 +467,11 @@ function renderZTypeGame(body) {
   // Temel UI kurulumu
   body.innerHTML = `
     <div style="padding:10px;">
-      <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;flex-wrap:wrap;gap:6px;">
          <span style="font-weight:bold; color:var(--acc);">Skor: <span id="ztScore">0</span> | Seviye: <span id="ztLevel">1</span></span>
          <span style="font-weight:bold; color:#ef4444;">Can: <span id="ztHealth">${"❤️".repeat(health)}</span></span>
       </div>
-      <div class="ztype-container" id="ztContainer">
+      <div class="ztype-container" id="ztContainer" style="height:clamp(360px,58vh,560px);position:relative;">
         <div class="ztype-shooter"></div>
         <div class="ztype-laser" id="ztLaser" style="opacity:0;"></div>
       </div>
@@ -551,7 +573,7 @@ function renderZTypeGame(body) {
 
   function handleKeydown(e) {
     if (isGameOver) return;
-    
+    if (e.key === 'Escape') { gameOver(); return; }
     // İngilizce karakterlere çevir veya direkt al (Klavye farkları için büyük harf)
     const key = e.key.toLocaleUpperCase('tr-TR');
     if (!/^[A-ZÇĞİÖŞÜ]$/.test(key)) return;

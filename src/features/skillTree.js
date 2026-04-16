@@ -13,7 +13,7 @@ export class SkillTree {
       core: { name: "Ata Çekirdeği", level: 1, req: 0 },
       branches: [
         { id: "math", name: "Matematik", sub: ["Sayılar", "Geometri", "Cebir"], icon: "🔢", color: "#3b82f6" },
-        { id: "sci", name: "Fen Bilimleri", sub: ["Fizik", "Kimya", "Biyoloji"], icon: "🔬", color: "#10b981" },
+        { id: "sci", name: "Fen Bilimleri", sub: ["Kuvvet ve Enerji", "Madde ve Karışımlar", "Işık ve Ses"], icon: "🔬", color: "#10b981" },
         { id: "lang", name: "Türkçe", sub: ["Dil Bilgisi", "Paragraf", "Kelime"], icon: "📖", color: "#f59e0b" },
         { id: "social", name: "Sosyal", sub: ["Tarih", "Coğrafya", "Vatandaşlık"], icon: "🌍", color: "#6366f1" }
       ]

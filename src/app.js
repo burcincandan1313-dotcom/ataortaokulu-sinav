@@ -606,6 +606,9 @@ async function handleSendMessage(text) {
      if (currentMode === 'quiz' && window.activeQuizSession) {
        // Quiz modu aktif → direkt quiz intent
        intentData = { intent: 'quiz', grade: studySelections.grade, topic: studySelections.topic, difficulty: 'medium' };
+     } else if (window.activeOralSession) {
+       // Sozlu sinav modu aktif (direkt chat, quiz tetiklenmemeli)
+       intentData = { intent: 'chat', object: '', count: 1, subject: '', topic: '', difficulty: 'medium', grade: null };
      } else if (lw.startsWith('/quiz')) {
        // /quiz komutu → direkt quiz intent (AI parse'a gerek yok)
        intentData = { intent: 'quiz', grade: studySelections.grade, subject: studySelections.subject || 'Genel', topic: studySelections.topic || msg, difficulty: 'medium' };
@@ -1102,6 +1105,48 @@ function appendLessonActionButtons() {
   });
 }
 
+
+// ═══════════════════════════════════════════
+// SOZLU SINAV AKSIYON BUTONLARI
+// ═══════════════════════════════════════════
+function appendOralExamButtons() {
+  const chatbox = document.getElementById('chatbox');
+  if (!chatbox) return;
+
+  const barId = 'oral-action-bar-' + Date.now();
+  const wrapper = document.createElement('div');
+  wrapper.className = 'msg bot';
+  wrapper.innerHTML = `
+    <div id="${barId}" style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;padding:10px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;">
+      <button class="oral-next-btn" style="padding:8px 16px;background:linear-gradient(135deg,#00d4ff,#3a7bfd);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.85rem;">Sonraki Soru</button>
+      <button class="oral-end-btn" style="padding:8px 16px;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-weight:700;cursor:pointer;font-size:0.85rem;">Sinavi Bitir</button>
+    </div>
+  `;
+  chatbox.appendChild(wrapper);
+  chatbox.scrollTop = chatbox.scrollHeight;
+
+  const bar = document.getElementById(barId);
+  if (!bar) return;
+
+  const nextBtn = bar.querySelector('.oral-next-btn');
+  const endBtn = bar.querySelector('.oral-end-btn');
+
+  const disableAll = () => {
+    [nextBtn, endBtn].forEach(b => { if(b){ b.disabled=true; b.style.opacity='0.5'; b.style.pointerEvents='none'; }});
+  };
+
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    disableAll();
+    handleSendMessage('Devam et, bana bir sonraki sozlu soruyu sor ve onceki cevabimi degerlendirerek basla.');
+  });
+
+  if (endBtn) endBtn.addEventListener('click', () => {
+    disableAll();
+    window.activeOralSession = false;
+    handleSendMessage('Sozlu sinavi bitirdim. Genel bir degerlendirme yap ve toplam performansimi ozet olarak sun.');
+  });
+}
+
 // ═══════════════════════════════════════════
 // KONU DEĞİŞTİR POPUP
 // ═══════════════════════════════════════════
@@ -1147,7 +1192,6 @@ function openTopicChangePopup() {
     setTimeout(() => popup.remove(), 300);
   };
 
-  // Arka plana tıklayınca kapat
   // Arka plana tıklayınca kapat
   popup.addEventListener('click', (e) => {
     if (e.target === popup) closePopup();
@@ -1261,7 +1305,9 @@ document.addEventListener('DOMContentLoaded', () => {
          
          if(btnSend && userInput) {
             window.activeOralSession = true;
-            userInput.value = "Şu andan itibaren Sözlü Mülakat Modundasın. Bana dersimle ilgili kısa bir sözlü sorusu sor. Ben cevaplayınca not verip diğerine geç.";
+            window.oralQuestionCount = 0;
+            window.oralMaxQuestions = 5;
+            userInput.value = "Sözlü Mülakat Modunu başlat: Bana ders konularımla ilgili SADECE tek bir kısa soru sor. Ben cevapla, sen de cevabımı değerlendirip büyuk/küçük harfle 'SORU [N]' başlığı altında bir sonraki soru sor.";
             btnSend.click();
             setTimeout(() => {
                if(btnToggleVoice) btnToggleVoice.click();
@@ -1847,6 +1893,40 @@ function setupEventListeners() {
   // ═══════════════════════════════════════════
   // Performans Modu toggle
   // ═══════════════════════════════════════════
+  
+  // ═══════════════════════════════════════════
+  // MENÜ BİLGİ BUTONU (?) handler
+  // ═══════════════════════════════════════════
+  const btnMenuInfo = document.getElementById('btnMenuInfo');
+  if (btnMenuInfo) {
+    btnMenuInfo.addEventListener('click', () => {
+      if (typeof Swal !== 'undefined') {
+        Swal.fire({
+          title: 'Ata Mentor Hakkinda',
+          html: `
+            <div style="text-align:left; line-height:1.7; font-size:0.92rem;">
+              <p style="margin-bottom:10px;"><b>Ata Mentor</b>, ortaokul ogrencilerine yonelik yapay zeka destekli ogrenme asistanidir.</p>
+              <ul style="padding-left:18px; color:#94a3b8; list-style:disc;">
+                <li style="margin-bottom:6px;">Derslerini <b>sohbet ederek</b> ogrenebilirsin</li>
+                <li style="margin-bottom:6px;">Istedigin konuda <b>test/quiz</b> cozebilirsin</li>
+                <li style="margin-bottom:6px;"><b>Sozlu sinav</b> modunda sorulara sesli cevap verebilirsin</li>
+                <li style="margin-bottom:6px;"><b>Oyun merkezi</b>nde egitici oyunlar oynayabilirsin</li>
+                <li style="margin-bottom:6px;"><b>Yetenek agaci</b>nda ilerlemeyi takip edebilirsin</li>
+              </ul>
+              <p style="margin-top:10px; color:var(--acc); font-weight:700;">Hazirsan baslayalim!</p>
+            </div>
+          `,
+          confirmButtonText: 'Anlaydum!',
+          confirmButtonColor: '#00d4ff',
+          background: '#0f172a',
+          color: '#f8fafc',
+          iconColor: '#00d4ff',
+          icon: 'info'
+        });
+      }
+    });
+  }
+
   const toggleLowEnd = document.getElementById('toggleLowEnd');
   if (toggleLowEnd) {
     toggleLowEnd.checked = document.body.classList.contains('lowend');
@@ -3295,39 +3375,5 @@ if (btnToggleRight && rightSidebar) {
   });
 }
 
-// === TEMA TOGGLE ===
-const btnThemeToggle = document.getElementById('btnThemeToggle');
-if(btnThemeToggle) {
-  let isDark = true;
-  btnThemeToggle.addEventListener('click', () => {
-    isDark = !isDark;
-    const icon = btnThemeToggle.querySelector('i');
-    icon.className = isDark ? "fa-solid fa-moon" : "fa-solid fa-sun";
-    
-    // Gerçek tema değişimi
-    if (!isDark) {
-      document.documentElement.setAttribute('data-theme', 'light');
-    } else {
-      document.documentElement.removeAttribute('data-theme');
-    }
-  });
-}
-
-// === BİLDİRİM BAZI ===
-const btnNotif = document.getElementById('btnNotif');
-if (btnNotif) {
-  btnNotif.addEventListener('click', () => {
-    if(typeof Swal !== 'undefined') {
-      Swal.fire({
-        title: 'Bildirimler',
-        text: 'Şu an okunmamış yeni bir bildirimin yok!',
-        icon: 'info',
-        confirmButtonText: 'Tamam',
-        confirmButtonColor: '#38bdf8'
-      });
-    } else {
-      alert("Şu an okunmamış yeni bir bildirimin yok!");
-    }
-  });
-}
+// Tema toggle setupVayBeFeatures() icinde yonetiliyor.
 
