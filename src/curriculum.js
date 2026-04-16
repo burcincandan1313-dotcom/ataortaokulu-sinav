@@ -41,7 +41,7 @@ export const curriculumData = {
         "Tüketim Bilinci ve Üretim, Dağıtım",
         "Yaşayan Demokrasi ve Etkin Vatandaşlık"
       ],
-      "İngilizce": ["Hello! (Tanışma)","My Town (Şehrim)","Games and Hobbies","My Daily Routine","Health (Sağlık)","Movies (Filmler)","Party Time","Fitness","The Animal Shelter","Festivals"],
+      "İngilizce": ["Theme 1: School Life", "Theme 2: Classroom Life", "Theme 3: Personal Life", "Theme 4: Family Life", "Theme 5: Homes, Houses and Neighbourhood", "Theme 6: Life in the City and the World"],
       "Bilişim Teknolojileri": ["Bilişim Teknolojileri ve Etik Algı","Problem Çözme ve Temel Algoritmalar","Kelime İşlemci ve Dijital Üretim","İnternet Güvenliği"],
       "Din Kültürü ve Ahlak Bilgisi": ["Allah İnancı","İbadet Konusunda Bilgiler","Hz. Muhammed'in Hayatı","Kur'an-ı Kerim'i Tanıyalım","Sevinç ve Üzüntülerimizi Paylaşalım"],
       "Beden Eğitimi ve Müzik": ["Ritim", "Ses", "Hareket Yetkinliği", "Oyun"]
@@ -82,7 +82,7 @@ export const curriculumData = {
         "Üretim Bağlamı: Ülkemizin Kaynakları",
         "Etkin Vatandaş: Demokrasinin Serüveni"
       ],
-      "İngilizce": ["Life (Hayat)","Yummy Breakfast","Downtown (Şehir Merkezi)","Weather and Emotions","At the Fair","Occupations","Holidays","Bookworms","Saving the Planet","Democracy"],
+      "İngilizce": ["Theme 1: School Life", "Theme 2: Classroom Life", "Theme 3: Personal Life", "Theme 4: Family Life", "Theme 5: Homes, Houses and Neighbourhood", "Theme 6: Life in the City and the World"],
       "Bilişim Teknolojileri": ["Bilgi İşlemsel Düşünme","Algoritma Mimarisi","Elektronik Tablolama","Siber Güvenlik"],
       "Din Kültürü ve Ahlak Bilgisi": ["Peygamberlere ve İlahi Kitaplara İman","Hz. Muhammed'in Örnek Ahlakı","Namaz İbadeti","Kur'an-ı Kerim ve Özellikleri","İslam ve Güzel Ahlak"]
     },
@@ -123,7 +123,7 @@ export const curriculumData = {
         "Ekonomik İstikrar ve Sosyal Hayat",
         "Yaşayan Demokrasi Standartları"
       ],
-      "İngilizce": ["Appearance and Personality","Sports","Biographies","Wild Animals","Television","Celebrations","Dreams","Public Buildings","Environment","Planets"],
+      "İngilizce": ["Theme 1: School Life", "Theme 2: Classroom Life", "Theme 3: Personal Life", "Theme 4: Family Life", "Theme 5: Homes, Houses and Neighbourhood", "Theme 6: Life in the City and the World"],
       "Bilişim Teknolojileri": ["Blok Tabanlı Programlama Kararları","Veritabanı Mantığı","Bilgi Güvenliği"],
       "Din Kültürü ve Ahlak Bilgisi": ["Melek ve Ahiret İnancı","Hz. Muhammed'in Örnekliği","Kur'an'dan Mesajlar","İslam Düşüncesinde Ahlaki Değerler","Din ve Hayat"]
     },
@@ -166,7 +166,7 @@ export const curriculumData = {
         "Çağdaşlaşan Türkiye'de Demokratikleşme",
         "Tutarlı ve Güçlü Dış Politika: Atatürk Dönemi"
       ],
-      "İngilizce": ["Friendship","Teen Life","In The Kitchen","On The Phone","The Internet","Adventures","Tourism","Chores","Science","Natural Forces"],
+      "İngilizce": ["Theme 1: School Life", "Theme 2: Classroom Life", "Theme 3: Personal Life", "Theme 4: Family Life", "Theme 5: Homes, Houses and Neighbourhood", "Theme 6: Life in the City and the World"],
       "Bilişim Teknolojileri": ["Yapay Zeka ve Makine Öğrenmesi (Metin Tabanlı Programlama)", "Robotik Mantık"],
       "Din Kültürü ve Ahlak Bilgisi": ["Kader İnancı","Zekat ve Hac İbadetlerinin Sosyal Etkisi","Hz. Muhammed'in Hayatından Örnek Tutumlar","Kur'an Merkezli Evrensel Değerler"]
     },
@@ -218,7 +218,7 @@ export const curriculumData = {
       "Türkçe": ["Okuma Kültürü", "Dinleme/İzleme Becerisi", "Yazılı Anlatım Stratejileri"],
       "Matematik": ["Doğal Sayılarla İşlemler", "Uzunluk ve Zaman Ölçme", "Geometrik Şekiller"],
       "Hayat Bilgisi": ["Güvenli Hayat", "Ülkemizde Hayat", "Doğada Hayat"],
-      "İngilizce": ["Words", "Friends", "In the Classroom", "Numbers", "Colors"]
+      "İngilizce": ["Theme 1: School Life", "Theme 2: Classroom Life", "Theme 3: Personal Life", "Theme 4: Family Life", "Theme 5: Homes and Neighbourhoods", "Theme 6: Life in the City"]
   };
 
   curriculumData[3] = {
@@ -226,7 +226,7 @@ export const curriculumData = {
       "Matematik": ["Üç Basamaklı Sayılar", "Çarpma/Bölme", "Kesirsel Çokluklar", "Veri Toplama"],
       "Fen Bilimleri": ["Gezegenimiz Dünya", "Beş Duyumuz", "Katı/Sıvı/Gaz Maddeleri", "Çevremizdeki Işık ve Ses"],
       "Hayat Bilgisi": ["Çevre Bilinci", "Yönetim Birimleri"],
-      "İngilizce": ["Greeting", "My Family", "Feelings", "Toys and Games"]
+      "İngilizce": ["Theme 1: School Life", "Theme 2: Classroom Life", "Theme 3: Personal Life", "Theme 4: Family Life", "Theme 5: Homes and Neighbourhoods", "Theme 6: Life in the City"]
   };
 
   curriculumData[4] = {
@@ -235,5 +235,5 @@ export const curriculumData = {
       "Fen Bilimleri": ["Yer Kabuğu", "Besinlerimiz", "Gündelik Yaşamda Kuvvet", "Madde ve Hal Değişimi", "Basit Elektrik Devreleri"],
       "Sosyal Bilgiler": ["Birey ve Toplum", "Kültür ve Miras", "İnsanlar/Yerler", "Üretim/Tüketim"],
       "Din Kültürü ve Ahlak Bilgisi": ["Din ve Ahlak Hakkında İfadeler", "İslam'ı Tanıyoruz"],
-      "İngilizce": ["Classroom Rules", "Nationality", "Cartoon Characters", "Free Time", "Jobs"]
+      "İngilizce": ["Theme 1: School Life", "Theme 2: Classroom Life", "Theme 3: Personal Life", "Theme 4: Family Life", "Theme 5: Homes and Neighbourhoods", "Theme 6: Life in the City"]
   };
