@@ -2567,3 +2567,31 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
   animation: rippleAnim 0.4s linear; background-color: rgba(255, 255, 255, 0.4); pointer-events: none;
 }
 @keyframes rippleAnim { 100% { transform: scale(3.5); opacity: 0; } }
+
+/* ── KART BİLGİ BUTONU ── */
+.card-info-btn {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.9);
+  font-weight: 900;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: all 0.2s;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+.card-info-btn:hover {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.6);
+  transform: scale(1.15);
+}

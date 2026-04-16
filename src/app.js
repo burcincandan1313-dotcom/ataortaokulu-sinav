@@ -3056,28 +3056,28 @@ document.addEventListener('DOMContentLoaded', async () => {
             <!-- Kompakt Alt Butonlar yerine 4 Ana Glow Kart -->
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 24px; width: 100%;">
                <!-- Kart 1: Konu Çalış -->
-               <div class="dash-dev-card card-pink" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
+               <div class="dash-dev-card card-pink" style="position:relative;" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
                  <i class="fa-solid fa-book-open"></i>
                  <h3>Konu Çalış</h3>
                  <p>Yapay zeka ile adım adım öğren</p>
                </div>
                
                <!-- Kart 2: Test Çöz -->
-               <div class="dash-dev-card card-cyan" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
+               <div class="dash-dev-card card-cyan" style="position:relative;" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
                  <i class="fa-solid fa-crosshairs"></i>
                  <h3>Test Sihirbazı</h3>
                  <p>Sınav düzeyinde anlık quizler</p>
                </div>
                
                <!-- Kart 3: Sözlü Sınav -->
-               <div class="dash-dev-card card-blue" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
+               <div class="dash-dev-card card-blue" style="position:relative;" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
                  <i class="fa-solid fa-microphone-lines"></i>
                  <h3>Sözlü Sınav</h3>
                  <p>Diksiyon ve mikrofon ile test</p>
                </div>
                
                <!-- Kart 4: Normal Sohbet -->
-               <div class="dash-dev-card card-orange" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
+               <div class="dash-dev-card card-orange" style="position:relative;" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
                  <i class="fa-solid fa-comment-dots"></i>
                  <h3>Sohbet Odası</h3>
                  <p>Özgürce sorularını sor</p>
@@ -3090,6 +3090,25 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Arama çubuğu event listener
         setTimeout(() => {
           const searchInput = document.getElementById('dashSearchInput');
+          // Info butonlarını kartlara ekle
+          const cardInfoMap = [
+            { sel: '.card-pink', id: 'konu' },
+            { sel: '.card-cyan', id: 'test' },
+            { sel: '.card-blue', id: 'sozlu' },
+            { sel: '.card-orange', id: 'sohbet' }
+          ];
+          cardInfoMap.forEach(({ sel, id }) => {
+            const card = document.querySelector(sel);
+            if (card && !card.querySelector('.card-info-btn')) {
+              const btn = document.createElement('button');
+              btn.className = 'card-info-btn';
+              btn.textContent = '?';
+              btn.title = 'Bu ne işe yarar?';
+              btn.setAttribute('aria-label', 'Bilgi');
+              btn.onclick = (e) => { e.stopPropagation(); showCardInfo(id); };
+              card.appendChild(btn);
+            }
+          });
           const searchBtn = document.getElementById('dashSearchBtn');
           if (searchInput && searchBtn) {
             const doSearch = () => {
@@ -3394,5 +3413,80 @@ if (btnToggleRight && rightSidebar) {
   });
 }
 
+
+// =====================================================
+// KART BİLGİ POPUP
+// =====================================================
+function showCardInfo(cardId) {
+  const infos = {
+    konu:   { title: '📚 Konu Çalış', icon: '📚', color: '#f472b6',
+               text: 'Yapay zeka ile adım adım ders anlat! Sınıf seviyene ve dersine göre özelleştirilmiş ders anlatımı alırsın. Matematik, Fen, Türkçe, Sosyal — tüm konularda detaylı açıklama ve örnek çözümler.',
+               tip: '💡 "7. sınıf matematik / kesirler" yazarak başla!' },
+    test:   { title: '🎯 Test Sihirbazı', icon: '🎯', color: '#38bdf8',
+               text: 'Sınıf ve konuna göre yapay zeka tarafından üretilen özel sorular çöz! LGS, Maarif ve çeşitli soru formatları (çoktan seçmeli, doğru-yanlış, boşluk doldurama) arasından seç. Her sorunun ayrıntılı çözümü sunulur.',
+               tip: '💡 Soru formatını ve zorluk seviyesini kendin belirleyebilirsin!' },
+    sozlu:  { title: '🎤 Sözlü Sınav', icon: '🎤', color: '#818cf8',
+               text: 'Yapay zeka sana sözlü sınav soruları sorar, sen de sesli veya yazılı olarak cevaplıyorsun. Her cevabını değerlendirir, puan verir ve 5 soruluk sinavin sonunda genel performansını özetler.',
+               tip: '💡 5 soru sorulur → otomatik değerlendirme yapılır!' },
+    sohbet: { title: '💬 Sohbet Odası', icon: '💬', color: '#fb923c',
+               text: 'Herhangi bir konuda özgürce sorularını sor! Ders dışında genel kültür, güncel konular veya aklına takılan her şeyi sorabilirsin. Yapay zeka anlaşılır, samimi bir dille yanıt verir.',
+               tip: '💡 Her türlü soruyu sorabilirsin, sınır yok!' }
+  };
+  const info = infos[cardId] || infos.sohbet;
+  if (typeof Swal === 'undefined') { alert(info.title + '\n\n' + info.text); return; }
+  Swal.fire({
+    title: info.title,
+    html: '<p style="text-align:left;line-height:1.75;color:#cbd5e1;font-size:.93rem;margin-bottom:12px;">' + info.text + '</p>' +
+          '<div style="font-size:.85rem;color:' + info.color + ';background:rgba(255,255,255,.04);padding:9px 13px;border-radius:9px;border-left:3px solid ' + info.color + ';text-align:left;">' + info.tip + '</div>',
+    confirmButtonText: 'Hemen Başla!',
+    confirmButtonColor: info.color,
+    background: '#0f172a',
+    color: '#f8fafc',
+    icon: 'info',
+    iconColor: info.color
+  });
+}
+
 // Tema toggle setupVayBeFeatures() icinde yonetiliyor.
 
+
+// ═══════════════════════════════════════════
+// BİLDİRİM ZİLİ — Yenilikler Changelog
+// ═══════════════════════════════════════════
+const _btnNotif = document.getElementById('btnNotif');
+if (_btnNotif) {
+  _btnNotif.addEventListener('click', () => {
+    const _badge = _btnNotif.parentElement
+      ? _btnNotif.parentElement.querySelector('span')
+      : null;
+    if (_badge) _badge.style.display = 'none';
+
+    if (typeof Swal === 'undefined') return;
+
+    const changelogItems = [
+      { date: '16 Nisan 2026', color: '#00d4ff', title: '⌨️ Klavye Ustası Güncellendi',   text: 'Yavaş / Orta / Hızlı seviye seçimi ve büyütülmüş oyun ekranı.' },
+      { date: '16 Nisan 2026', color: '#38bdf8', title: '🎤 Sözlü Sınav İyileşmesi',   text: '5 soruda bitiyor, her sorudan sonra aksiyon butonları çıkıyor.' },
+      { date: '16 Nisan 2026', color: '#22c55e', title: '📚 Müfredat Düzeltmesi',         text: '7. sınıf Fen Bilimleri konuları düzeltildi, Fizik başlığı kaldırıldı.' },
+      { date: '15 Nisan 2026', color: '#8b5cf6', title: '🌙 Tema Düzeltmesi',                text: 'Gece/Gündüz mod çift handler çakışması giderildi.' },
+      { date: '14 Nisan 2026', color: '#f59e0b', title: '🤖 AI Bağlantısı Güçlendirildi', text: 'Cloudflare önbellekleme ile bağlantı kesinimi neredeyse sıfırlandı.' }
+    ];
+
+    const itemsHtml = changelogItems.map(item =>
+      '<div style="margin-bottom:10px;padding:9px 11px;background:rgba(255,255,255,.03);border-radius:9px;border-left:3px solid ' + item.color + ';">' +
+        '<div style="font-size:.7rem;color:#64748b;margin-bottom:3px;">' + item.date + '</div>' +
+        '<b style="color:' + item.color + ';font-size:.88rem;">' + item.title + '</b>' +
+        '<p style="color:#94a3b8;font-size:.83rem;margin:3px 0 0;">' + item.text + '</p>' +
+      '</div>'
+    ).join('');
+
+    Swal.fire({
+      title: '🔔 Yenilikler',
+      html: '<div style="text-align:left;max-height:360px;overflow-y:auto;padding-right:4px;">' + itemsHtml + '</div>',
+      confirmButtonText: 'Harika! 👍',
+      confirmButtonColor: '#00d4ff',
+      background: '#0f172a',
+      color: '#f8fafc',
+      width: '460px'
+    });
+  });
+}
