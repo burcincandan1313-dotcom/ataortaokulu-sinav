@@ -646,6 +646,7 @@ async function handleSendMessage(text) {
          // Typewriter animasyonuyla yaz (uzun cevaplarda bekleme hissi ortadan kalkar)
          streamMessage(renderHtml, () => {
            if (currentMode === 'ders') appendLessonActionButtons();
+           if (window.activeOralSession) appendOralExamButtons();
          });
        },
 
@@ -1113,38 +1114,56 @@ function appendOralExamButtons() {
   const chatbox = document.getElementById('chatbox');
   if (!chatbox) return;
 
-  const barId = 'oral-action-bar-' + Date.now();
+  if (!window.oralQuestionCount) window.oralQuestionCount = 0;
+  if (!window.oralMaxQuestions) window.oralMaxQuestions = 5;
+  window.oralQuestionCount++;
+
+  const remaining = window.oralMaxQuestions - window.oralQuestionCount;
+  const barId = 'oral-bar-' + Date.now();
+
   const wrapper = document.createElement('div');
-  wrapper.className = 'msg bot';
-  wrapper.innerHTML = `
-    <div id="${barId}" style="display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;padding:10px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;">
-      <button class="oral-next-btn" style="padding:8px 16px;background:linear-gradient(135deg,#00d4ff,#3a7bfd);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.85rem;">Sonraki Soru</button>
-      <button class="oral-end-btn" style="padding:8px 16px;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-weight:700;cursor:pointer;font-size:0.85rem;">Sinavi Bitir</button>
-    </div>
-  `;
+  wrapper.id = barId;
+  wrapper.style.cssText = 'margin:6px 0;padding:10px 12px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:12px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;';
+
+  const counterHtml = remaining > 0
+    ? '<span style="font-size:.8rem;color:var(--sub);flex:1;">Soru ' + window.oralQuestionCount + ' / ' + window.oralMaxQuestions + '</span>'
+    : '<span style="font-size:.8rem;color:#f59e0b;flex:1;">Son soru tamamlandi!</span>';
+
+  const nextHtml = remaining > 0
+    ? '<button class="oral-next-btn" style="padding:7px 15px;background:linear-gradient(135deg,#00d4ff,#3a7bfd);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.84rem;">Sonraki Soru →</button>'
+    : '';
+
+  wrapper.innerHTML = counterHtml + nextHtml + '<button class="oral-end-btn" style="padding:7px 15px;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-weight:700;cursor:pointer;font-size:.84rem;">⏹ Sinavi Bitir</button>';
+
   chatbox.appendChild(wrapper);
   chatbox.scrollTop = chatbox.scrollHeight;
 
-  const bar = document.getElementById(barId);
-  if (!bar) return;
-
-  const nextBtn = bar.querySelector('.oral-next-btn');
-  const endBtn = bar.querySelector('.oral-end-btn');
-
   const disableAll = () => {
-    [nextBtn, endBtn].forEach(b => { if(b){ b.disabled=true; b.style.opacity='0.5'; b.style.pointerEvents='none'; }});
+    wrapper.querySelectorAll('button').forEach(b => { b.disabled = true; b.style.opacity = '0.5'; b.style.pointerEvents = 'none'; });
   };
+
+  const nextBtn = wrapper.querySelector('.oral-next-btn');
+  const endBtn = wrapper.querySelector('.oral-end-btn');
 
   if (nextBtn) nextBtn.addEventListener('click', () => {
     disableAll();
-    handleSendMessage('Devam et, bana bir sonraki sozlu soruyu sor ve onceki cevabimi degerlendirerek basla.');
+    handleSendMessage('Devam et. Bir sonraki soruyu sor ve onceki cevabimi degerlendir.');
   });
 
   if (endBtn) endBtn.addEventListener('click', () => {
     disableAll();
     window.activeOralSession = false;
-    handleSendMessage('Sozlu sinavi bitirdim. Genel bir degerlendirme yap ve toplam performansimi ozet olarak sun.');
+    const total = window.oralMaxQuestions;
+    window.oralQuestionCount = 0;
+    handleSendMessage('Sozlu sinavim tamamlandi (' + total + ' soru). Toplam performansimi degerlendir, guclu ve zayif yonlerimi belirt ve genel bir not ver.');
   });
+
+  // Auto-end after last question (4s delay)
+  if (window.oralQuestionCount >= window.oralMaxQuestions) {
+    setTimeout(() => {
+      if (endBtn && !endBtn.disabled) endBtn.click();
+    }, 5000);
+  }
 }
 
 // ═══════════════════════════════════════════
