@@ -1,62 +1,174 @@
 /**
  * curriculum.js
- * Bu dosya projenin ayrılmaz bir parçasıdır ve modüler özellik sağlar.
+ * Bu dosya projenin ayrılmaz bir parçasıdır.
  */
-// src/curriculum.js
-// Türkiye Yüzyılı Maarif Modeli (MEB) müfredatına göre sınıf, ders ve ünite yapısı.
+// Türkiye Yüzyılı Maarif Modeli (MEB) müfredatına göre 5-8 sınıf Öğrenme Çıktıları yapısı.
 
-/**
- * curriculum.js
- * Bu dosya projenin ayrilmaz bir parcasidir.
- */
 export const curriculumData = {
     5: {
-      "Matematik": ["Doğal Sayılar ve İşlemler","Kesirler","Ondalık Gösterim","Yüzdeler","Temel Geometrik Kavramlar","Uzunluk ve Zaman Ölçme","Alan Ölçme","Veri İşleme"],
-      "Fen Bilimleri": ["Güneş, Dünya ve Ay","Canlılar Dünyası","Kuvvetin Ölçülmesi ve Sürtünme","Madde ve Değişim","Işığın Yayılması","İnsan ve Çevre","Elektrik Devreleri"],
-      "Türkçe": ["Sözcükte Anlam","Cümlede Anlam","Parçada Anlam","Yazım Kuralları","Noktalama İşaretleri","Söz Varlığı ve Deyimler","Fiiller (Eylemler)"],
-      "Sosyal Bilgiler": ["Birey ve Toplum","Kültür ve Miras","İnsanlar, Yerler ve Çevreler","Bilim, Teknoloji ve Toplum","Üretim, Dağıtım ve Tüketim","Etkin Vatandaşlık"],
+      "Matematik": [
+        "Sayılar ve Nitelikleri (Doğal Sayılar ve İşlemler)",
+        "Kesirler ile Karşılaştırmalar",
+        "Ondalık Gösterim ve Yüzdeler",
+        "Niceliklerin Değişimi (Cebirsel Algı)",
+        "Geometrik Şekiller (Uzunluk ve Zaman Ölçme)",
+        "Alan Ölçme Bağlamı",
+        "İstatistiksel İnceleme ve Veri İşleme"
+      ],
+      "Fen Bilimleri": [
+        "Dünya ve Evren (Güneş, Dünya ve Ay)",
+        "Canlılar ve Yaşam Üniteleri",
+        "Fiziksel Olaylar (Kuvvetin Ölçülmesi ve Sürtünme)",
+        "Fiziksel Olaylar (Işığın Yayılması)",
+        "Madde ve Doğası (Madde ve Değişim)",
+        "Elektrik Devreleri",
+        "İnsan ve Çevre"
+      ],
+      "Türkçe": [
+        "Sözlü İletişim (Dinleme, Konuşma, Beden Dili)",
+        "Okuma: Sözcük ve Cümlede Anlam",
+        "Okuma: Parçada Anlam ve Çıkarım Yapma",
+        "Yazılı Anlatım Üretimi (Yazma Stratejileri)",
+        "Metin Türleri ve Söz Varlığı",
+        "Yazım ve Noktalama Kuralları",
+        "Fiillerin (Eylemlerin) Temel Kullanımı"
+      ],
+      "Sosyal Bilgiler": [
+        "Birey ve Toplum: Hak ve İletişim",
+        "Kültür ve Tarihi Mirasımız",
+        "İnsanlar, Yerler ve Çevreler",
+        "Bilim Teknoloji ve Üretim",
+        "Tüketim Bilinci ve Üretim, Dağıtım",
+        "Yaşayan Demokrasi ve Etkin Vatandaşlık"
+      ],
       "İngilizce": ["Hello! (Tanışma)","My Town (Şehrim)","Games and Hobbies","My Daily Routine","Health (Sağlık)","Movies (Filmler)","Party Time","Fitness","The Animal Shelter","Festivals"],
-      "Bilişim Teknolojileri": ["Bilişim Teknolojileri ve Etik","Problem Çözme ve Algoritmalar","Kelime İşlemci (Word) Kullanımı","Sunum Hazırlama (PowerPoint)","İnternet Güvenliği ve Dijital Vatandaşlık"],
-      "Din Kültürü ve Ahlak Bilgisi": ["Allah İnancı","İbadet Konusunda Bilinmesi Gerekenler","Hz. Muhammed'in Hayatı","Kur'an-ı Kerim'i Tanıyalım","Sevinç ve Üzüntülerimizi Paylaşalım"],
-      "Görsel Sanatlar": ["Görsel İletişim ve Biçimlendirme","Kültürel Miras","Sanat Eleştirisi ve Estetik","Müze Kültürü"],
-      "Müzik": ["Müzikte Temel Kavramlar","Ses ve Şarkı Söyleme","Ritim ve Çalgılar","Türk ve Dünya Müziği"],
-      "Beden Eğitimi ve Spor": ["Hareket Yetkinliği","Aktif ve Sağlıklı Hayat","Oyun ve Fiziki Etkinlikler","Fair Play ve Spor Ahlakı"]
+      "Bilişim Teknolojileri": ["Bilişim Teknolojileri ve Etik Algı","Problem Çözme ve Temel Algoritmalar","Kelime İşlemci ve Dijital Üretim","İnternet Güvenliği"],
+      "Din Kültürü ve Ahlak Bilgisi": ["Allah İnancı","İbadet Konusunda Bilgiler","Hz. Muhammed'in Hayatı","Kur'an-ı Kerim'i Tanıyalım","Sevinç ve Üzüntülerimizi Paylaşalım"],
+      "Beden Eğitimi ve Müzik": ["Ritim", "Ses", "Hareket Yetkinliği", "Oyun"]
     },
     6: {
-      "Matematik": ["Doğal Sayılarla İşlemler","Çarpanlar ve Katlar","Kümeler","Tam Sayılar","Kesirlerle İşlemler","Ondalık Gösterim","Oran","Cebirsel İfadeler","Açılar ve Ölçüleri","Alan Ölçme","Çember","Veri Toplama ve Değerlendirme"],
-      "Fen Bilimleri": ["Güneş Sistemi ve Tutulmalar","Vücudumuzdaki Sistemler","Kuvvet ve Hareket","Madde ve Isı","Ses ve Özellikleri","Elektriğin İletimi","Bitki ve Hayvanlarda Üreme"],
-      "Türkçe": ["Sözcükte Anlam","Cümlede Anlam","Parçada Anlam","İsimler ve Sıfatlar","Zamirler (Adıl)","Edat, Bağlaç, Ünlem","Fiil Çekimleri","Yazım ve Noktalama"],
-      "Sosyal Bilgiler": ["Biz ve Değerlerimiz","Tarihe Yolculuk (İlk Türk Devletleri)","Yeryüzünde Yaşam","Ülkemizin Kaynakları","Demokrasinin Serüveni","Elektronik Yüzyıl"],
+      "Matematik": [
+        "Sayılar ve Nitelikleri (Çarpanlar, Katlar, Kümeler)",
+        "Tam Sayılar ve Rasyonel Karşılaştırmalar",
+        "Kesirlerle İşlemler",
+        "Ondalık Gösterim ve Oran",
+        "Niceliklerin Değişimi (Cebirsel İfadeler)",
+        "Geometrik Şekiller (Açılar, Alan, Çember)",
+        "İstatistiksel İnceleme (Veri Toplama ve Değerlendirme)"
+      ],
+      "Fen Bilimleri": [
+        "Dünya ve Evren (Güneş Sistemi ve Tutulmalar)",
+        "Canlılar ve Yaşam (Vücudumuzdaki Sistemler)",
+        "Canlılar ve Yaşam (Bitki, Hayvan Üreme)",
+        "Fiziksel Olaylar (Kuvvet, Hareket ve Ses)",
+        "Madde ve Doğası (Madde ve Isı)",
+        "Fiziksel Olaylar (Elektriğin İletimi)"
+      ],
+      "Türkçe": [
+        "Sözlü İletişim Becerileri",
+        "Okuma: Kavramsal Çıkarım Çözümlemeleri",
+        "Okuma: Paragraf Mimarisi",
+        "Yazılı Anlatım: Düşünceyi İfade Becerisi",
+        "Söz Varlığı (Ad, Zamir, Sıfat)",
+        "Sözcükler Arası İlişkiler (Edat, Bağlaç, Ünlem)",
+        "Fiil Çekimleri ve Zamanlar",
+        "Uygulamalı Yazım ve Noktalama"
+      ],
+      "Sosyal Bilgiler": [
+        "Birey, Toplum ve Değerlerimiz",
+        "Kültür ve Miras: Tarihe Yolculuk",
+        "İnsanlar, İklimler ve Yeryüzünde Yaşam",
+        "Bilim, Teknoloji ve Elektronik Yüzyıl",
+        "Üretim Bağlamı: Ülkemizin Kaynakları",
+        "Etkin Vatandaş: Demokrasinin Serüveni"
+      ],
       "İngilizce": ["Life (Hayat)","Yummy Breakfast","Downtown (Şehir Merkezi)","Weather and Emotions","At the Fair","Occupations","Holidays","Bookworms","Saving the Planet","Democracy"],
-      "Bilişim Teknolojileri": ["Bilgi İşlemsel Düşünme","Algoritma ve Akış Diyagramları","Elektronik Tablolama (Excel)","Dijital İçerik Üretimi","Siber Güvenlik ve Kişisel Bilgi Koruma"],
-      "Din Kültürü ve Ahlak Bilgisi": ["Peygamberlere ve İlahi Kitaplara İman","Hz. Muhammed'in Örnek Ahlakı","Namaz İbadeti","Kur'an-ı Kerim ve Özellikleri","İslam ve Güzel Ahlak"],
-      "Görsel Sanatlar": ["Görsel Sanatlarda Biçimlendirme","Renk ve Kompozisyon","Kültürel Miras ve Sanat Eserleri","Sanat Eleştirisi"],
-      "Müzik": ["Nota Bilgisi ve Müziksel Okuma","Şarkı ve Türkü Söyleme","Çalgı ile Müzik Yapma","Müzik Kültürü (Türk Müziği)"],
-      "Beden Eğitimi ve Spor": ["Hareket Becerileri ve Koordinasyon","Aktif ve Sağlıklı Hayat","Takım Sporları (Voleybol, Basketbol)","Bireysel Sporlar ve Atletizm"]
+      "Bilişim Teknolojileri": ["Bilgi İşlemsel Düşünme","Algoritma Mimarisi","Elektronik Tablolama","Siber Güvenlik"],
+      "Din Kültürü ve Ahlak Bilgisi": ["Peygamberlere ve İlahi Kitaplara İman","Hz. Muhammed'in Örnek Ahlakı","Namaz İbadeti","Kur'an-ı Kerim ve Özellikleri","İslam ve Güzel Ahlak"]
     },
     7: {
-      "Matematik": ["Tam Sayılarla İşlemler","Rasyonel Sayılar","Cebirsel İfadeler","Eşitlik ve Denklem","Oran ve Orantı","Yüzdeler","Doğrular ve Açılar","Çokgenler ve Dörtgenler","Çember ve Daire","Veri Analizi ve Olasılık","Cisimlerin Farklı Yönlerden Görünümleri"],
-      "Fen Bilimleri": ["Güneş Sistemi ve Ötesi","Hücre ve Bölünmeler (Mitoz)","Kuvvet ve Enerji","Saf Madde ve Karışımlar","Işığın Madde ile Etkileşimi","Elektrik Devreleri ve Ölçümleri","İnsan ve Çevre Sorunları"],
-      "Türkçe": ["Sözcükte Anlam","Paragrafta Anlam","Fiiller (Eylemler)","Zarflar (Belirteçler)","Anlatım Bozuklukları","Cümle Çeşitleri","Fiilimsi (Eylemsi)","Yazım ve Noktalama Kuralları"],
-      "Sosyal Bilgiler": ["Birey ve Toplum (İletişim)","Kültür ve Miras (Osmanlı Kuruluş)","Ülkemizde Nüfus","Bilim ve Teknoloji","Ekonomi ve Sosyal Hayat","Yaşayan Demokrasi"],
+      "Matematik": [
+        "Sayılar (Tam Sayılar ve Rasyonel İşlemler)",
+        "Niceliklerin Değişimi (Cebirsel İfadeler, Eşitlik ve Denklem)",
+        "Matematiksel İlişkiler (Oran ve Orantı, Yüzdeler)",
+        "Geometrik Şekiller (Doğrular, Açılar, Çokgenler)",
+        "Çember, Daire ve Dönüşümler",
+        "Cisimlerin Görünümleri",
+        "İstatistiksel İnceleme ve Olasılık"
+      ],
+      "Fen Bilimleri": [
+        "Dünya ve Evren (Güneş Sistemi ve Ötesi)",
+        "Canlılar ve Yaşam (Hücre ve Mitoz/Mayoz)",
+        "Canlılar ve Yaşam (İnsan, Çevre Dengesi)",
+        "Fiziksel Olaylar (Kuvvet ve Enerji Dinamikleri)",
+        "Fiziksel Olaylar (Işığın Madde ile Etkileşimi)",
+        "Elektrik Devreleri",
+        "Madde ve Doğası (Saf Madde ve Karışımlar)"
+      ],
+      "Türkçe": [
+        "Sözlü İletişim Analizi",
+        "Okuma: Üst Düzey Cümle Yorumlama",
+        "İleri Okuma: Metin Çözümleme ve Paragraf",
+        "Yazılı Anlatım Üretim Stratejileri",
+        "Söz Varlığı (Fiil, Zarf, Fiilimsi Yapıları)",
+        "Anlam Boyutu (Cümlede Anlam ve Bozukluklar)",
+        "Dil Yapısı: Cümle Çeşitleri",
+        "Bütüncül Yazım Kuralları"
+      ],
+      "Sosyal Bilgiler": [
+        "Birey ve İletişim Mimarisi",
+        "Kültürel Miras (Osmanlı ve Doğuşu)",
+        "Yerleşme, Nüfus ve Çevre",
+        "Bilimsel ve Teknolojik Gelişmeler",
+        "Ekonomik İstikrar ve Sosyal Hayat",
+        "Yaşayan Demokrasi Standartları"
+      ],
       "İngilizce": ["Appearance and Personality","Sports","Biographies","Wild Animals","Television","Celebrations","Dreams","Public Buildings","Environment","Planets"],
-      "Bilişim Teknolojileri": ["Blok Tabanlı Programlama (Scratch)","Problem Çözme Stratejileri","Veritabanı Temelleri","Dijital Ürün Tasarımı","Bilgi Güvenliği ve Etik Kullanım"],
-      "Din Kültürü ve Ahlak Bilgisi": ["Melek ve Ahiret İnancı","Hz. Muhammed'in Örnekliği","Kur'an'dan Mesajlar","İslam Düşüncesinde Ahlaki Değerler","Din ve Hayat"],
-      "Görsel Sanatlar": ["Perspektif ve Hacim","Desen ve Eskiz Çalışmaları","Sanat Akımları ve Sanatçılar","Dijital Sanat Temelleri"],
-      "Müzik": ["Müzikte Döneme Göre Eserler","Çoksesli Müzik ve Koro","Müzik Türleri (Halk, Sanat, Pop)","Müzik ve Teknoloji"],
-      "Beden Eğitimi ve Spor": ["Hareket Eğitimi ve Jimnastik","Takım Sporları (Futbol, Hentbol)","Sağlıklı Beslenme ve Fiziksel Uygunluk","Açık Alan Etkinlikleri"]
+      "Bilişim Teknolojileri": ["Blok Tabanlı Programlama Kararları","Veritabanı Mantığı","Bilgi Güvenliği"],
+      "Din Kültürü ve Ahlak Bilgisi": ["Melek ve Ahiret İnancı","Hz. Muhammed'in Örnekliği","Kur'an'dan Mesajlar","İslam Düşüncesinde Ahlaki Değerler","Din ve Hayat"]
     },
     8: {
-      "Matematik": ["Çarpanlar ve Katlar","Üslü İfadeler","Kareköklü İfadeler","Veri Analizi","Olasılık","Cebirsel İfadeler ve Özdeşlikler","Doğrusal Denklemler","Eşitsizlikler","Üçgenler","Eşlik ve Benzerlik","Dönüşüm Geometrisi","Geometrik Cisimler","Prizmalar ve Piramitler"],
-      "Fen Bilimleri": ["Mevsimler ve İklim","DNA ve Genetik Kod","Basınç","Madde ve Endüstri","Basit Makineler","Enerji Dönüşümleri ve Çevre Bilimi","Elektrik Yükleri ve Elektrik Enerjisi","Asitler ve Bazlar","Periyodik Sistem"],
-      "Türkçe": ["Fiilimsiler (Eylemsi)","Cümlenin Ögeleri","Cümle Türleri","Sözcükte ve Cümlede Anlam","Parçada Anlam","Görsel Okuma ve Anlama","Yazım Kuralları ve Noktalama","Anlatım Bozuklukları","Söz Sanatları"],
-      "T.C. İnkılap Tarihi ve Atatürkçülük": ["Bir Kahraman Doğuyor","Millî Uyanış (I. Dünya Savaşı)","Ya İstiklal Ya Ölüm!","Atatürkçülük ve Çağdaşlaşan Türkiye","Demokratikleşme Çabaları","Atatürk İlkeleri","Atatürk Dönemi Türk Dış Politikası"],
+      "Matematik": [
+        "Sayılar ve Nitelikleri (Çarpanlar, Katlar, EBOB/EKOK)",
+        "Üslü ve Kareköklü İfadelerde Analiz",
+        "Niceliklerin Değişimi (Cebirsel İfadeler, Özdeşlikler)",
+        "Bağıntılar (Doğrusal Denklemler, Eşitsizlikler)",
+        "Geometrik Şekiller (Üçgenler, Eşlik, Benzerlik)",
+        "Dönüşüm Geometrisi, Geometrik Cisimler, Prizmalar",
+        "İstatistiksel İnceleme ve Bağlamsal Olasılık"
+      ],
+      "Fen Bilimleri": [
+        "Dünya ve Evren (Mevsimlerin Oluşumu ve İklim)",
+        "Canlılar ve Yaşam (DNA, Genetik Kod, Mutasyon)",
+        "Fiziksel Olaylar (Katı, Sıvı, Gaz Basıncı)",
+        "Fiziksel Olaylar (Basit Makineler İşlevi)",
+        "Canlılar ve Enerji Dönüşümleri (Besin Zinciri)",
+        "Elektrik Yükleri ve Enerji Transferi",
+        "Madde ve Doğası (Periyodik Sistem, Asitler, Bazlar)",
+        "Madde ve Endüstriyel Değişimler"
+      ],
+      "Türkçe": [
+        "Sözlü İletişim (İzleme, Anlama, Yanıtlama)",
+        "Görsel Okuma ve Çoklu Medya Yorumlama",
+        "Okuma: Sözcük, Cümle, Paragrafta Derinlik",
+        "Söz Varlığı, Söz Sanatları ve Açık İfade",
+        "Yazılı Anlatım Pratiği (Mantıksal Tutarlılık)",
+        "Dil Yapısı (Fiilimsiler ve Cümlenin Ögeleri)",
+        "Dil Yapısı (Cümle Türleri ve Çatı)",
+        "Anlam Boyutu (Anlatım Bozuklukları Kontrolü)",
+        "İleri Yazım ve Noktalama Çerçevesi"
+      ],
+      "T.C. İnkılap Tarihi ve Atatürkçülük": [
+        "Bir Kahramanın Doğuşu: Mustafa Kemal",
+        "Millî Uyanış: Bağımsızlık Yolunda Atılan Adımlar",
+        "Ya İstiklal Ya Ölüm! (Milli Mücadele Cepheleri)",
+        "Atatürk İlke ve İnkılapları Doğrultusunda Gelişim",
+        "Çağdaşlaşan Türkiye'de Demokratikleşme",
+        "Tutarlı ve Güçlü Dış Politika: Atatürk Dönemi"
+      ],
       "İngilizce": ["Friendship","Teen Life","In The Kitchen","On The Phone","The Internet","Adventures","Tourism","Chores","Science","Natural Forces"],
-      "Bilişim Teknolojileri": ["Metin Tabanlı Programlama (Python Giriş)","Robotik ve Kodlama","Web Tasarım Temelleri","Yapay Zeka ve Makine Öğrenmesine Giriş","Dijital Vatandaşlık ve Etik"],
-      "Din Kültürü ve Ahlak Bilgisi": ["Kader İnancı","Zekât ve Hac İbadeti","Hz. Muhammed'in Hayatından Örnekler","Kur'an'da Bazı Kavramlar","Din ve Hayat (Evrensel Değerler)"],
-      "Görsel Sanatlar": ["Çağdaş Sanat ve Güncel Eserler","Grafik Tasarım Temelleri","Fotoğrafçılık ve Görsel Anlatım","Sanat ve Kültür İlişkisi"],
-      "Müzik": ["Müzik Tarihi ve Besteciler","Enstrüman Tanıma ve Çalma","Marşlar ve Millî Müzik","Müzik Prodüksiyonuna Giriş"],
-      "Beden Eğitimi ve Spor": ["Fiziksel Uygunluk Testleri","Takım ve Bireysel Sporlar","Spor Psikolojisi ve Motivasyon","Olimpik Değerler ve Spor Tarihi"]
+      "Bilişim Teknolojileri": ["Yapay Zeka ve Makine Öğrenmesi (Metin Tabanlı Programlama)", "Robotik Mantık"],
+      "Din Kültürü ve Ahlak Bilgisi": ["Kader İnancı","Zekat ve Hac İbadetlerinin Sosyal Etkisi","Hz. Muhammed'in Hayatından Örnek Tutumlar","Kur'an Merkezli Evrensel Değerler"]
     },
     9: {
       "Matematik": ["Mantık", "Kümeler", "Denklem ve Eşitsizlikler", "Üslü ve Köklü İfadeler", "Üçgenler", "Veri"],
@@ -99,12 +211,10 @@ export const curriculumData = {
   for (let i = 1; i <= 4; i++) {
      if (!curriculumData[i]) {
          curriculumData[i] = {
-             "Matematik": ["Doğal Sayılar", "Toplama ve Çıkarma", "Çarpma ve Bölme", "Kesirler", "Zaman Ölçme", "Ulu Önder Atatürk ve Matematik"],
-             "Türkçe": ["Okuma Anlama", "Harf ve Hece Bilgisi", "Sözcük Türleri", "Yazım Kuralları", "Noktalama İşaretleri"],
-             "Hayat Bilgisi": ["Okulumuzda Hayat", "Evimizde Hayat", "Sağlıklı Hayat", "Güvenli Hayat", "Doğada Hayat", "Ülkemizde Hayat"],
-             "İngilizce": ["Words", "Friends", "In the Classroom", "Numbers", "Colors", "Toys and Games"],
-             "Müzik": ["Ritim Çalışmaları", "Şarkı Söyleme", "İstiklal Marşı Okuma"],
-             "Beden Eğitimi": ["Temel Hareketler", "Denge", "Bireysel ve Takım Oyunları"]
+             "Matematik": ["Sayılar ve Nitelikleri", "Niceliklerin Değişimi", "Geometrik Şekiller", "Kesirler", "Zaman Ölçme"],
+             "Türkçe": ["Sözlü İletişim", "Okuma", "Yazılı Üretim", "Anlam Bilgisi", "Noktalama"],
+             "Hayat Bilgisi": ["Okulumuz", "Evimiz", "Sağlıklı Hayat", "Güvenlik", "Doğa ve Toplum"],
+             "İngilizce": ["Words", "Friends", "In the Classroom", "Numbers", "Colors", "Toys and Games"]
          };
      }
   }
