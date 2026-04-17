@@ -167,6 +167,21 @@ async function handleSendMessage(text) {
       return;
   }
   
+  if (lw === '/kullanicilar' || lw === 'kullanıcılar' || lw === 'kullanicilar') {
+      const historyStr = localStorage.getItem('mega_user_history') || '[]';
+      let historyArr = [];
+      try { historyArr = JSON.parse(historyStr); } catch(e){}
+      let text = "👥 **Giren Kullanıcıların Listesi:**\n";
+      if(historyArr.length === 0){
+         text += "Henüz kaydedilmiş kullanıcı yok.";
+      } else {
+         historyArr.forEach((u, i) => { text += `${i+1}. ${u.name} (Tarih: ${u.date})\n`; });
+      }
+      addMessage('bot', 'Kullanıcı listesi istendi.');
+      appendMessage('bot', formatMessage('bot', text));
+      return;
+  }
+  
   // 1. Kullanıcı mesajını ekle
   lastSentMessage = msg;
   addMessage('user', msg);
@@ -1659,7 +1674,11 @@ function setupEventListeners() {
   // MOBİL MENÜ BUTONU (Unified — active + visible class)
   // ═══════════════════════════════════════════
   const btnMobileMenu = document.getElementById('btnMobileMenu');
+  const btnMobileMenuRight = document.getElementById('btnMobileMenuRight');
+  const btnToggleLeft = document.getElementById('btnToggleLeft');
+  const btnToggleRight = document.getElementById('btnToggleRight');
   const sidebar = document.querySelector('.sidebar');
+  const rightSidebar = document.querySelector('.right-sidebar');
   const backdrop = document.getElementById('sidebarBackdrop');
 
   function openMobileSidebar() {
@@ -1681,18 +1700,56 @@ function setupEventListeners() {
   // Global helper for other modules
   window._closeMobileSidebar = closeMobileSidebar;
 
-  if (btnMobileMenu && sidebar) {
-    btnMobileMenu.addEventListener('click', () => {
-      if (sidebar.classList.contains('open')) {
-        closeMobileSidebar();
+  const toggleSidebarGlobal = () => {
+    if (window.innerWidth <= 768) {
+      if (sidebar && sidebar.classList.contains('open')) closeMobileSidebar();
+      else openMobileSidebar();
+    } else {
+      document.body.classList.toggle('sidebar-collapsed');
+    }
+  };
+
+  if (btnMobileMenu) btnMobileMenu.addEventListener('click', toggleSidebarGlobal);
+  if (btnToggleLeft) btnToggleLeft.addEventListener('click', toggleSidebarGlobal);
+
+  const toggleRightSidebarGlobal = () => {
+    if (window.innerWidth <= 1024) {
+      if (rightSidebar.classList.contains('open')) {
+         rightSidebar.classList.remove('open');
+         if (backdrop) { backdrop.classList.remove('active'); backdrop.classList.remove('visible'); }
       } else {
-        openMobileSidebar();
+         closeMobileSidebar();
+         rightSidebar.classList.add('open');
+         if (backdrop) { backdrop.classList.add('active'); backdrop.classList.add('visible'); }
       }
-    });
+    } else {
+      rightSidebar.classList.toggle('collapsed');
+      const icon = btnToggleRight ? btnToggleRight.querySelector('i') : null;
+      if (icon) {
+        if(rightSidebar.classList.contains('collapsed')) {
+          icon.className = "fa-solid fa-gamepad";
+          icon.style.opacity = "0.5";
+        } else {
+          icon.className = "fa-solid fa-gamepad";
+          icon.style.opacity = "1";
+        }
+      }
+    }
+  };
+
+  if (btnToggleRight && rightSidebar) {
+    btnToggleRight.addEventListener('click', toggleRightSidebarGlobal);
   }
+  if (btnMobileMenuRight && rightSidebar) {
+    btnMobileMenuRight.addEventListener('click', toggleRightSidebarGlobal);
+  }
+
   if (backdrop) {
     backdrop.addEventListener('click', () => {
       closeMobileSidebar();
+      if (rightSidebar) {
+         rightSidebar.classList.remove('open');
+      }
     });
   }
 
@@ -1702,6 +1759,19 @@ function setupEventListeners() {
       btn.addEventListener('click', () => {
         if (window.innerWidth <= 768) {
           setTimeout(() => closeMobileSidebar(), 200);
+        }
+      });
+    });
+  }
+
+  if (rightSidebar) {
+    rightSidebar.querySelectorAll('.v18-btn, .chip, .sb-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+          setTimeout(() => {
+             rightSidebar.classList.remove('open');
+             if (backdrop) { backdrop.classList.remove('active'); backdrop.classList.remove('visible'); }
+          }, 200);
         }
       });
     });
@@ -2004,13 +2074,13 @@ function setupEventListeners() {
 
   const toggleLowEnd = document.getElementById('toggleLowEnd');
   if (toggleLowEnd) {
-    toggleLowEnd.checked = document.body.classList.contains('lowend');
+    toggleLowEnd.checked = document.body.classList.contains('lowend-mode');
     toggleLowEnd.addEventListener('change', () => {
       if (toggleLowEnd.checked) {
-        document.body.classList.add('lowend');
+        document.body.classList.add('lowend-mode');
         localStorage.setItem('mega_low_end', 'true');
       } else {
-        document.body.classList.remove('lowend');
+        document.body.classList.remove('lowend-mode');
         localStorage.removeItem('mega_low_end');
       }
     });
@@ -2107,8 +2177,22 @@ function initOnboarding() {
   renderAvatarPicker();
   
   const finishOnboarding = (name) => {
+    let historyStr = localStorage.getItem('mega_user_history') || '[]';
     // EĞER BU YENİ BİR BAŞLANGIÇ İSE, ESKİ KULLANICININ KALINTI DATALARINI SIFIRLA!
     localStorage.clear();
+    
+    try {
+        let historyArr = JSON.parse(historyStr);
+        let found = false;
+        if(historyArr.length > 0 && historyArr[historyArr.length-1].name === name) {
+           found = true;
+           historyArr[historyArr.length-1].date = new Date().toLocaleString('tr-TR');
+        }
+        if(!found) {
+           historyArr.push({ name: name, date: new Date().toLocaleString('tr-TR') });
+        }
+        localStorage.setItem('mega_user_history', JSON.stringify(historyArr));
+    } catch(e) {}
 
     const avatar = document.getElementById('selectedAvatar')?.value || '👦';
     localStorage.setItem('mega_name', name);
@@ -3074,14 +3158,14 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (sidebarLowEnd) {
      const isLowEnd = localStorage.getItem('mega_low_end') === 'true';
      sidebarLowEnd.checked = isLowEnd;
-     if(isLowEnd) document.body.classList.add('lowend');
+     if(isLowEnd) document.body.classList.add('lowend-mode');
      
      sidebarLowEnd.addEventListener('change', (e) => {
         if (e.target.checked) {
-           document.body.classList.add('lowend');
+           document.body.classList.add('lowend-mode');
            localStorage.setItem('mega_low_end', 'true');
         } else {
-           document.body.classList.remove('lowend');
+           document.body.classList.remove('lowend-mode');
            localStorage.setItem('mega_low_end', 'false');
         }
      });
@@ -3455,19 +3539,7 @@ if (btnToggleLeft && sidebar) {
   });
 }
 
-if (btnToggleRight && rightSidebar) {
-  btnToggleRight.addEventListener('click', () => {
-    rightSidebar.classList.toggle('collapsed');
-    const icon = btnToggleRight.querySelector('i');
-    if(rightSidebar.classList.contains('collapsed')) {
-      icon.className = "fa-solid fa-gamepad";
-      icon.style.opacity = "0.5";
-    } else {
-      icon.className = "fa-solid fa-gamepad";
-      icon.style.opacity = "1";
-    }
-  });
-}
+// Duplicate listener removed to prevent collision with mobile right sidebar logic
 
 
 // =====================================================
