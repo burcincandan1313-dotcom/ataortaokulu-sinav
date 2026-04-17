@@ -440,6 +440,83 @@ async function handleSendMessage(text) {
      return;
   }
 
+  // PDR 1. MOTİVASYON KOÇU (/motivasyon)
+  if (lw.startsWith('/motivasyon')) {
+    setIsLoading(true);
+    toggleTypingIndicator(true);
+    updateBotStatus('🟢 Düşünüyor...', '#4ade80');
+    try {
+      const pdrPrompt = `Sen Ata Ortaokulu'nun en enerjik, pozitif ve anlayışlı psikolojik danışmanı ve motivasyon koçusun. Öğrencilere sınav stresi (LGS/YKS) veya günlük ders çalışma zorlukları konusunda ilham verici, kısa ve net tavsiyeler vereceksin. Emoji kullanmayı unutma. Konuşmaya sıcak bir merhaba ile başla ve ne konuda yardıma ihtiyacı olduğunu sor.`;
+      const response = await askAI('Merhaba, biraz motivasyona ve morale ihtiyacım var. Bana yardımcı olur musun?', pdrPrompt);
+      addMessage('bot', response);
+      toggleTypingIndicator(false);
+      appendMessage('bot', formatMessage('bot', '🔥 <b>Motivasyon Koçu:</b><br>' + response));
+      updateBotStatus('🟢 Çevrimiçi', '#4ade80');
+    } catch(e) {
+      toggleTypingIndicator(false);
+      showError('Motivasyon koçu yanıt veremedi.');
+      updateBotStatus('🔴 Hata', '#ef4444');
+    } finally { setIsLoading(false); }
+    return;
+  }
+
+  // PDR 2. STRES YÖNETİMİ (/stres)
+  if (lw.startsWith('/stres')) {
+    setIsLoading(true);
+    toggleTypingIndicator(true);
+    updateBotStatus('🟢 Düşünüyor...', '#4ade80');
+    try {
+      const pdrPrompt = `Sen bir psikolojik danışmansın. Öğrencilerin sınav stresi ve kaygısını hafifletecek pratik nefes egzersizleri (Örn: 4-7-8 tekniği) ve kısa rahatlama taktikleri vereceksin. Açıklayıcı ve sakinleştirici bir üslup kullan.`;
+      const response = await askAI('Şu an biraz stresli ve kaygılı hissediyorum. Beni rahatlatacak bir teknik söyler misin?', pdrPrompt);
+      addMessage('bot', response);
+      toggleTypingIndicator(false);
+      appendMessage('bot', formatMessage('bot', '🧘 <b>Stres Yönetimi ve Rahatlama:</b><br>' + response));
+      updateBotStatus('🟢 Çevrimiçi', '#4ade80');
+    } catch(e) {
+      toggleTypingIndicator(false);
+      showError('Stres yönetimi yanıt veremedi.');
+    } finally { setIsLoading(false); }
+    return;
+  }
+
+  // PDR 3. MESLEK SEÇİMİ TESTİ (/kariyer)
+  if (lw.startsWith('/kariyer')) {
+    setIsLoading(true);
+    toggleTypingIndicator(true);
+    updateBotStatus('🟢 Düşünüyor...', '#4ade80');
+    try {
+      const pdrPrompt = `Sen bir Kariyer ve Meslek Danışmanısın. Öğrenciye meslek seçimi konusunda yardımcı olmak için 3 kısa soruluk bir mini envanter testi yapacaksın. Birinci soruyu sor (Hangi dersleri seviyorsun, hobilerin neler vs.) ve cevabını bekle. Tüm soruları aynı anda sorma.`;
+      const response = await askAI('Meslek seçimi testi yapmak istiyorum. İlk soruyu sorar mısın?', pdrPrompt);
+      addMessage('bot', response);
+      toggleTypingIndicator(false);
+      appendMessage('bot', formatMessage('bot', '🧭 <b>Kariyer Danışmanı:</b><br>' + response));
+      updateBotStatus('🟢 Çevrimiçi', '#4ade80');
+    } catch(e) {
+      toggleTypingIndicator(false);
+      showError('Kariyer danışmanı yanıt veremedi.');
+    } finally { setIsLoading(false); }
+    return;
+  }
+
+  // PDR 4. ÇALIŞMA PROGRAMI (/program)
+  if (lw.startsWith('/program')) {
+    setIsLoading(true);
+    toggleTypingIndicator(true);
+    updateBotStatus('🟢 Düşünüyor...', '#4ade80');
+    try {
+      const pdrPrompt = `Öğrenci için örnek bir haftalık çalışma programı taslağı oluşturacaksın. Markdown tablosu formatında (Günler, Sabah, Öğle, Akşam) olsun. Öğrenciye programı kendine göre nasıl şekillendirebileceğine dair 2 cümlelik bir ipucu ver.`;
+      const response = await askAI('Bana örnek bir haftalık çalışma programı tablosu hazırlar mısın?', pdrPrompt);
+      addMessage('bot', response);
+      toggleTypingIndicator(false);
+      appendMessage('bot', formatMessage('bot', '📅 <b>Çalışma Programı Asistanı:</b><br>' + response));
+      updateBotStatus('🟢 Çevrimiçi', '#4ade80');
+    } catch(e) {
+      toggleTypingIndicator(false);
+      showError('Program asistanı yanıt veremedi.');
+    } finally { setIsLoading(false); }
+    return;
+  }
+
   // G. LİDERLİK TABLOSU (/liderlik)
   if (lw.startsWith('/liderlik')) {
      const userName = localStorage.getItem('mega_name') || 'Misafir';
