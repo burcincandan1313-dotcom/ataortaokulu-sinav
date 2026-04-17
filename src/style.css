@@ -2622,3 +2622,161 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
 #studyTopicGrid::-webkit-scrollbar-track { background: transparent; }
 #studyTopicGrid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
 #studyTopicGrid::-webkit-scrollbar-thumb:hover { background: var(--acc); }
+
+/* =======================================
+   REHBERLİK SERVİSİ (PDR) MODAL STYLES
+   ======================================= */
+.pdr-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(16px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.pdr-modal {
+  background: linear-gradient(145deg, var(--bg-alt), var(--bg));
+  max-width: 900px; 
+  width: 100%;
+  border-radius: 24px;
+  padding: 40px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6), 0 0 40px rgba(59, 130, 246, 0.15);
+  border: 1px solid var(--bdr);
+  position: relative;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.pdr-header {
+  text-align: center;
+  margin-bottom: 35px;
+}
+
+.pdr-header h2 {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--txt);
+  margin: 0 0 10px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.pdr-header p {
+  color: var(--sub);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.pdr-close-btn {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--bdr);
+  color: var(--sub);
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.pdr-close-btn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.4);
+  transform: rotate(90deg);
+}
+
+.pdr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.pdr-card {
+  background: var(--bg);
+  border: 2px solid var(--bdr);
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.pdr-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: var(--card-color);
+  opacity: 0;
+  transition: opacity 0.4s;
+  z-index: 0;
+}
+
+.pdr-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--card-color);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25), 0 0 20px var(--card-shadow);
+}
+
+.pdr-card:hover::before {
+  opacity: 0.08;
+}
+
+.pdr-icon {
+  font-size: 3.5rem;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.pdr-card:hover .pdr-icon {
+  transform: scale(1.15) translateY(-5px);
+}
+
+.pdr-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--txt);
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.pdr-desc {
+  font-size: 0.9rem;
+  color: var(--sub);
+  margin: 0;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+}
+
+/* Mobil için */
+@media (max-width: 768px) {
+  .pdr-modal { padding: 25px; border-radius: 20px; }
+  .pdr-header h2 { font-size: 1.6rem; }
+  .pdr-header p { font-size: 0.9rem; }
+  .pdr-grid { grid-template-columns: 1fr; gap: 16px; }
+  .pdr-card { padding: 20px 15px; flex-direction: row; text-align: left; gap: 20px; }
+  .pdr-icon { font-size: 2.5rem; }
+  .pdr-title { font-size: 1.1rem; }
+}

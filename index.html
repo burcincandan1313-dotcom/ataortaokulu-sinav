@@ -317,16 +317,11 @@
        </details>
 
        <!-- 3. Rehberlik & PDR -->
-       <details class="sb-accordion" open>
-          <summary class="sb-summary"><div style="display:flex; align-items:center; gap:8px;"><i class="fa-solid fa-compass"></i> Rehberlik & PDR</div><i class="fa-solid fa-chevron-down acc-arrow"></i></summary>
-          <div class="sb-acc-content">
-             <button class="chip v18-btn" data-qcmd="/motivasyon"><i class="fa-solid fa-fire"></i> Motivasyon Koçu</button>
-             <button class="chip v18-btn" data-qcmd="/kariyer"><i class="fa-solid fa-map"></i> Meslek Seçimi Testi</button>
-             <button class="chip v18-btn" data-qcmd="/program"><i class="fa-solid fa-calendar-check"></i> Çalışma Programı</button>
-             <button class="chip v18-btn" data-qcmd="/stres"><i class="fa-solid fa-leaf"></i> Stres Yönetimi</button>
-             <button class="chip v18-btn" data-qcmd="/pomo"><i class="fa-solid fa-stopwatch"></i> Pomodoro Sayacı</button>
-          </div>
-       </details>
+       <div style="margin-bottom: 8px;">
+          <button class="chip v18-btn" id="btnOpenPDR" onclick="document.getElementById('pdrOverlay').style.display='flex';" style="width: 100%; border: 1px solid var(--acc) !important; background: rgba(59,130,246,0.1) !important; color: var(--txt) !important; font-weight: 700 !important; font-size: 1rem !important; justify-content: center; padding: 14px !important;">
+            <i class="fa-solid fa-compass" style="color: var(--acc); font-size: 1.2rem; margin-right: 8px;"></i> Rehberlik Merkezini Aç
+          </button>
+       </div>
 
        <!-- 4. Rapor & Araçlar -->
        <details class="sb-accordion" open>
@@ -500,6 +495,55 @@
 
 <!-- ↓↓↓ TÜM UYGULAMA KODU INLINE — app-bundle.js bağımlılığı yok ↓↓↓ -->
 
+
+<!-- PDR MODAL -->
+<div class="pdr-overlay" id="pdrOverlay" style="display:none;" role="dialog" aria-modal="true" aria-label="Rehberlik Servisi">
+  <div class="pdr-modal">
+    <button class="pdr-close-btn" onclick="document.getElementById('pdrOverlay').style.display='none';" aria-label="Kapat">✖</button>
+    <div class="pdr-header">
+      <h2><i class="fa-solid fa-compass" style="color: #3b82f6;"></i> Rehberlik Servisim</h2>
+      <p>Ata Ortaokulu Psikolojik Danışmanlık ve Kariyer Planlama Merkezi</p>
+    </div>
+    <div class="pdr-grid">
+      
+      <!-- Kart 1: Anket / Meslek -->
+      <div class="pdr-card" onclick="document.getElementById('pdrOverlay').style.display='none'; handleSendMessage('/kariyer');" style="--card-color: #f59e0b; --card-shadow: rgba(245, 158, 11, 0.4);">
+        <i class="fa-solid fa-chart-line pdr-icon" style="color: #f59e0b;"></i>
+        <h3 class="pdr-title">Rehberlik Servisim Anket Sistemi</h3>
+        <p class="pdr-desc">Kariyer, yetenek ve meslek seçimi testleri ile geleceğini şekillendir.</p>
+      </div>
+
+      <!-- Kart 2: Koçluk / Motivasyon -->
+      <div class="pdr-card" onclick="document.getElementById('pdrOverlay').style.display='none'; handleSendMessage('/motivasyon');" style="--card-color: #ec4899; --card-shadow: rgba(236, 72, 153, 0.4);">
+        <i class="fa-solid fa-clipboard-list pdr-icon" style="color: #ec4899;"></i>
+        <h3 class="pdr-title">Öğrenci Koçluk Dokümanı</h3>
+        <p class="pdr-desc">Motivasyon desteği, hedef belirleme ve psikolojik danışmanlık al.</p>
+      </div>
+
+      <!-- Kart 3: Rehberlik Planları / Stres -->
+      <div class="pdr-card" onclick="document.getElementById('pdrOverlay').style.display='none'; handleSendMessage('/stres');" style="--card-color: #8b5cf6; --card-shadow: rgba(139, 92, 246, 0.4);">
+        <i class="fa-solid fa-users-gear pdr-icon" style="color: #8b5cf6;"></i>
+        <h3 class="pdr-title">Rehberlik Planları</h3>
+        <p class="pdr-desc">Sınav kaygısı ve stres yönetimi için uzman teknikleri öğren.</p>
+      </div>
+
+      <!-- Kart 4: Çalışma Programı -->
+      <div class="pdr-card" onclick="document.getElementById('pdrOverlay').style.display='none'; handleSendMessage('/program');" style="--card-color: #10b981; --card-shadow: rgba(16, 185, 129, 0.4);">
+        <i class="fa-solid fa-bullseye pdr-icon" style="color: #10b981;"></i>
+        <h3 class="pdr-title">Ders Çalışma Programı</h3>
+        <p class="pdr-desc">Sana özel haftalık ders çalışma çizelgeni anında oluştur.</p>
+      </div>
+
+      <!-- Kart 5: Pomodoro -->
+      <div class="pdr-card" onclick="document.getElementById('pdrOverlay').style.display='none'; handleSendMessage('/pomo');" style="--card-color: #ef4444; --card-shadow: rgba(239, 68, 68, 0.4);">
+        <i class="fa-solid fa-stopwatch pdr-icon" style="color: #ef4444;"></i>
+        <h3 class="pdr-title">Pomodoro Sayacı</h3>
+        <p class="pdr-desc">25 dakikalık çalışma blokları ile maksimum odaklanma sağla.</p>
+      </div>
+
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

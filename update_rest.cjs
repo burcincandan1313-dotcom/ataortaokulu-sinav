@@ -1,0 +1,76 @@
+const fs = require('fs');
+
+const file = './src/curriculum.js';
+let content = fs.readFileSync(file, 'utf8');
+
+const updates = {
+  'İngilizce': {
+    1: '["1. Tema: Listening and Responding - Etkileşimli dinleme ve basit komutlara tepki verme.", "2. Tema: Spoken Interaction - Basit selamlaşma, kendini tanıtma ve duygularını ifade etme.", "3. Tema: Vocabulary Building - Renkler, sayılar (1-10), hayvanlar ve sınıf eşyaları."]',
+    2: '["1. Tema: Listening and Comprehension - Kısa ve basit yönergeleri anlama, dinlediğini ayırt etme.", "2. Tema: Spoken Interaction - Aile bireylerini tanıtma, sevdiği şeyleri ifade etme.", "3. Tema: Vocabulary Building - Vücudun bölümleri, yiyecekler, sayılar (11-20) ve hava durumu."]',
+    3: '["1. Tema: Oral Communication - Gündelik konuşmalara katılma, soru sorma ve cevaplama.", "2. Tema: Written Expression - Temel kelimeleri yazma, basit cümleler oluşturma.", "3. Tema: Vocabulary Building - Meslekler, ulaşım araçları, hobiler ve doğa."]',
+    4: '["1. Tema: Listening for Specific Information - Detaylı dinleme, hikaye kahramanlarını anlama.", "2. Tema: Oral Communication - Fiziksel özellikleri tarif etme, yeteneklerinden (can/can\\'t) bahsetme.", "3. Tema: Reading Comprehension - Kısa metinleri okuma, görsel-metin eşleştirme.", "4. Tema: Written Expression - Kendi rutini hakkında kısa paragraflar yazma."]',
+    5: '["1. Tema: Communicative Competence - Karşılıklı konuşmaları sürdürme, davet ve tekliflerde bulunma.", "2. Tema: Reading Strategies - Basit metinlerde ana fikri bulma, tarama (scanning).", "3. Tema: Vocabulary Building - Günlük rutinler, saatler, hastalıklara dair tavsiyeler (should/shouldn\\'t).", "4. Tema: Cultural Awareness - Farklı kültürlerdeki festivaller ve özel günler."]',
+    6: '["1. Tema: Listening and Pronunciation - Farklı aksanlara aşinalık, doğru telaffuz çalışmaları.", "2. Tema: Oral Production - Karşılaştırmalar yapma, geçmişteki olayları (was/were) anlatma.", "3. Tema: Reading Comprehension - Çeşitli metin türlerini okuyup anlama, bağlamdan anlam çıkarma.", "4. Tema: Written Expression - Geçmiş deneyimler ve tatil anıları hakkında yazma."]',
+    7: '["1. Tema: Spoken Interaction - Tercihlerden bahsetme, öneri ve tavsiyelerde bulunma.", "2. Tema: Reading Strategies - Detaylı okuma, sebep-sonuç ilişkileri kurma.", "3. Tema: Vocabulary Building - Kişilik özellikleri, çevre sorunları, gezegenler ve televizyon programları.", "4. Tema: Written Expression - Geleceğe dair hayaller (will) ve planlar hakkında kompozisyon yazma."]',
+    8: '["1. Tema: Communicative Competence - Arkadaşlık ilişkileri, mazeret bildirme, mazeretleri kabul/reddetme.", "2. Tema: Reading Comprehension - Bilimsel metinler, biyografiler ve süreç anlatan metinler okuma.", "3. Tema: Vocabulary Building - Mutfak terimleri, internet güvenliği, ekstrem sporlar ve doğal afetler.", "4. Tema: Written Expression - Prosedür yazma, resmi/gayriresmi davetiye hazırlama."]',
+    9: '["1. Tema: Oral Production - Yurtdışında eğitim, çevreyi tanıtma, ilham veren kişiler hakkında konuşma.", "2. Tema: Reading Strategies - Karmaşık metinlerde çıkarım yapma, ana fikri sentezleme.", "3. Tema: Intercultural Competence - Kültürlerarası köprüler kurma, dünya mirasları.", "4. Tema: Written Expression - Acil durumlara yönelik e-postalar yazma, blog gönderileri hazırlama."]',
+    10: '["1. Tema: Communicative Competence - Okul hayatı, gelecek planları (be going to), seyahat rotaları planlama.", "2. Tema: Reading Comprehension - Gelenekler, efsanevi kişiler ve yemek kültürleri üzerine metinler.", "3. Tema: Vocabulary Building - Dijital çağ terimleri, modern kahramanlar, alışveriş alışkanlıkları.", "4. Tema: Written Expression - Resmi mektuplar, fikir denemeleri (opinion essays) yazma."]',
+    11: '["1. Tema: Oral Production - Geleceğin meslekleri, beceriler ve psikolojik durumlar üzerine mülakat/tartışma.", "2. Tema: Reading Strategies - Gerçek olaylar (haber hikayeleri), teknolojik inovasyonlar.", "3. Tema: Values and Norms - Görgü kuralları, insan hakları ve toplumsal değerler.", "4. Tema: Written Expression - Bilgilendirici (informative) makaleler, tartışma metinleri yazma."]',
+    12: '["1. Tema: Communicative Competence - Tercihler, felsefi konular, arkadaşlık ve iyilikler üzerine felsefi/gündelik diyaloglar.", "2. Tema: Reading Comprehension - Müzik türleri, psikolojik analiz metinleri, teknoloji makaleleri.", "3. Tema: Global Issues - İnsan hakları, alternatif enerji kaynakları ve sürdürülebilirlik.", "4. Tema: Written Expression - İleri düzey akademik denemeler, raporlar ve yaratıcı yazarlık."]'
+  },
+  'Oyun ve Fiziki Etkinlikler': {
+    1: '["1. Tema: Hareket Yetkinliği - Temel hareket becerileri (yer değiştirme, dengeleme, nesne kontrolü).", "2. Tema: Aktif ve Sağlıklı Hayat - Düzenli fiziksel aktivitenin sağlığa faydaları, kişisel temizlik ve güvenlik."]',
+    2: '["1. Tema: Hareket Yetkinliği - Birleştirilmiş hareket becerileri, ritim ve müzik eşliğinde hareket.", "2. Tema: Aktif ve Sağlıklı Hayat - Sağlıklı beslenme, egzersizin vücuttaki etkileri ve doğada hareket."]',
+    3: '["1. Tema: Hareket Yetkinliği - Çabukluk, çeviklik ve koordinasyon gerektiren hareketler, geleneksel oyunlar.", "2. Tema: Aktif ve Sağlıklı Hayat - Spor yaparken güvenlik kuralları, spor etiği ve iş birliği."]',
+    4: '["1. Tema: Hareket Yetkinliği - Spora özgü temel hareket becerileri, strateji ve taktik oyunları.", "2. Tema: Aktif ve Sağlıklı Hayat - Fiziksel uygunluk, milli bayramlarda spor etkinlikleri ve fair-play."]'
+  },
+  'Beden Eğitimi ve Spor': {
+    5: '["1. Tema: Hareket Yetkinliği - Cimnastik, atletizm ve takım sporlarında temel teknikler.", "2. Tema: Aktif ve Sağlıklı Hayat - Yaşam boyu spor felsefesi, spor kültürü ve olimpizm değerleri."]',
+    6: '["1. Tema: Hareket Yetkinliği - Bireysel ve takım sporlarında (hentbol, masa tenisi vb.) taktiksel beceriler.", "2. Tema: Aktif ve Sağlıklı Hayat - Fiziksel etkinlik planı oluşturma, öz disiplin ve engelli bireyler için spor."]',
+    7: '["1. Tema: Hareket Yetkinliği - İleri düzey spor teknikleri (voleybol, basketbol), oryantiring ve halk oyunları.", "2. Tema: Aktif ve Sağlıklı Hayat - Dopingin zararları, sporda ilk yardım ve sporun stres yönetimine etkisi."]',
+    8: '["1. Tema: Hareket Yetkinliği - Müsabaka yönetimi, hakemlik işaretleri, strateji geliştirme.", "2. Tema: Aktif ve Sağlıklı Hayat - Kariyer planlama (spor bilimleri), Atatürk\\'ün spor anlayışı ve sporda liderlik."]',
+    9: '["1. Tema: Spor ve Yaşam - Fizyolojik uyum, bireysel spor branşlarında derinleşme, spor etiği.", "2. Tema: Spor Kültürü - Milli kimlik ve spor, geleneksel Türk sporları, e-spor ve dijitalleşme."]',
+    10: '["1. Tema: Spor ve Yaşam - Savunma sporları, antrenman bilimi (set, dinlenme vb.), sporda şiddetin önlenmesi.", "2. Tema: Spor Kültürü - Büyük spor organizasyonları (Dünya Kupası vb.), sporda beslenme."]',
+    11: '["1. Tema: Spor ve Yaşam - Spor yönetimi, rekreasyon faaliyetleri, doğa ve macera sporları.", "2. Tema: Spor Kültürü - Spor psikolojisi, spor sosyolojisi ve sporun barışa katkısı."]',
+    12: '["1. Tema: Spor ve Yaşam - İleri düzey performans, zihinsel antrenman, yaşam boyu sağlık planı.", "2. Tema: Spor Kültürü - Spor ekonomisi, küresel spor sorunları ve meslek tanıtımı (BESYO vb.)."]'
+  },
+  'Bilişim Teknolojileri ve Yazılım': {
+    1: '["1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri - Teknolojik araçların tanınması, donanım parçaları.", "2. Tema: Bilişim Etiği ve Siber Güvenlik - Dijital vatandaşlığa giriş ve güvenli internet kuralları.", "3. Tema: Yazılım Tasarımı ve Programlama - Bilgisayarsız kodlama, adım adım talimat verme (algoritma)."]',
+    2: '["1. Tema: Bilişim Teknolojilerinin Hayatımızdaki Yeri - Dijital yardımcılarımız, dosya/klasör yönetimi.", "2. Tema: Bilişim Etiği ve Siber Güvenlik - Güçlü şifre oluşturma, dijital güvenlik ve medya okuryazarlığı.", "3. Tema: Yazılım Tasarımı ve Programlama - Döngüsel algoritmalar ve basit blok tabanlı kodlama."]',
+    3: '["1. Tema: Dijital Ürün Tasarımı ve Geliştirme - Kelime işlemci kullanımı, ilk animasyon/görsel tasarım.", "2. Tema: Bilgisayar Ağları ve İletişim - İşletim sistemleri, bulut depolama temelleri.", "3. Tema: Bilişim Etiği ve Siber Güvenlik - Telif hakları, siber zorbalıkla baş etme yöntemleri.", "4. Tema: Yazılım Tasarımı ve Programlama - Scratch vb. araçlarla kodlama, problem çözme."]',
+    4: '["1. Tema: Dijital Ürün Tasarımı ve Geliştirme - Sunum programları hazırlama, oyun tasarımı ilkeleri.", "2. Tema: Bilgisayar Ağları ve İletişim - İnternette arama stratejileri, e-devlet servislerini tanıma.", "3. Tema: Yapay Zekâ - Yapay zekaya giriş, akıllı makinelerin çalışma prensipleri.", "4. Tema: Yazılım Tasarımı ve Programlama - Koşul yapıları, kodlarda hata ayıklama (debugging)."]',
+    11: '["1. Tema: Nesne Yönelimli Programlama - İleri düzey OOP (Sınıf, nesne, kalıtım).", "2. Tema: Web Programlama ve Veritabanı - Backend teknolojileri, MVC mimarisi ve SQL entegrasyonu.", "3. Tema: Siber Güvenlik ve Ağ Yönetimi - Sızma testleri, kriptografi ve sunucu güvenliği.", "4. Tema: Yapay Zekâ - Makine öğrenmesi algoritmaları, veri madenciliği ve görüntü işleme."]',
+    12: '["1. Tema: İleri Düzey Yazılım Geliştirme - Derin öğrenme (Yapay sinir ağları), NLP (Doğal dil işleme).", "2. Tema: Gömülü Sistemler ve Nesnelerin İnterneti (IoT) - Gelişmiş donanım programlama (Raspberry Pi vb.).", "3. Tema: Mobil ve Etkileşimli Uygulamalar - Sanal gerçeklik (VR), artırılmış gerçeklik (AR).", "4. Tema: Bilişim Projesi Yönetimi - Yenilikçi (inovatif) girişimcilik, bitirme projesi tasarımı ve sunumu."]'
+  },
+  'Görsel Sanatlar': {
+    1: '["1. Tema: Hayat ve Sanat - Sanat araç gereçlerini tanıma, çevredeki güzellikleri fark etme.", "2. Tema: Sanatın Görsel Dili - Nokta, çizgi, ana renkler (kırmızı, sarı, mavi) ve temel şekiller.", "3. Tema: Sanatçılar ve Eserleri - Tanınmış eserleri inceleme ve görsel okuryazarlığa giriş.", "4. Tema: Çizim ve Görsel İfade - Kil, oyun hamuru, kolaj (kes-yapıştır) çalışmaları."]',
+    9: '["1. Tema: Hayat ve Sanat - Görsel sanatlar kültürü, sanatın birey ve toplum üzerindeki etkisi.", "2. Tema: Sanatın Görsel Dili - Temel tasarım ögeleri (nokta, çizgi, leke, doku, renk, biçim, mekân).", "3. Tema: Sanatçılar ve Eserleri - Antik çağ uygarlıkları sanatı, Türk ve dünya sanatından örnekler.", "4. Tema: Çizim ve Görsel İfade - Görsel iletişim tasarımı, afiş, illüstrasyon, tipografi.", "5. Tema: Renk ve Estetik - Renk bilgisi uygulamaları ve doğadaki estetik uyum.", "6. Tema: Müze ve Kültür - Sanat eleştirisi, müze ve sanat galerisi incelemeleri."]',
+    10: '["1. Tema: Hayat ve Sanat - Çağdaş sanat anlayışları ve sanatsal akımların kültürel etkileri.", "2. Tema: Sanatın Görsel Dili - Kompozisyon ilkeleri, perspektif ve hacim uygulamaları.", "3. Tema: Sanatçılar ve Eserleri - Rönesans, Barok ve Klasisizm sanatı, Osmanlı sanatına etkileri.", "4. Tema: Çizim ve Görsel İfade - İnsan figürü çizimleri, iç mekân tasarımı ve dijital sanat.", "5. Tema: Renk ve Estetik - Boyama teknikleri (sulu boya, akrilik, yağlı boya) ve renk psikolojisi.", "6. Tema: Müze ve Kültür - Sergileme türleri, küratörlük kavramı ve müze eğitimi."]',
+    11: '["1. Tema: Hayat ve Sanat - Sanat felsefesi (Estetik), güzelin doğası ve sanatta yaratıcılık.", "2. Tema: Sanatın Görsel Dili - Disiplinlerarası sanat (müzik, edebiyat ve plastik sanatların etkileşimi).", "3. Tema: Sanatçılar ve Eserleri - Modernizm, Postmodernizm ve Çağdaş Türk Sanatı.", "4. Tema: Çizim ve Görsel İfade - İleri desen çalışmaları, moda ve kostüm tasarımı.", "5. Tema: Renk ve Estetik - Sinematografi, fotoğraf sanatı ve görsel kültür.", "6. Tema: Müze ve Kültür - Bienaller, sanat fuarları ve kamusal sanat uygulamaları."]',
+    12: '["1. Tema: Hayat ve Sanat - Sanatta kişisel üslup geliştirme, sanat ve kimlik.", "2. Tema: Sanatın Görsel Dili - Kavramsal sanat, çevresel sanat (Land Art) ve enstalasyon.", "3. Tema: Sanatçılar ve Eserleri - Disiplinler arası güncel yaklaşımlar, dijital sanatlar ve yapay zeka.", "4. Tema: Çizim ve Görsel İfade - Özgün projeler üretme, portfolyo tasarımı ve mezuniyet projesi.", "5. Tema: Renk ve Estetik - Sanat terapisine giriş ve sanatın psikolojik iyileştirici gücü.", "6. Tema: Müze ve Kültür - Sanat ekonomisi, koleksiyonerlik ve kreatif endüstriler."]'
+  }
+};
+
+let lines = content.split("\\n").length > 1 ? content.split("\\n") : content.split("\\r\\n").length > 1 ? content.split("\\r\\n") : content.split(String.fromCharCode(10));
+let currentGrade = 0;
+
+for (let i = 0; i < lines.length; i++) {
+  let gradeMatch = lines[i].match(/^\\s*(\\d+):\\s*\\{/);
+  if (gradeMatch) {
+    currentGrade = parseInt(gradeMatch[1]);
+    continue;
+  }
+  
+  if (currentGrade > 0) {
+    for (let subject in updates) {
+      if (lines[i].indexOf("'" + subject + "':") !== -1) {
+        if (updates[subject] && updates[subject][currentGrade]) {
+          lines[i] = "    '" + subject + "': " + updates[subject][currentGrade] + ",";
+        }
+      }
+    }
+  }
+}
+
+fs.writeFileSync(file, lines.join("\\n"), 'utf8');
+console.log("Curriculum updated successfully!");
