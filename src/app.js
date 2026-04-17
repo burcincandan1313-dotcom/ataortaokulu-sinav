@@ -505,7 +505,7 @@ async function handleSendMessage(text) {
     updateBotStatus('🟢 Düşünüyor...', '#4ade80');
     try {
       const pdrPrompt = `Öğrenci için örnek bir haftalık çalışma programı taslağı oluşturacaksın. Markdown tablosu formatında (Günler, Sabah, Öğle, Akşam) olsun. Öğrenciye programı kendine göre nasıl şekillendirebileceğine dair 2 cümlelik bir ipucu ver.`;
-      const response = await askAI('Bana örnek bir haftalık çalışma programı tablosu hazırlar mısın?', pdrPrompt);
+      const response = await askAI('Bana örnek bir haftalık çalışma programı tablosu hazırlar mısın?', pdrPrompt, 2000);
       addMessage('bot', response);
       toggleTypingIndicator(false);
       appendMessage('bot', formatMessage('bot', '📅 <b>Çalışma Programı Asistanı:</b><br>' + response));
