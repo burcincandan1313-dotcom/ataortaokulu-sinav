@@ -4,25 +4,25 @@
  */
 export const curriculumData = {
   1: {
-    'Matematik': ["1. TEMA: SAYILAR VE NİCELİKLER (1)","2. TEMA: SAYILAR VE NİCELİKLER (2)","3. TEMA: SAYILAR VE NİCELİKLER (3)","4. TEMA: İŞLEMLERDEN CEBİRSEL DÜŞÜNMEYE","5. TEMA: NESNELERİN GEOMETRİSİ (1)","6. TEMA: NESNELERİN GEOMETRİSİ (2)","7. TEMA: VERİYE DAYALI ARAŞTIRMA"],
+    'Matematik': ["1. TEMA: Sayıların Dünyasına Yolculuk (Rakamlar, Nesne Sayma, 20'ye Kadar Sayılar)", "2. TEMA: Toplamaya Başlıyorum (Toplama İşlemi Kavramı)", "3. TEMA: Çıkarmayı Öğreniyorum (Çıkarma İşlemi Kavramı)", "4. TEMA: Geometrik Şekiller ve Örüntüler (Kare, Üçgen, Daire ve Mantıksal Sıralama)", "5. TEMA: Ölçme ve Veri (Paralarımız, Zaman, Uzunluk ve Tablo Okuma)"],
     'Türkçe': ["1. TEMA: GÜZEL DAVRANIŞLARIMIZ","2. TEMA: MUSTAFA KEMAL’DEN ATATÜRK’E","3. TEMA: ÇEVREMİZDEKİ YAŞAM","4. TEMA: YOL ARKADAŞIMIZ KİTAPLAR","5. TEMA: YETENEKLERİMİZİ KEŞFEDİYORUZ","6. TEMA: MİNİK KÂŞİFLER","7. TEMA: ATALARIMIZIN İZLERİ","8. TEMA: SORUMLULUKLARIMIZIN FARKINDAYIZ"],
     'Hayat Bilgisi': ["1. ÖĞRENME ALANI: BEN VE OKULUM","2. ÖĞRENME ALANI: SAĞLIĞIM VE GÜVENLİĞİM","3. ÖĞRENME ALANI: AİLEM VE TOPLUM","4. ÖĞRENME ALANI: YAŞADIĞIM YER VE ÜLKEM","5. ÖĞRENME ALANI: DOĞA VE ÇEVRE","6. ÖĞRENME ALANI: BİLİM, TEKNOLOJİ VE SANAT"],
   },
   2: {
-    'Matematik': ["1. TEMA: SAYILAR VE NİCELİKLER (1)","2. TEMA: SAYILAR VE NİCELİKLER (2)","3. TEMA: İŞLEMLERDEN CEBİRSEL DÜŞÜNMEYE","4. TEMA: NESNELERİN GEOMETRİSİ (1)","5. TEMA: NESNELERİN GEOMETRİSİ (2)","6. TEMA: VERİYE DAYALI ARAŞTIRMA"],
+    'Matematik': ["1. TEMA: Sayılarla İşlemler - I (Eldeli Toplama, Onluk Bozarak Çıkarma)", "2. TEMA: Çarpma ve Bölmeye Giriş (Ritmik Sayma, Çarpım Tablosu Mantığı)", "3. TEMA: Geometri ve Uzamsal İlişkiler (Geometrik Cisimler, Yer ve Yön)", "4. TEMA: Ölçme Bilgisi (Paralarımız, Zaman, Uzunluk, Tartma)", "5. TEMA: Veri İşleme (Nesne ve Şekil Grafiği)"],
     'Türkçe': ["1. TEMA: DEĞERLERİMİZLE VARIZ","2. TEMA: ATATÜRK VE ÇOCUK","3. TEMA: DOĞADA NELER OLUYOR?","4. TEMA: OKUMA SERÜVENİMİZ","5. TEMA: YETENEKLERİMİZİ TANIYORUZ","6. TEMA: MUCİT ÇOCUK","7. TEMA: KÜLTÜR HAZİNEMİZ","8. TEMA: HAKLARIMIZI BİLİYORUZ"],
     'Hayat Bilgisi': ["1. ÖĞRENME ALANI: BEN VE OKULUM","2. ÖĞRENME ALANI: SAĞLIĞIM VE GÜVENLİĞİM","3. ÖĞRENME ALANI: AİLEM VE TOPLUM","4. ÖĞRENME ALANI: YAŞADIĞIM YER VE ÜLKEM","5. ÖĞRENME ALANI: DOĞA VE ÇEVRE","6. ÖĞRENME ALANI: BİLİM, TEKNOLOJİ VE SANAT"],
     'İngilizce': ["1. TEMA: Interactive Greeting (Etkileşimli Selamlaşma)", "2. TEMA: My Immediate Environment (Yakın Çevrem - Okul ve Sınıf)", "3. TEMA: Numbers in My Life (Hayatımdaki Sayılar)", "4. TEMA: My Body and Actions (Vücudum ve Hareketler)", "5. TEMA: Colors of Nature (Doğanın Renkleri)", "6. TEMA: My Family and Friends (Ailem ve Arkadaşlarım)", "7. TEMA: Daily Activities (Günlük Etkinlikler ve Oyunlar)", "8. TEMA: Animals Around Us (Çevremizdeki Hayvanlar)"],
   },
   3: {
-    'Matematik': ["1. TEMA: SAYILAR VE NİCELİKLER (1)","2. TEMA: SAYILAR VE NİCELİKLER (2)","3. TEMA: İŞLEMLERDEN CEBİRSEL DÜŞÜNMEYE","4. TEMA: NESNELERİN GEOMETRİSİ (1)","5. TEMA: NESNELERİN GEOMETRİSİ (2)","6. TEMA: VERİYE DAYALI ARAŞTIRMA"],
+    'Matematik': ["1. TEMA: Sayılar ve İşlemler (Üç Basamaklı Sayılar, Kısa Yoldan Çarpma ve Bölme)", "2. TEMA: Kesirler (Birim Kesirler ve Kesirlerle Hesaplama)", "3. TEMA: Geometrik Nicelikler (Açılar, Alan ve Çevre Kavramına Giriş)", "4. TEMA: Veri ve Ölçme (Sıvı Ölçme, Grafik Yorumlama)"],
     'Türkçe': ["1. TEMA: DEĞERLERİMİZLE YAŞIYORUZ","2. TEMA: ATATÜRK VE KAHRAMANLARIMIZ","3. TEMA: DOĞAYI TANIYORUZ","4. TEMA: BİLGİ HAZİNEMİZ","5. TEMA: YETENEKLERİMİZİ KULLANIYORUZ","6. TEMA: BİLİM YOLCULUĞU","7. TEMA: MİLLÎ KÜLTÜRÜMÜZ","8. TEMA: HAK VE SORUMLULUKLARIMIZ"],
     'Hayat Bilgisi': ["1. ÖĞRENME ALANI: BEN VE OKULUM","2. ÖĞRENME ALANI: SAĞLIĞIM VE GÜVENLİĞİM","3. ÖĞRENME ALANI: AİLEM VE TOPLUM","4. ÖĞRENME ALANI: YAŞADIĞIM YER VE ÜLKEM","5. ÖĞRENME ALANI: DOĞA VE ÇEVRE","6. ÖĞRENME ALANI: BİLİM, TEKNOLOJİ VE SANAT"],
     'Fen Bilimleri': ["1. ÜNİTE: BİLİMSEL KEŞİF YOLCULUĞU","2. ÜNİTE: CANLILAR DÜNYASINA YOLCULUK","3. ÜNİTE: YER BİLİMCİLER İŞ BAŞINDA","4. ÜNİTE: MADDEYİ TANIYALIM, KARIŞTIRIP AYIRALIM","5. ÜNİTE: HAREKETİ KEŞFEDİYORUM","6. ÜNİTE: YAŞAMIMIZI KOLAYLAŞTIRAN ELEKTRİK","7. ÜNİTE: TOPRAĞI TANIYORUM, TARIMI KEŞFEDİYORUM","8. ÜNİTE: CANLILARIN YAŞAM ALANLARINA YOLCULUK"],
     'İngilizce': ["1. TEMA: Meeting People (İnsanlarla Tanışma)", "2. TEMA: My World at School (Okuldaki Dünyam)", "3. TEMA: People I Love (Sevdiğim İnsanlar)", "4. TEMA: My Feelings (Duygularım)", "5. TEMA: My House and Home (Evim ve Yaşam Alanım)", "6. TEMA: At the Playground (Parkta ve Oyun Alanında)", "7. TEMA: World of Nature (Doğa Dünyası)", "8. TEMA: Transportation and City (Ulaşım ve Şehir)"],
   },
   4: {
-    'Matematik': ["1. TEMA: SAYILAR VE NİCELİKLER (1)","2. TEMA: SAYILAR VE NİCELİKLER (2)","3. TEMA: İŞLEMLERDEN CEBİRSEL DÜŞÜNMEYE","4. TEMA: NESNELERİN GEOMETRİSİ (1)","5. TEMA: NESNELERİN GEOMETRİSİ (2)","6. TEMA: NESNELERİN GEOMETRİSİ (3)","7. TEMA: OLAYLARIN OLASILIĞI VE VERİYE DAYALI ARAŞTIRMA"],
+    'Matematik': ["1. TEMA: Büyük Sayılar ve İşlemler (4, 5, 6 Basamaklı Sayılar ve Zihinden İşlemler)", "2. TEMA: Kesirlerle İşlemler (Paydaları Eşit Kesirlerle Hesaplamalar)", "3. TEMA: Geometri Dünyası (Açı Ölçme, Üçgen Çeşitleri, Simetri)", "4. TEMA: Veri ve Tahmin (Sütun Grafiği ve Tahmin Stratejileri)"],
     'Türkçe': ["1. TEMA: ERDEMLER","2. TEMA: MİLLÎ MÜCADELE VE ATATÜRK","3. TEMA: DOĞA VE İNSAN","4. TEMA: KÜTÜPHANEMİZ","5. TEMA: KENDİMİZİ GELİŞTİRİYORUZ","6. TEMA: BİLİM VE TEKNOLOJİ","7. TEMA: GEÇMİŞTEN GELECEĞE MİRASIMIZ","8. TEMA: DEMOKRATİK YAŞAM"],
     'Sosyal Bilgiler': ["1. ÖĞRENME ALANI: BİRLİKTE YAŞAMAK","2. ÖĞRENME ALANI: EVİMİZ DÜNYA","3. ÖĞRENME ALANI: ORTAK MİRASIMIZ","4. ÖĞRENME ALANI: YAŞAYAN DEMOKRASİMİZ","5. ÖĞRENME ALANI: HAYATIMIZDAKİ EKONOMİ","6. ÖĞRENME ALANI: TEKNOLOJİ VE SOSYAL BİLİMLER"],
     'Fen Bilimleri': ["1. ÜNİTE: BİLİME YOLCULUK","2. ÜNİTE: SAĞLIKLI BESLENİYORUM","3. ÜNİTE: DÜNYA’MIZI KEŞFEDELİM","4. ÜNİTE: MADDENİN DEĞİŞİMİ","5. ÜNİTE: MIKNATISI KEŞFEDİYORUM","6. ÜNİTE: ENERJİ DEDEKTİFLERİ","7. ÜNİTE: IŞIĞIN PEŞİNDE","8. ÜNİTE: SÜRDÜRÜLEBİLİR ŞEHİRLER VE TOPLULUKLAR"],
@@ -30,7 +30,7 @@ export const curriculumData = {
     'Din Kültürü ve Ahlak Bilgisi': ["1. ÜNİTE: GÜNLÜK HAYAT VE DİN","2. ÜNİTE: ALLAH SEVGİSİ","3. ÜNİTE: PEYGAMBERLERİN SEVGİSİ","4. ÜNİTE: AHLAKİ DEĞERLERİMİZ","5. ÜNİTE: HAKLAR VE SORUMLULUKLAR"],
   },
   5: {
-    'Matematik': ["1.TEMA: SAYILAR VE NİCELİKLER (1)","1.TEMA: SAYILAR VE NİCELİKLER (2)","2.TEMA: İŞLEMLERLE CEBİRSEL DÜŞÜNME","3.TEMA: GEOMETRİK ŞEKİLLER","4.TEMA: GEOMETRİK NİCELİKLER","5.TEMA: İSTATİSTİKSEL ARAŞTIRMA SÜRECİ","6.TEMA: VERİDEN OLASILIĞA"],
+    'Matematik': ["1. TEMA: Sayılar ve İşlemler (Milyonlar, Üslü Sayılar, Parantezli İşlemler)", "2. TEMA: Kesirler, Ondalık Gösterim ve Yüzdeler (Karşılaştırma ve Dönüştürme)", "3. TEMA: Geometri ve Ölçme (Temel Kavramlar, Çokgenler, Çevre ve Alan)", "4. TEMA: Veri İşleme (Araştırma Soruları ve Tablo Analizi)"],
     'Türkçe': ["1. TEMA: OYUN DÜNYASI","2. TEMA: ATATÜRK’Ü TANIMAK","3. TEMA: DUYGULARIMI TANIYORUM","4. TEMA: GELENEKLERİMİZ","5. TEMA: İLETİŞİM VE SOSYAL İLİŞKİLER","6. TEMA: SAĞLIKLI YAŞIYORUM"],
     'Sosyal Bilgiler': ["1. ÖĞRENME ALANI: BİRLİKTE YAŞAMAK","2. ÖĞRENME ALANI: EVİMİZ DÜNYA","3. ÖĞRENME ALANI: ORTAK MİRASIMIZ","4. ÖĞRENME ALANI: YAŞAYAN DEMOKRASİMİZ","5. ÖĞRENME ALANI: HAYATIMIZDAKİ EKONOMİ","6. ÖĞRENME ALANI: TEKNOLOJİ ve SOSYAL BİLİMLER"],
     'Fen Bilimleri': ["1. ÜNİTE: GÖKYÜZÜNDEKİ KOMŞULARIMIZ VE BİZ","2. ÜNİTE: KUVVETİ TANIYALIM","3. ÜNİTE: CANLILARIN YAPISINA YOLCULUK","4. ÜNİTE: IŞIĞIN DÜNYASI","5. ÜNİTE: MADDENİN DOĞASI","6. ÜNİTE: YAŞAMIMIZDAKİ ELEKTRİK","7. ÜNİTE: SÜRDÜRÜLEBİLİR YAŞAM VE GERİ DÖNÜŞÜM"],
@@ -38,7 +38,7 @@ export const curriculumData = {
     'İngilizce': ["1. TEMA: Hello & Socializing (Selamlaşma ve Sosyalleşme)", "2. TEMA: My Town & Places (Şehrim ve Mekanlar)", "3. TEMA: Games & Sportsmanship (Oyunlar ve Sporcu Ruhu)", "4. TEMA: Daily Routines & Time (Günlük Planlar ve Zaman Yönetimi)", "5. TEMA: Health & Wellness (Sağlık ve Esenlik)", "6. TEMA: Media & Entertainment (Medya ve Eğlence - Filmler)", "7. TEMA: Social Gatherings (Sosyal Buluşmalar ve Partiler)", "8. TEMA: Physical Activities (Fiziksel Aktiviteler ve Doğa)", "9. TEMA: Animal Rights & Care (Hayvan Hakları ve Bakımı)", "10. TEMA: Cultural Celebrations (Kültürel Kutlamalar ve Festivaller)"],
   },
   6: {
-    'Matematik': ["1.TEMA: SAYILAR VE NİCELİKLER (1)","1.TEMA:SAYILAR VE NİCELİKLER (2)","2.TEMA: İŞLEMLERLE CEBİRSEL DÜŞÜNME VE DEĞİŞİMLER","3.TEMA: GEOMETRİK ŞEKİLLER","4.TEMA: GEOMETRİK NİCELİKLER","5.TEMA: İSTATİSTİKSEL ARAŞTIRMA SÜRECİ","6.TEMA: VERİDEN OLASILIĞA"],
+    'Matematik': ["1. TEMA: Tam Sayılar (Mutlak Değer, Karşılaştırma)", "2. TEMA: Kümeler (Birleşim ve Kesişim İşlemleri)", "3. TEMA: Cebirsel İfadeler (Değişken Kavramı ve Basit Denklemler)", "4. TEMA: Oran ve Orantı (Birimli-Birimsiz Oran)", "5. TEMA: Geometrik Ölçme (Hacim Ölçme Birimleri)"],
     'Türkçe': ["1. TEMA: DİLİMİZİN ZENGİNLİĞİ","2. TEMA: BAĞIMSIZLIK YOLU","3. TEMA: FARKLI DÜNYALAR","4. TEMA: İLETİŞİM VE SOSYAL İLİŞKİLER","5. TEMA: BİLİM VE TEKNOLOJİ","6. TEMA: LİDER RUHLAR"],
     'Sosyal Bilgiler': ["1. ÖĞRENME ALANI: BİRLİKTE YAŞAMAK","2. ÖĞRENME ALANI: EVİMİZ DÜNYA","3. ÖĞRENME ALANI: ORTAK MİRASIMIZ","4. ÖĞRENME ALANI: YAŞAYAN DEMOKRASİMİZ","5. ÖĞRENME ALANI: HAYATIMIZDAKİ EKONOMİ","6. ÖĞRENME ALANI: TEKNOLOJİ ve SOSYAL BİLİMLER"],
     'Fen Bilimleri': ["1. ÜNİTE: GÜNEŞ SİSTEMİ VE TUTULMALAR","2. ÜNİTE: KUVVETİN ETKİSİNDE HAREKET","3. ÜNİTE: CANLILARDA SİSTEMLER","4. ÜNİTE: IŞIĞIN YANSIMASI VE RENKLER","5. ÜNİTE: MADDENİN AYIRT EDİCİ ÖZELLİKLERİ","6. ÜNİTE: ELEKTRİĞİN İLETİMİ VE DİRENÇ","7. ÜNİTE: SÜRDÜRÜLEBİLİR YAŞAM VE ETKİLEŞİM"],
@@ -46,7 +46,7 @@ export const curriculumData = {
     'İngilizce': ["1. TEMA: Life & Routine (Hayat ve Rutin)", "2. TEMA: Yummy Breakfast (Beslenme Alışkanlıkları)", "3. TEMA: Downtown & City Life (Şehir Merkezi ve Yaşam)", "4. TEMA: Weather & Emotions (Hava Durumu ve Duygular)", "5. TEMA: At the Fair (Panayır ve Eğlence)", "6. TEMA: Occupations (Meslekler ve Gelecek)", "7. TEMA: Holidays & Travel (Tatiller ve Gezi)", "8. TEMA: Bookworms (Kitap Dostları/Kütüphane)", "9. TEMA: Saving the Planet (Gezegeni Kurtarmak)", "10. TEMA: Democracy (Demokrasi ve Katılım)"],
   },
   7: {
-    'Matematik': ["1.TEMA: SAYILAR VE NİCELİKLER (1)","1.TEMA: SAYILAR VE NİCELİKLER (2)","2.TEMA: İŞLEMLERLE CEBİRSEL DÜŞÜNME VE DEĞİŞİMLER","3. TEMA: DÖNÜŞÜM","4. TEMA: GEOMETRİK NİCELİKLER (1)","4.TEMA: GEOMETRİK NİCELİKLER (2)","5.TEMA: GEOMETRİK ŞEKİLLER","6.TEMA: İSTATİSTİKSEL ARAŞTIRMA SÜRECİ","7.TEMA: VERİDEN OLASILIĞA"],
+    'Matematik': ["1. TEMA: Rasyonel Sayılar ve İşlemler (Dört İşlem ve Ondalık Açılımlar)", "2. TEMA: Cebirsel Denklemler ve Eşitsizlikler (Birinci Dereceden Denklemler)", "3. TEMA: Doğrusal İlişkiler (Koordinat Sistemi ve Grafik Çizimi)", "4. TEMA: Yüzdeler ve Oran-Orantı (Faiz, Kar-Zarar Hesaplamaları)", "5. TEMA: Çember ve Daire (Yay Uzunluğu ve Alan)", "6. TEMA: Veri Analizi (Daire Grafiği)"],
     'Türkçe': ["1. TEMA: HAYAT BOYU GELİŞİM","2. TEMA: BİR HİLAL UĞRUNA","3. TEMA: İLETİŞİM VE SOSYAL İLİŞKİLER","4. TEMA: TÜRK SANATI","5. TEMA: OKUMA KÜLTÜRÜ","6. TEMA: HAK VE SORUMLULUKLAR"],
     'Sosyal Bilgiler': ["1. ÖĞRENME ALANI: BİRLİKTE YAŞAMAK","2. ÖĞRENME ALANI: EVİMİZ DÜNYA","3. ÖĞRENME ALANI: ORTAK MİRASIMIZ","4. ÖĞRENME ALANI: YAŞAYAN DEMOKRASİMİZ","5. ÖĞRENME ALANI: HAYATIMIZDAKİ EKONOMİ","6. ÖĞRENME ALANI: TEKNOLOJİ ve SOSYAL BİLİMLER"],
     'Fen Bilimleri': ["1. ÜNİTE: UZAY ÇAĞI","2. ÜNİTE: KUVVET VE ENERJİYİ KEŞFEDELİM","3. ÜNİTE: VÜCUDUMUZDAKİ SİSTEMLER","4. ÜNİTE: IŞIĞIN KIRILMASI VE MERCEKLER","5. ÜNİTE: MADDENİN DOĞASINA YOLCULUK","6. ÜNİTE: ELEKTRİKLENME","7. ÜNİTE: SÜRDÜRÜLEBİLİR YAŞAM VE GERİ DÖNÜŞÜM"],
@@ -54,7 +54,7 @@ export const curriculumData = {
     'Din Kültürü ve Ahlak Bilgisi': ["1. ÜNİTE: MELEK VE AHİRET İNANCI","2. ÜNİTE: HAC, UMRE VE KURBAN","3. ÜNİTE: İSLAM DÜŞÜNCESİNDE YORUMLAR","4. ÜNİTE: PEYGAMBER OLARAK HZ. MUHAMMED","5. ÜNİTE: YAŞAYAN DÜNYA DİNLERİ"],
   },
   8: {
-    'Matematik': ["1.TEMA: SAYILAR VE NİCELİKLER","2.TEMA: CEBİRSEL DÜŞÜNME VE DEĞİŞİMLER","3.TEMA: GEOMETRİK ŞEKİLLER","4.TEMA: GEOMETRİK NİCELİKLER","5.TEMA: DÖNÜŞÜM","6.TEMA: İSTATİSTİKSEL ARAŞTIRMA SÜRECİ","7.TEMA: VERİDEN OLASILIĞA"],
+    'Matematik': ["1. TEMA: Sayılar (EBOB-EKOK, Üslü Sayılar)", "2. TEMA: Kareköklü İfadeler (İrrasyonel Sayılar)", "3. TEMA: Veri Analizi ve Olasılık (Basit Olayların Olasılığı)", "4. TEMA: Cebirsel İfadeler ve Özdeşlikler (Çarpanlara Ayırma)", "5. TEMA: Denklemler ve Eşitsizlikler (Eğim ve Doğrusal Eşitsizlikler)", "6. TEMA: Geometri (Pisagor, Üçgenler, Eşlik ve Benzerlik)"],
     'Türkçe': ["1. TEMA: İLETİŞİM VE SOSYAL İLİŞKİLER","2. TEMA: VATAN SEVGİSİ","3. TEMA: DOĞA VE İNSAN","4. TEMA: TÜRK HİKÂYE GELENEĞİ VE DESTANLARI","5. TEMA: SANAT VE ESTETİK","6. TEMA: AKADEMİK DÜŞÜNME DÜNYASI"],
     'Fen Bilimleri': ["1. ÜNİTE: MEVSİMLER VE İKLİM","2. ÜNİTE: YAŞAMI KOLAYLAŞTIRAN KUVVET","3. ÜNİTE: YAŞAMIN GİZEMİ","4. ÜNİTE: SESİN DÜNYASI","5. ÜNİTE: PERİYODİK TABLO VE MADDENİN ETKİLEŞİMİ","6. ÜNİTE: ELEKTRİĞİN YOLCULUĞU","7. ÜNİTE: SÜRDÜRÜLEBİLİR YAŞAM VE MADDE DÖNGÜLERİ"],
     'İngilizce': ["1. TEMA: Friendship (Dostluk ve Bağlılık)", "2. TEMA: Teen Life (Gençlik Yaşamı)", "3. TEMA: In the Kitchen (Mutfakta/Yemek Kültürü)", "4. TEMA: On the Phone (İletişim Teknolojileri)", "5. TEMA: The Internet (Güvenli İnternet ve Dijital Dünya)", "6. TEMA: Adventures (Maceralar ve Ekstrem Sporlar)", "7. TEMA: Tourism (Turizm ve Kültürel Tanıtım)", "8. TEMA: Chores (Ev İşleri ve Sorumluluklar)", "9. TEMA: Science (Bilimsel Gelişmeler ve İcatlar)", "10. TEMA: Natural Forces (Doğal Güçler ve Afet Yönetimi)"],
@@ -62,7 +62,7 @@ export const curriculumData = {
     'Din Kültürü ve Ahlak Bilgisi': ["1. ÜNİTE: KADER İNANCI","2. ÜNİTE: ZEKÂT VE SADAKA","3. ÜNİTE: DİN VE SOSYAL HAYAT","4. ÜNİTE: KUR’AN VE İNSAN","5. ÜNİTE: MÜSLÜMANLARIN BİLİM VE KÜLTÜRE KATKISI"],
   },
   9: {
-    'Matematik': ["1. TEMA: SAYILAR","2. TEMA: NİCELİKLER VE DEĞİŞİMLER","3. TEMA: ALGORİTMA VE BİLİŞİM","4. TEMA: GEOMETRİK ŞEKİLLER","5. TEMA: EŞLİK VE BENZERLİK","6. TEMA: İSTATİSTİKSEL ARAŞTIRMA SÜRECİ","7. TEMA: VERİDEN OLASILIĞA"],
+    'Matematik': ["1. TEMA: Mantık ve Kümeler (Önermeler, Bileşik Önermeler, Küme İşlemleri)", "2. TEMA: Denklemler ve Eşitsizlikler (Sayı Kümeleri, Mutlak Değer, Birinci Dereceden Denklemler)", "3. TEMA: Üçgenler (Temel Kavramlar, Eşlik, Benzerlik, Trigonometriye Giriş)", "4. TEMA: Veri (Merkezi Eğilim ve Yayılım Ölçüleri)"],
     'Türk Dili ve Edebiyatı': ["1. TEMA: SÖZÜN İNCELİĞİ","2. TEMA: ANLAM ARAYIŞI","3. TEMA: ANLAMIN YAPI TAŞLARI","4. TEMA: DİLİN ZENGİNLİĞİ"],
     'Kimya': ["1. TEMA: ETKİLEŞİM","2. TEMA: ÇEŞİTLİLİK","3. TEMA: SÜRDÜRÜLEBİLİRLİK"],
     'Biyoloji': ["1. TEMA: YAŞAM","2. TEMA: ORGANİZASYON"],
@@ -71,7 +71,7 @@ export const curriculumData = {
     'Coğrafya': ["1. ÜNİTE: COĞRAFYANIN DOĞASI","2. ÜNİTE: MEKÂNSAL BİLGİ TEKNOLOJİLERİ","3. ÜNİTE: DOĞAL SİSTEMLER VE SÜREÇLER","4. ÜNİTE: BEŞERÎ SİSTEMLER VE SÜREÇLER","5. ÜNİTE: EKONOMİK FAALİYETLER VE ETKİLERİ","6. ÜNİTE: AFETLER VE SÜRDÜRÜLEBİLİR ÇEVRE","7. ÜNİTE: BÖLGELER, ÜLKELER VE KÜRESEL BAĞLANTILAR"],
   },
   10: {
-    'Matematik': ["1. TEMA: SAYILAR","2. TEMA: NİCELİKLER VE DEĞİŞİMLER","3. TEMA: SAYMA, ALGORİTMA VE BİLİŞİM","4. TEMA: GEOMETRİK ŞEKİLLER","5. TEMA: ANALİTİK İNCELEME","6. TEMA: İSTATİSTİKSEL ARAŞTIRMA SÜRECİ","7. TEMA: VERİDEN OLASILIĞA"],
+    'Matematik': ["1. TEMA: Sayma ve Olasılık (Permütasyon, Kombinasyon, Binom, Olasılık)", "2. TEMA: Fonksiyonlar (Fonksiyon Kavramı ve Grafikler)", "3. TEMA: Polinomlar ve Çarpanlara Ayırma (İkinci Dereceden Denklemler)", "4. TEMA: Dörtgenler ve Çokgenler (Özel Dörtgenler ve Alan Hesapları)", "5. TEMA: Uzay Geometri (Katı Cisimlerin Yüzey Alanı ve Hacmi)"],
     'Türk Dili ve Edebiyatı': ["1. TEMA: SÖZÜN EZGİSİ","2. TEMA: KELİMELERİN RİTMİ","3. TEMA: DÜNDEN BUGÜNE","4. TEMA: NESİLLERİN MİRASI"],
     'Kimya': ["1. TEMA: ETKİLEŞİM","2. TEMA: ÇEŞİTLİLİK","3. TEMA: SÜRDÜRÜLEBİLİRLİK"],
     'Biyoloji': ["1. TEMA: ENERJİ","2. TEMA: EKOLOJİ"],
@@ -81,7 +81,7 @@ export const curriculumData = {
     'Felsefe': ["1. ÜNİTE: FELSEFENİN DOĞASI","2. ÜNİTE: FELSEFE, MANTIK VE ARGÜMANTASYON","3. ÜNİTE: VARLIK FELSEFESİ","4. ÜNİTE: BİLGİ FELSEFESİ","5. ÜNİTE: AHLAK FELSEFESİ","6. ÜNİTE: ESTETİK VE SANAT FELSEFESİ","7. ÜNİTE: SİYASET FELSEFESİ","8. ÜNİTE: DİN FELSEFESİ","9. ÜNİTE: BİLİM FELSEFESİ"],
   },
   11: {
-    'Matematik': ["1. TEMA: NİCELİKLER VE DEĞİŞİMLER (1)","1. TEMA: NİCELİKLER VE DEĞİŞİMLER (2)","1. TEMA: NİCELİKLER VE DEĞİŞİMLER (3)","2. TEMA: GEOMETRİK ŞEKİLLER","3. TEMA: İSTATİSTİKSEL ARAŞTIRMA SÜRECİ"],
+    'Matematik': ["1. TEMA: Trigonometri (Birim Çember, Trigonometrik Fonksiyonlar ve Grafikler)", "2. TEMA: Analitik Geometri (Doğrunun Analitik İncelenmesi)", "3. TEMA: Fonksiyonlarla İşlemler (Fonksiyonların Uygulamaları ve Dönüşümler)", "4. TEMA: Denklem ve Eşitsizlik Sistemleri (İkinci Dereceden İki Bilinmeyenli Denklemler)", "5. TEMA: Çember ve Daire (Açı, Teğet ve Alan İlişkileri)", "6. TEMA: Olasılık (Koşullu Olasılık)"],
     'Türk Dili ve Edebiyatı': ["1. TEMA: BİR DİYECEĞİM VAR!","2. TEMA: KÜLTÜR YOLCULUĞU","3. TEMA: YAŞAMIN İZİNDE","4. TEMA: HAYATIN AYNASI"],
     'Kimya': ["1. TEMA: ETKİLEŞİM","2. TEMA: ÇEŞİTLİLİK","3. TEMA: SÜRDÜRÜLEBİLİRLİK"],
     'Biyoloji': ["1. TEMA: TEPKİ","2. TEMA: HOMEOSTAZİ"],
@@ -91,7 +91,7 @@ export const curriculumData = {
     'Felsefe': ["1. ÜNİTE: ÇEVRE SORUNLARI VE FELSEFE","2. ÜNİTE: TEKNOLOJİ VE HAYAT","3. ÜNİTE: AKIL VE İNANÇ","4. ÜNİTE: EDEBİYAT VE FELSEFE","5. ÜNİTE: HAYATIN ANLAMI","6. ÜNİTE: HUKUK VE FELSEFE"],
   },
   12: {
-    'Matematik': ["1. TEMA: NİCELİKLER VE DEĞİŞİMLER (1)","1. TEMA: NİCELİKLER VE DEĞİŞİMLER (2)","2. TEMA: DEĞİŞİMİN MATEMATİĞİ (1)","2. TEMA: DEĞİŞİMİN MATEMATİĞİ (2)","2. TEMA: DEĞİŞİMİN MATEMATİĞİ (3)","3. TEMA: GEOMETRİK ŞEKİLLER","4. TEMA: GEOMETRİK CİSİMLER","5. TEMA: HAZIR VERİLER ÜZERİNDE ÇALIŞMA"],
+    'Matematik': ["1. TEMA: Logaritma ve Diziler (Üstel ve Logaritmik Fonksiyonlar, Aritmetik ve Geometrik Diziler)", "2. TEMA: Trigonometri - II (Toplam-Fark ve Yarım Açı Formülleri)", "3. TEMA: Limit ve Süreklilik (Fonksiyonlarda Limit Kavramı)", "4. TEMA: Türev (Türev Alma Kuralları ve Uygulamaları)", "5. TEMA: İntegral (Belirsiz ve Belirli İntegral, Alan Hesabı)", "6. TEMA: Analitik Geometri (Çemberin Analitik İncelenmesi)"],
     'Türk Dili ve Edebiyatı': ["1. TEMA: BENİM YOLCULUĞUM","2. TEMA: TOPLUMUN AHENGİ","3. TEMA: HAYATIN DENGESİ","4. TEMA: HAYALİMDEKİ YARIN"],
     'Kimya': ["1. TEMA: ETKİLEŞİM","2. TEMA: ÇEŞİTLİLİK","3. TEMA: SÜRDÜRÜLEBİLİRLİK"],
     'Biyoloji': ["1. TEMA: ÜREME","2. TEMA: GEN"],
