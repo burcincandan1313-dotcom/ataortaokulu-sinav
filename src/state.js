@@ -111,7 +111,7 @@ export function loadUserData() {
   // Tema yükleme
   const lowEnd = StorageManager.get(StorageManager.keys.LOW_END);
   if (lowEnd === 'true') {
-    document.body.classList.add('lowend');
+    document.body.classList.add('lowend-mode');
   }
 }
 
