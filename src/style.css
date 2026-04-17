@@ -2617,3 +2617,8 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
   transform: rotate(180deg);
   color: var(--acc);
 }
+
+#studyTopicGrid::-webkit-scrollbar { width: 6px; }
+#studyTopicGrid::-webkit-scrollbar-track { background: transparent; }
+#studyTopicGrid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
+#studyTopicGrid::-webkit-scrollbar-thumb:hover { background: var(--acc); }

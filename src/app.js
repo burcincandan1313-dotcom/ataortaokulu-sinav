@@ -3052,7 +3052,7 @@ function initV17SystemWizard() {
     if(g && curriculumData[g]) {
        subjects = Object.keys(curriculumData[g]);
     } else if (g === 'lise' || g === 'genel') {
-       subjects = ["Matematik", "Fizik", "Kimya", "Biyoloji", "Edebiyat", "Tarih", "Coğrafya"];
+       subjects = ["Matematik", "Fizik", "Kimya", "Biyoloji", "Edebiyat", "Tarih", "Coğrafya", "Din Kültürü ve Ahlak Bilgisi", "İngilizce", "Felsefe", "Beden Eğitimi ve Spor", "Bilişim Teknolojileri ve Yazılım", "Görsel Sanatlar", "T.C. İnkılap Tarihi ve Atatürkçülük"];
     } else {
        subjects = ["Matematik", "Fen Bilimleri", "Türkçe"]; // Fallback
     }
