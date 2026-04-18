@@ -22,11 +22,11 @@ export class DuelArena {
     this.isPlaying = false;
   }
 
-  // Lobby ekranÄ±
+  // Lobby ekranı
   openLobby(defaultGrade) {
     if (this.isPlaying) return;
     const grade = defaultGrade || '8';
-    let subjects = ['Matematik', 'Fen Bilimleri', 'Türkçe', 'Sosyal Bilgiler', 'Ä°ngilizce', 'Din Kültürü ve Ahlak Bilgisi'];
+    let subjects = ['Matematik', 'Fen Bilimleri', 'Türkçe', 'Sosyal Bilgiler', 'İngilizce', 'Din Kültürü ve Ahlak Bilgisi'];
     if (curriculumData[grade]) {
       subjects = Object.keys(curriculumData[grade]);
     }
@@ -49,8 +49,8 @@ export class DuelArena {
     this.overlay.innerHTML = `
       <div style="width: 90%; max-width: 600px; background: var(--bg2); padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(220,38,38,0.2); border: 1px solid var(--bdr); position: relative;">
         <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">âœ–</button>
-        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸ DÜELLO ARENASI LOBÄ°SÄ°</h2>
-        <p style="text-align: center; color: var(--sub); margin-bottom: 25px;">Rakibin Gölge Bot seni bekliyor. AyarlarÄ±nÄ± yap ve savaÅŸa hazÄ±rlan!</p>
+        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">⚔️ DÜELLO ARENASI LOBİSİ</h2>
+        <p style="text-align: center; color: var(--sub); margin-bottom: 25px;">Rakibin Gölge Bot seni bekliyor. Ayarlarını yap ve savaşa hazırlan!</p>
         
         <div style="display: flex; flex-direction: column; gap: 15px;">
           <div>
@@ -67,15 +67,15 @@ export class DuelArena {
           </div>
           <div style="display: flex; gap: 15px;">
              <div style="flex: 1;">
-                <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru SayÄ±sÄ±:</label>
+                <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru Sayısı:</label>
                 <select id="lobbyQCount" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
-                  <option value="5" selected>5 Soru (HÄ±zlÄ±)</option>
+                  <option value="5" selected>5 Soru (Hızlı)</option>
                   <option value="10">10 Soru (Standart)</option>
                   <option value="15">15 Soru (Maraton)</option>
                 </select>
              </div>
              <div style="flex: 1;">
-                <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru BaÅŸÄ± Süre:</label>
+                <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru Başı Süre:</label>
                 <select id="lobbyTime" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
                   <option value="10">10 Saniye (Zor)</option>
                   <option value="15" selected>15 Saniye (Normal)</option>
@@ -85,7 +85,7 @@ export class DuelArena {
           </div>
         </div>
 
-        <button id="btnStartDuelActual" class="onboard-btn" style="width: 100%; margin-top: 30px; background: linear-gradient(135deg, #dc2626, #b91c1c); border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: white;">âš”ï¸ SAVAÅA BAÅLA!</button>
+        <button id="btnStartDuelActual" class="onboard-btn" style="width: 100%; margin-top: 30px; background: linear-gradient(135deg, #dc2626, #b91c1c); border: none; padding: 15px; border-radius: 12px; font-weight: bold; font-size: 1.2rem; cursor: pointer; color: white;">⚔️ SAVAŞA BAŞLA!</button>
       </div>
     `;
 
@@ -120,7 +120,7 @@ export class DuelArena {
     });
   }
 
-  // Bu metot dÄ±ÅŸarÄ±dan çaÄŸrÄ±ldÄ±ÄŸÄ±nda uyumluluk için korundu, ancak artÄ±k Lobby açacak
+  // Bu metot dışarıdan çağrıldığında uyumluluk için korundu, ancak artık Lobby açacak
   startDuel(grade, subject, topic) {
      this.openLobby(grade);
   }
@@ -130,46 +130,46 @@ export class DuelArena {
     this.isPlaying = true;
     this.maxTime = timeLimit;
     
-    // Eski UI'yi temizle ve arenayÄ± kur
+    // Eski UI'yi temizle ve arenayı kur
     if(this.overlay && this.overlay.parentNode) {
        this.overlay.parentNode.removeChild(this.overlay);
     }
     this.setupArenaUI();
     this.showLoading();
 
-    // Throttle bypass: 2.1 sn bekle (son API çaÄŸrÄ±sÄ±ndan sonra)
+    // Throttle bypass: 2.1 sn bekle (son API çağrısından sonra)
     await new Promise(r => setTimeout(r, 2100));
 
     const gradeNum = parseInt(grade);
     let kademeTalimat = gradeNum <= 4
-      ? 'Çok kÄ±sa, somut, günlük hayattan sorular. 3 ÅŸÄ±k (A, B, C). ÅÄ±klarÄ± çok kÄ±sa tut.'
+      ? 'Çok kısa, somut, günlük hayattan sorular. 3 şık (A, B, C). Åıkları çok kısa tut.'
       : gradeNum <= 8
-      ? 'LGS tarzÄ±, okuduÄŸunu anlama gerektiren. 4 ÅŸÄ±k (A, B, C, D). MEB müfredatÄ±na uygun.'
-      : 'YKS tarzÄ±, analiz gerektiren. 4 ÅŸÄ±k (A, B, C, D). Akademik dil kullan.';
+      ? 'LGS tarzı, okuduğunu anlama gerektiren. 4 şık (A, B, C, D). MEB müfredatına uygun.'
+      : 'YKS tarzı, analiz gerektiren. 4 şık (A, B, C, D). Akademik dil kullan.';
 
     const prompt = `Sen bir soru üretme motorusun.
-${grade} düzeyinde, ${subject} dersinin ${topic} konusundan ${qCount} adet çoktan seçmeli soru hazÄ±rla.
+${grade} düzeyinde, ${subject} dersinin ${topic} konusundan ${qCount} adet çoktan seçmeli soru hazırla.
 ${kademeTalimat}
-Kavram yanÄ±lgÄ±larÄ±nÄ± hedefleyen çeldiriciler kullan. Ezber deÄŸil, düÅŸündüren sorular olsun.
-SADECE ÅŸu JSON array formatÄ±nda dön, baÅŸka hiçbir ÅŸey yazma:
-[{"q":"Soru metni","opts":["A ÅŸÄ±kkÄ±","B ÅŸÄ±kkÄ±","C ÅŸÄ±kkÄ±","D ÅŸÄ±kkÄ±"],"ans":0}]
-Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
+Kavram yanılgılarını hedefleyen çeldiriciler kullan. Ezber değil, düşündüren sorular olsun.
+SADECE şu JSON array formatında dön, başka hiçbir şey yazma:
+[{"q":"Soru metni","opts":["A şıkkı","B şıkkı","C şıkkı","D şıkkı"],"ans":0}]
+Not: ans = doğru cevabın 0-3 arası indeksi.`;
 
 
-    // Yedek sorular (AI baÅŸarÄ±sÄ±z olursa)
+    // Yedek sorular (AI başarısız olursa)
     const fallbackQuestions = [
-      { q: "Türkiye'nin baÅŸkenti hangisidir?", opts: ["Ä°stanbul", "Ankara", "Ä°zmir", "Bursa"], ans: 1 },
-      { q: "GüneÅŸ sistemindeki en büyük gezegen hangisidir?", opts: ["Satürn", "Mars", "Jüpiter", "Neptün"], ans: 2 },
+      { q: "Türkiye'nin başkenti hangisidir?", opts: ["İstanbul", "Ankara", "İzmir", "Bursa"], ans: 1 },
+      { q: "Güneş sistemindeki en büyük gezegen hangisidir?", opts: ["Satürn", "Mars", "Jüpiter", "Neptün"], ans: 2 },
       { q: "Su'nun kimyasal formülü nedir?", opts: ["CO2", "NaCl", "H2O", "O2"], ans: 2 },
-      { q: "Bir yÄ±lda kaç ay vardÄ±r?", opts: ["10", "11", "12", "13"], ans: 2 },
-      { q: "Fotosentez hangi organda gerçekleÅŸir?", opts: ["Kök", "Gövde", "Kloroplast", "Çekirdek"], ans: 2 },
+      { q: "Bir yılda kaç ay vardır?", opts: ["10", "11", "12", "13"], ans: 2 },
+      { q: "Fotosentez hangi organda gerçekleşir?", opts: ["Kök", "Gövde", "Kloroplast", "Çekirdek"], ans: 2 },
     ];
 
     try {
-      const raw = await askAI(prompt, "Sadece JSON dizisi döndür. AçÄ±klama yazma. Markdown kullanma.", 1000);
+      const raw = await askAI(prompt, "Sadece JSON dizisi döndür. Açıklama yazma. Markdown kullanma.", 1000);
 
       if (!raw || raw.includes('bekleyin') || raw.length < 20) {
-        throw new Error("Geçersiz yanÄ±t");
+        throw new Error("Geçersiz yanıt");
       }
 
       let cleaned = raw.trim()
@@ -180,16 +180,16 @@ Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
         parsed = JSON.parse(cleaned);
       } catch {
         const match = cleaned.match(/\\[[\\s\\S]*\\]/);
-        if (!match) throw new Error("JSON bulunamadÄ±");
+        if (!match) throw new Error("JSON bulunamadı");
         parsed = JSON.parse(match[0]);
       }
       
       this.questions = (Array.isArray(parsed) && parsed.length > 0) ? parsed : fallbackQuestions;
       
-      // EÄŸer soru sayÄ±sÄ± istenenden az veya çoksa kes/çoÄŸalt
+      // Eğer soru sayısı istenenden az veya çoksa kes/çoğalt
       if(this.questions.length > qCount) this.questions = this.questions.slice(0, qCount);
     } catch (e) {
-      console.warn('[DuelArena] AI baÅŸarÄ±sÄ±z, yedek sorular kullanÄ±lÄ±yor:', e.message);
+      console.warn('[DuelArena] AI başarısız, yedek sorular kullanılıyor:', e.message);
       this.questions = fallbackQuestions.slice(0, qCount);
     }
 
@@ -213,7 +213,7 @@ Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
     this.overlay.innerHTML = `
       <div style="width: 90%; max-width: 600px; background: var(--bg2); padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(220,38,38,0.2); border: 1px solid var(--bdr); position: relative;">
         <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">âœ–</button>
-        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸ DÜELLO ARENASI</h2>
+        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">⚔️ DÜELLO ARENASI</h2>
         
         <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
           <div style="text-align: center; width: 45%;">
@@ -248,7 +248,7 @@ Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
   showLoading() {
     const content = document.getElementById('duelContent');
     if(content) {
-      content.innerHTML = DOMPurify.sanitize(`<div style="text-align: center; padding: 40px;"><div class="jumping-dots"><span></span><span></span><span></span></div><p style="margin-top: 20px; color: var(--sub);">Arena hazÄ±rlanÄ±yor... Rakip aranÄ±yor...</p></div>`);
+      content.innerHTML = DOMPurify.sanitize(`<div style="text-align: center; padding: 40px;"><div class="jumping-dots"><span></span><span></span><span></span></div><p style="margin-top: 20px; color: var(--sub);">Arena hazırlanıyor... Rakip aranıyor...</p></div>`);
     }
   }
 
@@ -348,19 +348,19 @@ Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
 
     let resultHtml = "";
     if (this.userScore > this.botScore) {
-      resultHtml = `<h1 style="color: #22c55e; font-size: 3rem; margin-bottom: 10px;">ğŸ† ZAFER!</h1><p style="font-size: 1.2rem;">Gölge botu maÄŸlup ettin!</p>`;
+      resultHtml = `<h1 style="color: #22c55e; font-size: 3rem; margin-bottom: 10px;">ğŸ† ZAFER!</h1><p style="font-size: 1.2rem;">Gölge botu mağlup ettin!</p>`;
       // Trigger confetti if exists globally
       if(window.triggerConfetti) window.triggerConfetti();
       addXP(150);
       const qb = new QuestsBoard(document.body);
       qb.updateProgress('duel_win', 1);
     } else if (this.userScore === this.botScore) {
-      resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">ğŸ¤ BERABERE</h1><p style="font-size: 1.2rem;">DiÅŸe diÅŸ bir mücadeleydi!</p>`;
+      resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">ğŸ¤ BERABERE</h1><p style="font-size: 1.2rem;">Dişe diş bir mücadeleydi!</p>`;
     } else {
-      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">ğŸ’€ MAÄLUBÄ°YET</h1><p style="font-size: 1.2rem;">Gölge bot senden ${this.botScore - this.userScore} puan önde!</p>`;
+      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">ğŸ’€ MAÄLUBİYET</h1><p style="font-size: 1.2rem;">Gölge bot senden ${this.botScore - this.userScore} puan önde!</p>`;
     }
 
-    resultHtml += `<button class="onboard-btn ext-style-2" style="margin-top: 30px;" id="duelFinishBtn">Arenadan ÇÄ±k</button>`;
+    resultHtml += `<button class="onboard-btn ext-style-2" style="margin-top: 30px;" id="duelFinishBtn">Arenadan Çık</button>`;
     content.innerHTML = DOMPurify.sanitize(`<div style="text-align: center; padding: 30px;">${resultHtml}</div>`);
 
     document.getElementById('duelFinishBtn').addEventListener('click', () => this.close());
