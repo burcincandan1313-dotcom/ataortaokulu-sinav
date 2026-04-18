@@ -54,6 +54,23 @@ export class DuelArena {
         
         <div style="display: flex; flex-direction: column; gap: 15px;">
           <div>
+            <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Sınıf Seçimi:</label>
+            <select id="lobbyGrade" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
+              <option value="1">1. Sınıf</option>
+              <option value="2">2. Sınıf</option>
+              <option value="3">3. Sınıf</option>
+              <option value="4">4. Sınıf</option>
+              <option value="5">5. Sınıf</option>
+              <option value="6">6. Sınıf</option>
+              <option value="7">7. Sınıf</option>
+              <option value="8" selected>8. Sınıf</option>
+              <option value="9">9. Sınıf</option>
+              <option value="10">10. Sınıf</option>
+              <option value="11">11. Sınıf</option>
+              <option value="12">12. Sınıf</option>
+            </select>
+          </div>
+          <div>
             <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Ders Seçimi:</label>
             <select id="lobbySubject" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
               ${subjectOptions}
@@ -91,21 +108,39 @@ export class DuelArena {
 
     document.body.appendChild(this.overlay);
 
+    const gradeSelect = document.getElementById('lobbyGrade');
     const subjectSelect = document.getElementById('lobbySubject');
     const topicSelect = document.getElementById('lobbyTopic');
 
+    const updateSubjects = () => {
+      const g = gradeSelect.value;
+      let newSubjects = ['Matematik', 'Fen Bilimleri', 'Türkçe', 'Sosyal Bilgiler', 'İngilizce', 'Din Kültürü ve Ahlak Bilgisi'];
+      if (curriculumData[g]) {
+        newSubjects = Object.keys(curriculumData[g]);
+      }
+      subjectSelect.innerHTML = newSubjects.map(s => `<option value="${s}">${s}</option>`).join('');
+      updateTopics();
+    };
+
     const updateTopics = () => {
+      const g = gradeSelect.value;
       const subj = subjectSelect.value;
-      if (curriculumData[grade] && curriculumData[grade][subj]) {
-        const topics = curriculumData[grade][subj];
+      if (curriculumData[g] && curriculumData[g][subj]) {
+        const topics = curriculumData[g][subj];
         topicSelect.innerHTML = '<option value="Genel">Tüm Konular (Genel)</option>' + topics.map(t => `<option value="${t}">${t}</option>`).join('');
       } else {
         topicSelect.innerHTML = '<option value="Genel">Tüm Konular (Genel)</option>';
       }
     };
 
+    gradeSelect.addEventListener('change', updateSubjects);
     subjectSelect.addEventListener('change', updateTopics);
-    updateTopics();
+    
+    // Initialize subjects for selected grade
+    if(gradeSelect.value !== grade) {
+       gradeSelect.value = grade;
+    }
+    updateSubjects();
 
     document.getElementById('duelClose').addEventListener('click', () => {
       if(this.overlay && this.overlay.parentNode) this.overlay.parentNode.removeChild(this.overlay);
@@ -116,7 +151,8 @@ export class DuelArena {
       const t = topicSelect.value;
       const qc = parseInt(document.getElementById('lobbyQCount').value);
       const time = parseInt(document.getElementById('lobbyTime').value);
-      this.startActualDuel(grade, s, t, qc, time);
+      const g = document.getElementById('lobbyGrade').value;
+      this.startActualDuel(g, s, t, qc, time);
     });
   }
 
