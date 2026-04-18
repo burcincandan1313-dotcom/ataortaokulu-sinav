@@ -33,7 +33,7 @@ export function appendMessage(role, html) {
   
   // DOMPurify Güvenlik Filtresi (UI etkileşimlerini bozmamak için özel özelliklere izin veriyoruz)
   const cleanHtml = DOMPurify.sanitize(html, { 
-    ADD_ATTR: ['onclick', 'data-text', 'data-action', 'data-qcmd', 'data-theme', 'data-t', 'target'] 
+    ADD_ATTR: ['onclick', 'data-text', 'data-action', 'data-qcmd', 'data-theme', 'data-t', 'target', 'data-sinif', 'data-tur'] 
   });
   div.innerHTML = cleanHtml;
   

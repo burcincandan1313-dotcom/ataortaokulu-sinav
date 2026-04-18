@@ -13,6 +13,9 @@ export const StorageManager = {
   keys: {
     XP: 'mega_xp',
     LEVEL: 'mega_level',
+    SKILL_POINTS: 'mega_skill_points',
+    SKILLS: 'mega_skills',
+    QUESTS: 'mega_quests',
     LOW_END: 'mega_low_end',
     THEME: 'mega_theme',
     NAME: 'mega_name',
@@ -52,6 +55,9 @@ export const state = {
   isLoading: false,
   xp: 0,
   level: 1,
+  skillPoints: 0,
+  skills: { timeBender: false, clairvoyant: false, luckyAngel: false, cosmeticMaster: false },
+  quests: { daily: [], lastUpdate: null },
   streak: 0,
   theme: 'dark' // Veya local storage'dan okunan değer
 };
@@ -80,8 +86,15 @@ export function addMessage(role, content) {
 export function loadUserData() {
   const storedXP = StorageManager.get(StorageManager.keys.XP);
   const storedLevel = StorageManager.get(StorageManager.keys.LEVEL);
+  const storedSP = StorageManager.get(StorageManager.keys.SKILL_POINTS);
+  const storedSkills = StorageManager.get(StorageManager.keys.SKILLS);
+  const storedQuests = StorageManager.get(StorageManager.keys.QUESTS);
+
   if (storedXP) state.xp = parseInt(storedXP, 10);
   if (storedLevel) state.level = parseInt(storedLevel, 10);
+  if (storedSP) state.skillPoints = parseInt(storedSP, 10);
+  if (storedSkills) state.skills = storedSkills;
+  if (storedQuests) state.quests = storedQuests;
 
   // STREAK HESAPLAMA (Günlük Seri)
   const lastLogin = StorageManager.get(StorageManager.keys.LAST_LOGIN);
@@ -118,6 +131,9 @@ export function loadUserData() {
 export function saveUserData() {
   StorageManager.set(StorageManager.keys.XP, state.xp);
   StorageManager.set(StorageManager.keys.LEVEL, state.level);
+  StorageManager.set(StorageManager.keys.SKILL_POINTS, state.skillPoints);
+  StorageManager.set(StorageManager.keys.SKILLS, state.skills);
+  StorageManager.set(StorageManager.keys.QUESTS, state.quests);
 
   // Update Roster for local leaderboard
   const currentName = StorageManager.get(StorageManager.keys.NAME);
@@ -132,4 +148,46 @@ export function saveUserData() {
     }
     StorageManager.set('mega_class_roster', roster);
   }
+}
+
+export function addXP(amount) {
+  state.xp += amount;
+  checkLevelUp();
+  saveUserData();
+  notify();
+}
+
+function checkLevelUp() {
+  const nextLevelXP = state.level * 100; // Her seviye 100 * level kadar XP ister
+  if (state.xp >= nextLevelXP) {
+    state.xp -= nextLevelXP;
+    state.level += 1;
+    state.skillPoints += 1; // Her level atlandığında 1 yetenek puanı
+    
+    if (window.triggerConfetti) window.triggerConfetti();
+    if (typeof window !== 'undefined' && window.Swal) {
+      window.Swal.fire({
+        title: '🎉 SEVİYE ATLADIN!',
+        text: \`Tebrikler! Seviye \${state.level} oldun ve 1 Yetenek Puanı kazandın!\`,
+        icon: 'success',
+        background: '#0f172a',
+        color: '#fff',
+        confirmButtonColor: '#3b82f6',
+        confirmButtonText: 'Harika!'
+      });
+    }
+    // Eğer artan XP hala bir sonraki leveli geçiyorsa tekrar kontrol et
+    checkLevelUp(); 
+  }
+}
+
+export function unlockSkill(skillId, cost) {
+  if (state.skillPoints >= cost && !state.skills[skillId]) {
+    state.skillPoints -= cost;
+    state.skills[skillId] = true;
+    saveUserData();
+    notify();
+    return true;
+  }
+  return false;
 }

@@ -1,159 +1,127 @@
 /**
  * skillTree.js
- * Bu dosya projenin ayrilmaz bir parcasidir.
+ * Ata Quest: Yetenek Ağacı Modülü
  */
-import { askAI } from '../api.js';
+import { state, unlockSkill } from '../state.js';
+import DOMPurify from 'dompurify';
 
 export class SkillTree {
   constructor(appContainer) {
     this.container = appContainer;
-    this.isOpen = false;
-    // Core structure of our skill tree
-    this.treeData = {
-      core: { name: "Ata Çekirdeği", level: 1, req: 0 },
-      branches: [
-        { id: "math", name: "Matematik", sub: ["Sayılar", "Geometri", "Cebir"], icon: "🔢", color: "#3b82f6" },
-        { id: "sci", name: "Fen Bilimleri", sub: ["Kuvvet ve Enerji", "Madde ve Karışımlar", "Işık ve Ses"], icon: "🔬", color: "#10b981" },
-        { id: "lang", name: "Türkçe", sub: ["Dil Bilgisi", "Paragraf", "Kelime"], icon: "📖", color: "#f59e0b" },
-        { id: "social", name: "Sosyal", sub: ["Tarih", "Coğrafya", "Vatandaşlık"], icon: "🌍", color: "#6366f1" }
-      ]
-    };
+    this.skillData = [
+      {
+        id: 'timeBender',
+        name: 'Zaman Bükücü',
+        icon: '⏳',
+        desc: 'Düello Arenasında ek +5 saniye kazandırır.',
+        cost: 1,
+        color: '#3b82f6'
+      },
+      {
+        id: 'clairvoyant',
+        name: 'Kahin Gözü',
+        icon: '👁️',
+        desc: 'Quiz Sihirbazı\\'nda yapay zeka ipuçlarının kilidini açar.',
+        cost: 2,
+        color: '#8b5cf6'
+      },
+      {
+        id: 'luckyAngel',
+        name: 'Şans Meleği',
+        icon: '🎲',
+        desc: 'Zorlu sorularda 50/50 (iki yanlış şıkkı eleme) hakkı verir.',
+        cost: 3,
+        color: '#ec4899'
+      },
+      {
+        id: 'cosmeticMaster',
+        name: 'Kozmetik Ustası',
+        icon: '✨',
+        desc: 'Karakter kartında efsanevi (Legendary) parlayan efektleri açar.',
+        cost: 5,
+        color: '#f59e0b'
+      }
+    ];
   }
 
-  loadStats() {
-    let history = [];
-    try {
-      history = JSON.parse(localStorage.getItem('quiz_history')) || [];
-    } catch(e) {}
-    
-    // Aggregation
-    const stats = {};
-    history.forEach(h => {
-      const subject = h.subject.toLowerCase();
-      if(!stats[subject]) stats[subject] = 0;
-      if(h.isCorrect) stats[subject] += 1;
-    });
-    
-    return stats;
-  }
-
-  open() {
-    if (this.isOpen) return;
-    this.isOpen = true;
-    const stats = this.loadStats();
-    
+  openTree() {
     this.overlay = document.createElement('div');
     this.overlay.className = 'dom-overlay';
     this.overlay.style.display = 'flex';
     this.overlay.style.zIndex = '99999';
-    this.overlay.style.background = 'radial-gradient(circle at center, #1e293b 0%, #020617 100%)';
+    this.overlay.style.background = 'rgba(15, 23, 42, 0.95)';
     this.overlay.style.flexDirection = 'column';
     this.overlay.style.justifyContent = 'center';
     this.overlay.style.alignItems = 'center';
 
-    let branchesHTML = '';
+    this.render();
+    document.body.appendChild(this.overlay);
+  }
 
-    // Calculate dynamic branching based on RPG level
-    this.treeData.branches.forEach((branch, idx) => {
-      // Fuzzy matching for subjects
-      const matchKey = Object.keys(stats).find(k => k.includes(branch.name.toLowerCase().substring(0,3)));
-      const exp = matchKey ? stats[matchKey] : 0;
+  render() {
+    let treeHtml = \`
+      <div class="rpg-skill-tree-card">
+        <button id="treeClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">✖</button>
+        <h2 style="text-align: center; color: #10b981; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">🌳 YETENEK AĞACI</h2>
+        <p style="text-align: center; color: var(--sub); margin-bottom: 20px;">Kullanılabilir Yetenek Puanı (SP): <strong style="color: #fbbf24; font-size: 1.2rem;">\${state.skillPoints} SP</strong></p>
+        
+        <div class="skills-grid">
+    \`;
+
+    this.skillData.forEach(skill => {
+      const isUnlocked = state.skills?.[skill.id] === true;
+      const canUnlock = !isUnlocked && state.skillPoints >= skill.cost;
       
-      let level = 1; // Başlangıçta hepsi 1. level açık olsun
-      if(exp > 0) level = 2;
-      if(exp >= 5) level = 3;
+      let statusHtml = '';
+      let borderStyle = 'border: 2px solid rgba(255,255,255,0.1);';
+      let btnHtml = '';
 
-      let subHtml = '';
-      branch.sub.forEach((s, i) => {
-        const isUnlocked = level >= (i + 1);
-        subHtml += `
-          <div style="font-size: 0.8rem; padding: 5px 10px; background: ${isUnlocked ? branch.color : '#334155'}; color: ${isUnlocked ? '#fff' : '#64748b'}; border-radius: 12px; margin: 3px; border: 1px solid ${isUnlocked ? '#fff' : '#475569'}; ${isUnlocked ? 'box-shadow: 0 0 10px '+branch.color : ''}; transition: all 0.3s; cursor: ${isUnlocked ? 'pointer' : 'not-allowed'};" class="sk-node" data-sub="${s}" data-subject="${branch.name}">
-             ${isUnlocked ? '✨' : '🔒'} ${s}
-          </div>
-        `;
-      });
+      if (isUnlocked) {
+         statusHtml = '<div style="color: #10b981; font-weight: bold; font-size: 0.8rem; margin-top: 10px;">✅ KİLİDİ AÇIK</div>';
+         borderStyle = \`border: 2px solid \${skill.color}; box-shadow: 0 0 15px \${skill.color}40;\`;
+      } else {
+         if (canUnlock) {
+            btnHtml = \`<button class="unlock-btn" data-id="\${skill.id}" data-cost="\${skill.cost}" style="margin-top: 10px; width: 100%; padding: 8px; background: \${skill.color}; color: #fff; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; transition: 0.2s;">Kilidi Aç (\${skill.cost} SP)</button>\`;
+         } else {
+            statusHtml = \`<div style="color: #ef4444; font-weight: bold; font-size: 0.8rem; margin-top: 10px;">❌ YETERSİZ SP (\${skill.cost} Gerekli)</div>\`;
+         }
+      }
 
-      const glow = level > 0 ? `box-shadow: 0 0 20px ${branch.color}; border-color: ${branch.color};` : 'border-color: #334155; opacity: 0.7;';
-
-      branchesHTML += `
-        <div style="display: flex; flex-direction: column; align-items: center; margin: 10px;">
-           <div style="font-size: 2.5rem; background: #0f172a; border: 3px solid; ${glow} border-radius: 50%; width: 70px; height: 70px; display: flex; align-items: center; justify-content: center; margin-bottom: 10px; position: relative;">
-              ${branch.icon}
-              <div style="position: absolute; bottom: -10px; background: #000; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; border: 1px solid ${branch.color}; color: #fff;">LVL ${level}</div>
-           </div>
-           <strong style="color: ${level > 0 ? '#fff' : '#64748b'}; margin-bottom: 10px;">${branch.name}</strong>
-           <div style="display: flex; flex-direction: column; gap: 5px; opacity: ${level > 0 ? 1 : 0.5}">
-              ${subHtml}
-           </div>
+      treeHtml += \`
+        <div class="skill-node" style="background: rgba(0,0,0,0.4); border-radius: 12px; padding: 15px; text-align: center; position: relative; transition: transform 0.2s; \${borderStyle}">
+           <div style="font-size: 2.5rem; margin-bottom: 10px;">\${skill.icon}</div>
+           <h3 style="margin: 0 0 5px 0; color: #f8fafc; font-size: 1.1rem;">\${skill.name}</h3>
+           <p style="color: var(--sub); font-size: 0.85rem; line-height: 1.3; margin: 0; min-height: 40px;">\${skill.desc}</p>
+           \${statusHtml}
+           \${btnHtml}
         </div>
-      `;
+      \`;
     });
 
-    this.overlay.innerHTML = `
-      <div style="width: 95%; max-width: 800px; padding: 20px; position: relative; color: white;">
-        <button id="skillClose" style="position: absolute; right: 10px; top: 10px; background: transparent; border: none; font-size: 2.2rem; color: #ef4444; cursor: pointer; z-index: 999999; transition: transform 0.2s; outline: none;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Kapat">✖</button>
-        
-        <div style="text-align: center; margin-bottom: 40px;">
-           <h2 style="font-size: 3rem; margin: 0; color: #fbbf24; text-shadow: 0 0 20px rgba(251,191,36,0.5);">🌳 YETENEK AĞACI</h2>
-           <p style="color: #94a3b8;">Quiz çözdükçe yetenek dalların aydınlanır ve güçlenir.</p>
-        </div>
-
-        <div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 20px; position: relative;">
-           <!-- Central Core -->
-           <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: -1; width: 300px; height: 300px; background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, rgba(0,0,0,0) 70%);"></div>
-           
-           ${branchesHTML}
+    treeHtml += \`
         </div>
       </div>
-    `;
+    \`;
 
-    document.body.appendChild(this.overlay);
+    this.overlay.innerHTML = DOMPurify.sanitize(treeHtml, { ALLOW_DATA_ATTR: true });
 
-    const closeBtn = this.overlay.querySelector('#skillClose');
+    const closeBtn = document.getElementById('treeClose');
     if(closeBtn) {
-       closeBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.close();
+       closeBtn.addEventListener('click', () => {
+         if(this.overlay && this.overlay.parentNode) this.overlay.parentNode.removeChild(this.overlay);
        });
     }
-    
-    // Add interactive click to unlocked nodes
-    const nodes = this.overlay.querySelectorAll('.sk-node');
-    nodes.forEach(node => {
-       node.addEventListener('click', () => {
-         if (node.innerText.includes('🔒')) {
-             if(window.triggerError) window.triggerError("Bu dalı açmak için ana derste daha fazla Quiz çözmelisin!");
-             return;
+
+    const unlockBtns = this.overlay.querySelectorAll('.unlock-btn');
+    unlockBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+         const id = btn.getAttribute('data-id');
+         const cost = parseInt(btn.getAttribute('data-cost'), 10);
+         if(unlockSkill(id, cost)) {
+            // Re-render
+            this.render();
          }
-         // Start an instant quiz directly for that specific skill
-         const sub = node.getAttribute('data-sub');
-         const subject = node.getAttribute('data-subject');
-         
-         if(typeof window.openStudyWizard !== 'undefined' || true) { // Bypass check
-            this.close();
-            // Direkt quiz komutunu chat'e bas ve yolla
-            const grade = window.studySelections?.grade || 7;
-            if(!window.studySelections) window.studySelections = {};
-            window.studySelections.subject = subject;
-            window.studySelections.topic = sub;
-            const msg = `/quiz ${grade}. Sınıf ${subject}, ${sub} konusu hakkında 3 soruluk test oluştur.`;
-            const inp = document.getElementById('userInput');
-            const btn = document.getElementById('btnSendMessage');
-            if(inp && btn) {
-               inp.value = msg;
-               btn.click();
-            }
-         }
-       })
+      });
     });
   }
-
-  close() {
-    this.isOpen = false;
-    if(this.overlay && this.overlay.parentNode) {
-      this.overlay.parentNode.removeChild(this.overlay);
-    }
-  }
 }
-

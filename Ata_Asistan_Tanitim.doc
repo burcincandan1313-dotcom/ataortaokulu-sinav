@@ -1,7 +1,7 @@
-<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+﻿<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
 <meta charset="utf-8">
-<title>Ata Eğitim Asistanı - Proje Tanıtım Dosyası</title>
+<title>Ata EÄŸitim AsistanÄ± - Proje TanÄ±tÄ±m DosyasÄ±</title>
 <style>
   body { font-family: 'Calibri', sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 20px; }
   h1 { color: #2c3e50; text-align: center; border-bottom: 3px solid #3498db; padding-bottom: 12px; }
@@ -25,154 +25,155 @@
 </head>
 <body>
 
-<h1>🤖 Ata Eğitim Asistanı — V11 Proje Raporu</h1>
-<p style="text-align:center; color:#666;">Agentic AI Mimarisi ile Güçlendirilmiş Akıllı Öğrenme Platformu</p>
+<h1>ğŸ¤– Ata EÄŸitim AsistanÄ± â€” V11 Proje Raporu</h1>
+<p style="text-align:center; color:#666;">Agentic AI Mimarisi ile GÃ¼Ã§lendirilmiÅŸ AkÄ±llÄ± Ã–ÄŸrenme Platformu</p>
 <br>
 
-<h2>1. Projenin Amacı ve Vizyonu</h2>
-<p><strong>Ata Eğitim Asistanı</strong>, ilk, orta ve lise düzeyindeki öğrencilerin ders çalışma deneyimlerini güncel üretken yapay zeka (Generative AI) sistemleriyle birleştirip, tamamen interaktif, dış unsurlara kapalı, %100 güvenli ve oyunlaştırılmış bir öğrenme ekosistemi olarak tasarlanmıştır.</p>
-<p>V11 sürümüyle birlikte klasik bir chatbot kimliğinden tamamen sıyrılarak; <strong>deterministik, JSON tabanlı, Agentic AI akışında çalışan</strong> bir eğitim platformuna dönüşmüştür.</p>
+<h2>1. Projenin AmacÄ± ve Vizyonu</h2>
+<p><strong>Ata EÄŸitim AsistanÄ±</strong>, ilk, orta ve lise dÃ¼zeyindeki Ã¶ÄŸrencilerin ders Ã§alÄ±ÅŸma deneyimlerini gÃ¼ncel Ã¼retken yapay zeka (Generative AI) sistemleriyle birleÅŸtirip, tamamen interaktif, dÄ±ÅŸ unsurlara kapalÄ±, %100 gÃ¼venli ve oyunlaÅŸtÄ±rÄ±lmÄ±ÅŸ bir Ã¶ÄŸrenme ekosistemi olarak tasarlanmÄ±ÅŸtÄ±r.</p>
+<p>V11 sÃ¼rÃ¼mÃ¼yle birlikte klasik bir chatbot kimliÄŸinden tamamen sÄ±yrÄ±larak; <strong>deterministik, JSON tabanlÄ±, Agentic AI akÄ±ÅŸÄ±nda Ã§alÄ±ÅŸan</strong> bir eÄŸitim platformuna dÃ¶nÃ¼ÅŸmÃ¼ÅŸtÃ¼r.</p>
 
 <div class="url-box">
-  <strong>🌐 Canlı Uygulama Linki:</strong>
+  <strong>ğŸŒ CanlÄ± Uygulama Linki:</strong>
   <br>
   <a href="https://ata-asistan-mega-v10.surge.sh" target="_blank" style="color:#2980b9; font-size:1.1em; font-weight:bold;">https://ata-asistan-mega-v10.surge.sh</a>
 </div>
 
-<h2>2. V11 Teknik Mimari — 100/100 Agentic Engine</h2>
-<p>V11, önceki sürümlerdeki "tek adımda hem anla hem yanıt ver" mantığını tamamen terk etmiş; yerine kesin sınırları olan çok katmanlı bir ajan iş akışı mimarisi kurulmuştur:</p>
+<h2>2. V11 Teknik Mimari â€” 100/100 Agentic Engine</h2>
+<p>V11, Ã¶nceki sÃ¼rÃ¼mlerdeki "tek adÄ±mda hem anla hem yanÄ±t ver" mantÄ±ÄŸÄ±nÄ± tamamen terk etmiÅŸ; yerine kesin sÄ±nÄ±rlarÄ± olan Ã§ok katmanlÄ± bir ajan iÅŸ akÄ±ÅŸÄ± mimarisi kurulmuÅŸtur:</p>
 
 <table>
   <tr>
     <th>Katman</th>
-    <th>Modül</th>
-    <th>Görevi</th>
+    <th>ModÃ¼l</th>
+    <th>GÃ¶revi</th>
   </tr>
   <tr>
-    <td>1 — Giriş</td>
+    <td>1 â€” GiriÅŸ</td>
     <td><code>handleSendMessage()</code></td>
-    <td>Kullanıcı mesajını alır, slash komutlarını (/not, /pomo vb.) yönlendirir</td>
+    <td>KullanÄ±cÄ± mesajÄ±nÄ± alÄ±r, slash komutlarÄ±nÄ± (/not, /pomo vb.) yÃ¶nlendirir</td>
   </tr>
   <tr>
-    <td>2 — Niyet Tespiti</td>
+    <td>2 â€” Niyet Tespiti</td>
     <td><code>v11SafeParse()</code></td>
-    <td>AI'ya yalnızca JSON döndürmesi için katı bir parser prompt'u gönderir; 3 kez retry yapar</td>
+    <td>AI'ya yalnÄ±zca JSON dÃ¶ndÃ¼rmesi iÃ§in katÄ± bir parser prompt'u gÃ¶nderir; 3 kez retry yapar</td>
   </tr>
   <tr>
-    <td>3 — Doğrulama</td>
+    <td>3 â€” DoÄŸrulama</td>
     <td><code>validateIntent()</code></td>
-    <td>Gelen JSON'ın geçerli intent formatında olduğunu test eder; başarısızsa "chat" fallback'e düşer</td>
+    <td>Gelen JSON'Ä±n geÃ§erli intent formatÄ±nda olduÄŸunu test eder; baÅŸarÄ±sÄ±zsa "chat" fallback'e dÃ¼ÅŸer</td>
   </tr>
   <tr>
-    <td>4 — Yönlendirme</td>
+    <td>4 â€” YÃ¶nlendirme</td>
     <td><code>v11Route()</code></td>
-    <td>Intent'e göre Image / Quiz / Chat engine'ini tetikler</td>
+    <td>Intent'e gÃ¶re Image / Quiz / Chat engine'ini tetikler</td>
   </tr>
   <tr>
-    <td>5 — Engine</td>
+    <td>5 â€” Engine</td>
     <td>imageEngine / quizEngine / chatEngine</td>
-    <td>Her engine bağımsız çalışır; AI çıktısını doğrudan DOM'a göndermez, callback ile döner</td>
+    <td>Her engine baÄŸÄ±msÄ±z Ã§alÄ±ÅŸÄ±r; AI Ã§Ä±ktÄ±sÄ±nÄ± doÄŸrudan DOM'a gÃ¶ndermez, callback ile dÃ¶ner</td>
   </tr>
   <tr>
-    <td>6 — Memory</td>
+    <td>6 â€” Memory</td>
     <td><code>v11AddToMemory()</code></td>
-    <td>Son 6 mesajı hafızada tutar; her AI çağrısına bağlam olarak ekler</td>
+    <td>Son 6 mesajÄ± hafÄ±zada tutar; her AI Ã§aÄŸrÄ±sÄ±na baÄŸlam olarak ekler</td>
   </tr>
 </table>
 
-<h3>📋 100/100 Checklist</h3>
+<h3>ğŸ“‹ 100/100 Checklist</h3>
 <div class="checklist">
 <ul>
-  <li>✅ JSON Parser Zorunlu — Her mesaj intent classifier'dan geçer <span class="v11-feature">V11</span></li>
-  <li>✅ Intent Sistemi — chat / image / quiz sınıflandırması <span class="v11-feature">V11</span></li>
-  <li>✅ Router (Beyin) — intent verisi doğru engine'e yönlendirilir <span class="v11-feature">V11</span></li>
-  <li>✅ Retry Logic — 3 deneme, başarısız olursa chat fallback <span class="v11-feature">V11</span></li>
-  <li>✅ Output Validation — AI çıktısı doğrudan DOM'a gitmez <span class="v11-feature">V11</span></li>
-  <li>✅ Image Count Fix — "3 apple → clearly 3 items" prompt zincirleme <span class="v11-feature">V11</span></li>
-  <li>✅ Quiz Structured — Grade / Topic / Difficulty otomatik ayrıştırılır <span class="v11-feature">V11</span></li>
-  <li>✅ Memory — Son 6 mesaj bağlam olarak AI'ya beslenir <span class="v11-feature">V11</span></li>
-  <li>✅ UI Mode Seçimi — Wizard/butondan geliyorsa parser bypass <span class="v11-feature">V11</span></li>
-  <li>✅ AI Kontrol Altında — Hiçbir ham AI çıktısı kullanıcıya ulaşmaz <span class="v11-feature">V11</span></li>
+  <li>âœ… JSON Parser Zorunlu â€” Her mesaj intent classifier'dan geÃ§er <span class="v11-feature">V11</span></li>
+  <li>âœ… Intent Sistemi â€” chat / image / quiz sÄ±nÄ±flandÄ±rmasÄ± <span class="v11-feature">V11</span></li>
+  <li>âœ… Router (Beyin) â€” intent verisi doÄŸru engine'e yÃ¶nlendirilir <span class="v11-feature">V11</span></li>
+  <li>âœ… Retry Logic â€” 3 deneme, baÅŸarÄ±sÄ±z olursa chat fallback <span class="v11-feature">V11</span></li>
+  <li>âœ… Output Validation â€” AI Ã§Ä±ktÄ±sÄ± doÄŸrudan DOM'a gitmez <span class="v11-feature">V11</span></li>
+  <li>âœ… Image Count Fix â€” "3 apple â†’ clearly 3 items" prompt zincirleme <span class="v11-feature">V11</span></li>
+  <li>âœ… Quiz Structured â€” Grade / Topic / Difficulty otomatik ayrÄ±ÅŸtÄ±rÄ±lÄ±r <span class="v11-feature">V11</span></li>
+  <li>âœ… Memory â€” Son 6 mesaj baÄŸlam olarak AI'ya beslenir <span class="v11-feature">V11</span></li>
+  <li>âœ… UI Mode SeÃ§imi â€” Wizard/butondan geliyorsa parser bypass <span class="v11-feature">V11</span></li>
+  <li>âœ… AI Kontrol AltÄ±nda â€” HiÃ§bir ham AI Ã§Ä±ktÄ±sÄ± kullanÄ±cÄ±ya ulaÅŸmaz <span class="v11-feature">V11</span></li>
 </ul>
 </div>
 
-<h2>3. Eğitim Güvenliği</h2>
+<h2>3. EÄŸitim GÃ¼venliÄŸi</h2>
 <ul>
-  <li><strong>Eğitim Dışı Konu Yasağı:</strong> Siyaset, din, futbol, magazin, dizi/film gibi içeriklere AI kesinlikle yanıt vermez. Sistem sadece ders, okul, bilim ve akademik konularla sınırlıdır.</li>
-  <li><strong>Askeri Düzey CSP:</strong> Content Security Policy katmanı ile dış komut enjeksiyonu engellenir.</li>
-  <li><strong>Ultra-Heal Algoritması:</strong> Yapay zekanın ürettiği bozuk JSON'lar <code>aiParser.js</code> ile otomatik onarılır; sistem hiçbir zaman çökmez.</li>
+  <li><strong>EÄŸitim DÄ±ÅŸÄ± Konu YasaÄŸÄ±:</strong> Siyaset, din, futbol, magazin, dizi/film gibi iÃ§eriklere AI kesinlikle yanÄ±t vermez. Sistem sadece ders, okul, bilim ve akademik konularla sÄ±nÄ±rlÄ±dÄ±r.</li>
+  <li><strong>Askeri DÃ¼zey CSP:</strong> Content Security Policy katmanÄ± ile dÄ±ÅŸ komut enjeksiyonu engellenir.</li>
+  <li><strong>Ultra-Heal AlgoritmasÄ±:</strong> Yapay zekanÄ±n Ã¼rettiÄŸi bozuk JSON'lar <code>aiParser.js</code> ile otomatik onarÄ±lÄ±r; sistem hiÃ§bir zaman Ã§Ã¶kmez.</li>
 </ul>
 
-<h2>4. Öne Çıkan Eğitim Araçları</h2>
+<h2>4. Ã–ne Ã‡Ä±kan EÄŸitim AraÃ§larÄ±</h2>
 
-<h3>🖥️ 3 Kolonlu Profesyonel Arayüz Modeli <span class="new-feature">YENİ VERSİYON</span></h3>
+<h3>ğŸ–¥ï¸ 3 Kolonlu Profesyonel ArayÃ¼z Modeli <span class="new-feature">YENÄ° VERSÄ°YON</span></h3>
 <ul>
-  <li><strong>Sağ Sidebar Mimarisi:</strong> "Oyun & Etkinlik" ve "Rapor & Araçlar" modülleri devasa sağ panele taşınarak harika bir ekran simetrisi sağlandı (Maksimum 1450px çözünürlük desteklendi).</li>
-  <li><strong>Eğitim Sihirbazı Stabilizasyonu:</strong> "Konu Çalış" işlemleri hata payı olmaksızın sınıf/konu/bağlam sihirbazını başlatacak şekilde doğrudan entegre edildi.</li>
-  <li><strong>Yetenek Ağacı & Mülakat Onarımı:</strong> Ağaç kapatma hataları ile "Sözlü Sınav Modu" yapay zeka tetikleyici engelleri tam kapasiteyle kalıcı olarak çözüldü.</li>
+  <li><strong>SaÄŸ Sidebar Mimarisi:</strong> "Oyun & Etkinlik" ve "Rapor & AraÃ§lar" modÃ¼lleri devasa saÄŸ panele taÅŸÄ±narak harika bir ekran simetrisi saÄŸlandÄ± (Maksimum 1450px Ã§Ã¶zÃ¼nÃ¼rlÃ¼k desteklendi).</li>
+  <li><strong>EÄŸitim SihirbazÄ± Stabilizasyonu:</strong> "Konu Ã‡alÄ±ÅŸ" iÅŸlemleri hata payÄ± olmaksÄ±zÄ±n sÄ±nÄ±f/konu/baÄŸlam sihirbazÄ±nÄ± baÅŸlatacak ÅŸekilde doÄŸrudan entegre edildi.</li>
+  <li><strong>Yetenek AÄŸacÄ± & MÃ¼lakat OnarÄ±mÄ±:</strong> AÄŸaÃ§ kapatma hatalarÄ± ile "SÃ¶zlÃ¼ SÄ±nav Modu" yapay zeka tetikleyici engelleri tam kapasiteyle kalÄ±cÄ± olarak Ã§Ã¶zÃ¼ldÃ¼.</li>
 </ul>
 
-<h3>🧙 Eğitim Sihirbazı (Study Wizard)</h3>
+<h3>ğŸ§™ EÄŸitim SihirbazÄ± (Study Wizard)</h3>
 <ul>
-  <li>Kullanıcıyı Sınıf → Ders → Konu adımlarıyla yönlendiren animasyonlu sihirbaz arayüzü.</li>
-  <li><strong>💬 Sohbete Başla</strong> — Konuya giriş yapan dostane bir sohbet başlatır, uzun anlatımla sıkmaz. <span class="new-feature">YENİ</span></li>
-  <li><strong>📖 Konu Anlatımı</strong> — Seçilen konuyu detaylı, maddeli öğretmen modunda açıklar.</li>
+  <li>KullanÄ±cÄ±yÄ± SÄ±nÄ±f â†’ Ders â†’ Konu adÄ±mlarÄ±yla yÃ¶nlendiren animasyonlu sihirbaz arayÃ¼zÃ¼.</li>
+  <li><strong>ğŸ’¬ Sohbete BaÅŸla</strong> â€” Konuya giriÅŸ yapan dostane bir sohbet baÅŸlatÄ±r, uzun anlatÄ±mla sÄ±kmaz. <span class="new-feature">YENÄ°</span></li>
+  <li><strong>ğŸ“– Konu AnlatÄ±mÄ±</strong> â€” SeÃ§ilen konuyu detaylÄ±, maddeli Ã¶ÄŸretmen modunda aÃ§Ä±klar.</li>
 </ul>
 
-<h3>🌟 Görsel İnteraktif Sözlük (Kullanıcı Denetimli)</h3>
+<h3>ğŸŒŸ GÃ¶rsel Ä°nteraktif SÃ¶zlÃ¼k (KullanÄ±cÄ± Denetimli)</h3>
 <ul>
-  <li>Hazır konular (Köpeğin Bölümleri, Meyveler) ve kullanıcı tarafından oluşturulan sözlükler.</li>
-  <li><strong>➕ Yeni Sözlük Oluştur:</strong> Herhangi bir internet resminin URL'si girilir; resme tıklanarak etiket noktaları eklenir. Tüm sözlükler <code>localStorage</code>'a kaydedilir. <span class="new-feature">YENİ</span></li>
-  <li>Üzerine gelindiğinde otomatik sesli telaffuz (Web Speech API - İngilizce).</li>
+  <li>HazÄ±r konular (KÃ¶peÄŸin BÃ¶lÃ¼mleri, Meyveler) ve kullanÄ±cÄ± tarafÄ±ndan oluÅŸturulan sÃ¶zlÃ¼kler.</li>
+  <li><strong>â• Yeni SÃ¶zlÃ¼k OluÅŸtur:</strong> Herhangi bir internet resminin URL'si girilir; resme tÄ±klanarak etiket noktalarÄ± eklenir. TÃ¼m sÃ¶zlÃ¼kler <code>localStorage</code>'a kaydedilir. <span class="new-feature">YENÄ°</span></li>
+  <li>Ãœzerine gelindiÄŸinde otomatik sesli telaffuz (Web Speech API - Ä°ngilizce).</li>
 </ul>
 
-<h3>🎮 Oyun Merkezi & Klavye Ustası (ZType Benzeri)</h3>
+<h3>ğŸ® Oyun Merkezi & Klavye UstasÄ± (ZType Benzeri)</h3>
 <ul>
-  <li>Sidebarda doğrudan görünür Oyunlar menüsü.</li>
-  <li>Klavye Ustası: Ekrandan düşen kelimeleri yazarak savunan, seviye atlayan Türkçe yazma oyunu.</li>
+  <li>Sidebarda doÄŸrudan gÃ¶rÃ¼nÃ¼r Oyunlar menÃ¼sÃ¼.</li>
+  <li>Klavye UstasÄ±: Ekrandan dÃ¼ÅŸen kelimeleri yazarak savunan, seviye atlayan TÃ¼rkÃ§e yazma oyunu.</li>
 </ul>
 
-<h3>📊 Quiz Engine (Dinamik Test Üretimi)</h3>
+<h3>ğŸ“Š Quiz Engine (Dinamik Test Ãœretimi)</h3>
 <ul>
-  <li>Seçilen sınıf, ders ve konuya özel 10 soruluk test saniyeler içinde AI tarafından üretilir.</li>
-  <li>Yanlış yapılan sorularda <strong>💡 İpucu Al</strong> butonu ile anında pedagojik açıklama sunulur.</li>
-  <li>Sınav sonuçları geçmiş kaydı (Sınavlarım) bölümünde saklanır.</li>
+  <li>SeÃ§ilen sÄ±nÄ±f, ders ve konuya Ã¶zel 10 soruluk test saniyeler iÃ§inde AI tarafÄ±ndan Ã¼retilir.</li>
+  <li>YanlÄ±ÅŸ yapÄ±lan sorularda <strong>ğŸ’¡ Ä°pucu Al</strong> butonu ile anÄ±nda pedagojik aÃ§Ä±klama sunulur.</li>
+  <li>SÄ±nav sonuÃ§larÄ± geÃ§miÅŸ kaydÄ± (SÄ±navlarÄ±m) bÃ¶lÃ¼mÃ¼nde saklanÄ±r.</li>
 </ul>
 
-<h3>🔥 Oyunlaştırma Sistemi</h3>
+<h3>ğŸ”¥ OyunlaÅŸtÄ±rma Sistemi</h3>
 <ul>
-  <li>XP puanı, seviye atlama (Başlangıç → Keşif Yolcusu → Efsanevi Öğrenci).</li>
-  <li>3 ve 7 günlük Streak 🔥 rozetleri.</li>
-  <li>Liderlik Tablosu, Günlük Görevler, Rozet Sistemi.</li>
+  <li>XP puanÄ±, seviye atlama (BaÅŸlangÄ±Ã§ â†’ KeÅŸif Yolcusu â†’ Efsanevi Ã–ÄŸrenci).</li>
+  <li>3 ve 7 gÃ¼nlÃ¼k Streak ğŸ”¥ rozetleri.</li>
+  <li>Liderlik Tablosu, GÃ¼nlÃ¼k GÃ¶revler, Rozet Sistemi.</li>
 </ul>
 
-<h3>🛠️ Ek Araçlar</h3>
+<h3>ğŸ› ï¸ Ek AraÃ§lar</h3>
 <ul>
-  <li><strong>🍅 Pomodoro Zamanlayıcı</strong> — 25 dk çalışma + 5 dk mola döngüsü.</li>
-  <li><strong>📋 Not Defteri & Ajanda</strong> — /not ve /ajanda komutlarıyla kalıcı kayıt.</li>
-  <li><strong>📄 PDF Okuyucu (RAG)</strong> — Yüklenen PDF/TXT'den quiz ve konu anlatımı.</li>
-  <li><strong>🔊 TTS (Sesli Okuma)</strong> — Tüm bot yanıtları Türkçe seslendirilir.</li>
-  <li><strong>🎤 Sesli Giriş</strong> — Mikrofon ile mesaj dikte ettirme.</li>
+  <li><strong>ğŸ… Pomodoro ZamanlayÄ±cÄ±</strong> â€” 25 dk Ã§alÄ±ÅŸma + 5 dk mola dÃ¶ngÃ¼sÃ¼.</li>
+  <li><strong>ğŸ“‹ Not Defteri & Ajanda</strong> â€” /not ve /ajanda komutlarÄ±yla kalÄ±cÄ± kayÄ±t.</li>
+  <li><strong>ğŸ“„ PDF Okuyucu (RAG)</strong> â€” YÃ¼klenen PDF/TXT'den quiz ve konu anlatÄ±mÄ±.</li>
+  <li><strong>ğŸ”Š TTS (Sesli Okuma)</strong> â€” TÃ¼m bot yanÄ±tlarÄ± TÃ¼rkÃ§e seslendirilir.</li>
+  <li><strong>ğŸ¤ Sesli GiriÅŸ</strong> â€” Mikrofon ile mesaj dikte ettirme.</li>
 </ul>
 
-<h2>5. Teknoloji Altyapısı</h2>
+<h2>5. Teknoloji AltyapÄ±sÄ±</h2>
 <table>
   <tr><th>Katman</th><th>Teknoloji</th></tr>
-  <tr><td>Frontend Çerçeve</td><td>Vite + Vanilla JS (ES Modules)</td></tr>
+  <tr><td>Frontend Ã‡erÃ§eve</td><td>Vite + Vanilla JS (ES Modules)</td></tr>
   <tr><td>AI Gateway</td><td>Cloudflare Worker (Multi-Provider Fallback)</td></tr>
-  <tr><td>AI Sağlayıcılar</td><td>Gemini 2.5 Flash → Pollinations → DuckDuckGo Fallback</td></tr>
-  <tr><td>Hosting</td><td>Surge.sh (CDN Tabanlı, Küresel)</td></tr>
+  <tr><td>AI SaÄŸlayÄ±cÄ±lar</td><td>Gemini 2.5 Flash â†’ Pollinations â†’ DuckDuckGo Fallback</td></tr>
+  <tr><td>Hosting</td><td>Surge.sh (CDN TabanlÄ±, KÃ¼resel)</td></tr>
   <tr><td>Veri Saklama</td><td>localStorage + IndexedDB (StorageManager)</td></tr>
-  <tr><td>Bundle Çıktısı</td><td>Tek dosya index.html (~4.6 MB, gzip ~1.5 MB)</td></tr>
+  <tr><td>Bundle Ã‡Ä±ktÄ±sÄ±</td><td>Tek dosya index.html (~4.6 MB, gzip ~1.5 MB)</td></tr>
 </table>
 
-<h2>6. Sürüm Notu</h2>
-<p>Bu uygulama <strong>V11 Agentic Engine</strong> mimarisiyle, bir okul chatbot'u olmaktan çıkıp deterministik AI akışında çalışan, eğitim sınırlı, tamamen kontrol altına alınmış bir Ed-Tech platformuna dönüşmüştür. Gelecek versiyonlarda çok kullanıcılı (multi-student dashboard) ve öğretmen yönetim paneli (Teacher Admin) modülleri planlanmaktadır.</p>
+<h2>6. SÃ¼rÃ¼m Notu</h2>
+<p>Bu uygulama <strong>V11 Agentic Engine</strong> mimarisiyle, bir okul chatbot'u olmaktan Ã§Ä±kÄ±p deterministik AI akÄ±ÅŸÄ±nda Ã§alÄ±ÅŸan, eÄŸitim sÄ±nÄ±rlÄ±, tamamen kontrol altÄ±na alÄ±nmÄ±ÅŸ bir Ed-Tech platformuna dÃ¶nÃ¼ÅŸmÃ¼ÅŸtÃ¼r. Gelecek versiyonlarda Ã§ok kullanÄ±cÄ±lÄ± (multi-student dashboard) ve Ã¶ÄŸretmen yÃ¶netim paneli (Teacher Admin) modÃ¼lleri planlanmaktadÄ±r.</p>
 
 <div class="footer">
-  <em>Ata Eğitim Asistanı — V11 Agentic AI Raporu | Nisan 2026</em><br>
+  <em>Ata EÄŸitim AsistanÄ± â€” V11 Agentic AI Raporu | Nisan 2026</em><br>
   <a href="https://ata-asistan-mega-v10.surge.sh" style="color:#2980b9;">https://ata-asistan-mega-v10.surge.sh</a>
 </div>
 
 </body>
 </html>
+

@@ -843,6 +843,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
   background: var(--acc);
   color: #fff;
   padding: 12px 18px;
+  margin-right: 16px;
   border-radius: 20px 20px 2px 20px;
   max-width: 75%;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -2778,5 +2779,233 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
   .pdr-grid { grid-template-columns: 1fr; gap: 16px; }
   .pdr-card { padding: 20px 15px; flex-direction: row; text-align: left; gap: 20px; }
   .pdr-icon { font-size: 2.5rem; }
-  .pdr-title { font-size: 1.1rem; }
+}
+
+/* ═══════════════════════════════════════════
+   MARDOWN TABLO TASARIMI (AI Çıktıları İçin)
+   ═══════════════════════════════════════════ */
+.chat-message table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+  font-size: 0.9rem;
+  background: rgba(15, 23, 42, 0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  border: 1px solid var(--bdr);
+}
+
+.chat-message th {
+  background: linear-gradient(90deg, rgba(16, 185, 129, 0.2), rgba(6, 182, 212, 0.2));
+  color: #34d399;
+  font-weight: 700;
+  text-align: left;
+  padding: 12px 15px;
+  border-bottom: 2px solid rgba(16, 185, 129, 0.4);
+  border-right: 1px solid rgba(16, 185, 129, 0.2);
+}
+.chat-message th:last-child {
+  border-right: none;
+}
+
+.chat-message td {
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--txt);
+  vertical-align: top;
+}
+.chat-message td:last-child {
+  border-right: none;
+}
+
+.chat-message tr:last-child td {
+  border-bottom: none;
+}
+
+.chat-message tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Tabloların mobilde taşmasını engellemek için taşıyıcı ekliyoruz */
+.chat-message {
+  overflow-wrap: break-word;
+}
+.chat-message .table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+  margin: 10px 0;
+  border-radius: 8px;
+}
+
+/* === PDR VERTICAL PANEL === */
+.pdr-vertical-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 280px;
+  padding: 16px;
+  background: linear-gradient(145deg, rgba(15,23,42,0.6), rgba(2,6,23,0.8));
+  border-left: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  overflow-y: auto;
+}
+
+@media (max-width: 1024px) {
+  .pdr-vertical-panel {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 20px;
+  }
+}
+
+.pdr-vertical-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  color: var(--txt);
+  text-align: left;
+}
+
+.pdr-vertical-card:hover {
+  background: rgba(255,255,255,0.08);
+  transform: translateX(4px);
+  border-color: var(--acc);
+}
+
+.pdr-vertical-icon {
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+}
+
+/* === ATA QUEST RPG STYLES === */
+.rpg-profile-card, .rpg-skill-tree-card, .rpg-quests-card {
+  width: 90%;
+  max-width: 650px;
+  background: var(--bg2);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 50px rgba(59,130,246,0.15);
+  border: 1px solid var(--bdr);
+  position: relative;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.profile-avatar-wrap {
+  width: 80px;
+  height: 80px;
+  font-size: 3rem;
+  background: rgba(0,0,0,0.3);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid var(--acc);
+  box-shadow: 0 0 20px rgba(59,130,246,0.3);
+}
+
+.profile-info h2 {
+  margin: 0 0 5px 0;
+  color: var(--txt);
+  font-size: 1.8rem;
+}
+
+.profile-title {
+  color: #10b981;
+  font-weight: 800;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.profile-stats {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.stat-box {
+  flex: 1;
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 5px;
+}
+
+.stat-label {
+  color: var(--sub);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.profile-badges-section .badges-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.profile-badge {
+  font-size: 2rem;
+  background: rgba(0,0,0,0.3);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.1);
+  transition: 0.2s;
+  cursor: pointer;
+}
+.profile-badge:hover {
+  transform: scale(1.1) translateY(-5px);
+  background: rgba(255,255,255,0.1);
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.skill-node:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+}
+
+.unlock-btn:hover {
+  filter: brightness(1.2);
 }
