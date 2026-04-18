@@ -2344,7 +2344,7 @@ function setupEventListeners() {
       if (typeof Swal === 'undefined') return;
       const items = [
         { date: '16 Nisan 2026', color: '#00d4ff', title: '⌨️ Klavye Ustası Güncellendi',  text: 'Yavaş / Orta / Hızlı seviye seçimi ve büyütülmüş ekran.' },
-        { date: '16 Nisan 2026', color: '#38bdf8', title: 'ğÅ¸ÂÂ¤ Sözlü Sınav İyileştirmesi', text: '5 soruda bitiyor, her yanıtta Sonraki Soru / Sınavı Bitir butonları.' },
+        { date: '16 Nisan 2026', color: '#38bdf8', title: '🎤 Sözlü Sınav İyileştirmesi', text: '5 soruda bitiyor, her yanıtta Sonraki Soru / Sınavı Bitir butonları.' },
         { date: '16 Nisan 2026', color: '#22c55e', title: '📚 Müfredat Düzeltmesi',        text: '7. sınıf Fen Bilimleri konuları düzeltildi.' },
         { date: '15 Nisan 2026', color: '#8b5cf6', title: '🌙 Tema Düzeltmesi',            text: 'Gece/Gündüz mod çakışması tamamen giderildi.' },
         { date: '14 Nisan 2026', color: '#f59e0b', title: '🤖 AI Bağlantısı Güçlendi',    text: 'Cloudflare önbellekleme ile kesintiler azaldı.' }
@@ -2358,9 +2358,9 @@ function setupEventListeners() {
           '</div>'
         ).join('') + '</div>';
       Swal.fire({
-        title: 'ğÅ¸â€â€ Yenilikler',
+        title: '✨ Yenilikler',
         html: html,
-        confirmButtonText: 'Harika! ğÅ¸â€˜Â',
+        confirmButtonText: 'Harika! 👍',
         confirmButtonColor: '#00d4ff',
         background: '#0f172a',
         color: '#f8fafc',
@@ -3895,7 +3895,7 @@ function showCardInfo(cardId) {
     test:   { title: '🧙‍♂️ Test Sihirbazı', icon: 'ğÅ¸ÂÂ¯', color: '#38bdf8',
                text: 'Sınıf ve konuna göre yapay zeka tarafından üretilen özel sorular çöz! LGS, Maarif ve çeşitli soru formatları (çoktan seçmeli, doğru-yanlış, boşluk doldurama) arasından seç. Her sorunun ayrıntılı çözümü sunulur.',
                tip: '💡 Soru formatını ve zorluk seviyesini kendin belirleyebilirsin!' },
-    sozlu:  { title: 'ğÅ¸ÂÂ¤ Sözlü Sınav', icon: 'ğÅ¸ÂÂ¤', color: '#818cf8',
+    sozlu:  { title: '🎤 Sözlü Sınav', icon: 'ğÅ¸ÂÂ¤', color: '#818cf8',
                text: 'Yapay zeka sana sözlü sınav soruları sorar, sen de sesli veya yazılı olarak cevaplıyorsun. Her cevabını değerlendirir, puan verir ve 5 soruluk sinavin sonunda genel performansını özetler.',
                tip: '💡 5 soru sorulur → otomatik değerlendirme yapılır!' },
     sohbet: { title: '💬 Sohbet Odası', icon: '💬', color: '#fb923c',
