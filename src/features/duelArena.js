@@ -18,7 +18,7 @@ export class DuelArena {
     this.timer = null;
     this.timeLeft = 15;
     this.maxTime = 15;
-    this.botName = "GÃ¶lge Rakip ğŸ¥·";
+    this.botName = "Gölge Rakip ğŸ¥·";
     this.isPlaying = false;
   }
 
@@ -26,7 +26,7 @@ export class DuelArena {
   openLobby(defaultGrade) {
     if (this.isPlaying) return;
     const grade = defaultGrade || '8';
-    let subjects = ['Matematik', 'Fen Bilimleri', 'TÃ¼rkÃ§e', 'Sosyal Bilgiler', 'Ä°ngilizce', 'Din KÃ¼ltÃ¼rÃ¼ ve Ahlak Bilgisi'];
+    let subjects = ['Matematik', 'Fen Bilimleri', 'Türkçe', 'Sosyal Bilgiler', 'Ä°ngilizce', 'Din Kültürü ve Ahlak Bilgisi'];
     if (curriculumData[grade]) {
       subjects = Object.keys(curriculumData[grade]);
     }
@@ -44,42 +44,42 @@ export class DuelArena {
     this.overlay.style.justifyContent = 'center';
     this.overlay.style.alignItems = 'center';
 
-    const subjectOptions = subjects.map(s => `<option value="${s}" style="background: #1e293b; color: #f1f5f9;">${s}</option>`).join('');
+    const subjectOptions = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
 
     this.overlay.innerHTML = `
       <div style="width: 90%; max-width: 600px; background: var(--bg2); padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(220,38,38,0.2); border: 1px solid var(--bdr); position: relative;">
         <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">âœ–</button>
-        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸  DÃœELLO ARENASI LOBÄ°SÄ°</h2>
-        <p style="text-align: center; color: var(--sub); margin-bottom: 25px;">Rakibin GÃ¶lge Bot seni bekliyor. AyarlarÄ±nÄ± yap ve savaÅŸa hazÄ±rlan!</p>
+        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸ DÜELLO ARENASI LOBÄ°SÄ°</h2>
+        <p style="text-align: center; color: var(--sub); margin-bottom: 25px;">Rakibin Gölge Bot seni bekliyor. AyarlarÄ±nÄ± yap ve savaÅŸa hazÄ±rlan!</p>
         
         <div style="display: flex; flex-direction: column; gap: 15px;">
           <div>
-            <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Ders SeÃ§imi:</label>
+            <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Ders Seçimi:</label>
             <select id="lobbySubject" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
               ${subjectOptions}
             </select>
           </div>
           <div>
-            <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Konu SeÃ§imi:</label>
+            <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Konu Seçimi:</label>
             <select id="lobbyTopic" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
-              <option value="Genel" style="background: #1e293b; color: #f1f5f9;">TÃ¼m Konular (Genel)</option>
+              <option value="Genel">Tüm Konular (Genel)</option>
             </select>
           </div>
           <div style="display: flex; gap: 15px;">
              <div style="flex: 1;">
                 <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru SayÄ±sÄ±:</label>
                 <select id="lobbyQCount" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
-                  <option value="5" style="background: #1e293b; color: #f1f5f9;" selected>5 Soru (HÄ±zlÄ±)</option>
-                  <option value="10" style="background: #1e293b; color: #f1f5f9;">10 Soru (Standart)</option>
-                  <option value="15" style="background: #1e293b; color: #f1f5f9;">15 Soru (Maraton)</option>
+                  <option value="5" selected>5 Soru (HÄ±zlÄ±)</option>
+                  <option value="10">10 Soru (Standart)</option>
+                  <option value="15">15 Soru (Maraton)</option>
                 </select>
              </div>
              <div style="flex: 1;">
-                <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru BaÅŸÄ± SÃ¼re:</label>
+                <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru BaÅŸÄ± Süre:</label>
                 <select id="lobbyTime" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
-                  <option value="10" style="background: #1e293b; color: #f1f5f9;">10 Saniye (Zor)</option>
-                  <option value="15" style="background: #1e293b; color: #f1f5f9;" selected>15 Saniye (Normal)</option>
-                  <option value="30" style="background: #1e293b; color: #f1f5f9;">30 Saniye (Rahat)</option>
+                  <option value="10">10 Saniye (Zor)</option>
+                  <option value="15" selected>15 Saniye (Normal)</option>
+                  <option value="30">30 Saniye (Rahat)</option>
                 </select>
              </div>
           </div>
@@ -98,9 +98,9 @@ export class DuelArena {
       const subj = subjectSelect.value;
       if (curriculumData[grade] && curriculumData[grade][subj]) {
         const topics = curriculumData[grade][subj];
-        topicSelect.innerHTML = '<option value="Genel" style="background: #1e293b; color: #f1f5f9;">Tüm Konular (Genel)</option>' + topics.map(t => `<option value="${t}" style="background: #1e293b; color: #f1f5f9;">${t}</option>`).join('');
+        topicSelect.innerHTML = '<option value="Genel">Tüm Konular (Genel)</option>' + topics.map(t => `<option value="${t}">${t}</option>`).join('');
       } else {
-        topicSelect.innerHTML = '<option value="Genel" style="background: #1e293b; color: #f1f5f9;">TÃ¼m Konular (Genel)</option>';
+        topicSelect.innerHTML = '<option value="Genel">Tüm Konular (Genel)</option>';
       }
     };
 
@@ -120,7 +120,7 @@ export class DuelArena {
     });
   }
 
-  // Bu metot dÄ±ÅŸarÄ±dan Ã§aÄŸrÄ±ldÄ±ÄŸÄ±nda uyumluluk iÃ§in korundu, ancak artÄ±k Lobby aÃ§acak
+  // Bu metot dÄ±ÅŸarÄ±dan çaÄŸrÄ±ldÄ±ÄŸÄ±nda uyumluluk için korundu, ancak artÄ±k Lobby açacak
   startDuel(grade, subject, topic) {
      this.openLobby(grade);
   }
@@ -137,39 +137,39 @@ export class DuelArena {
     this.setupArenaUI();
     this.showLoading();
 
-    // Throttle bypass: 2.1 sn bekle (son API Ã§aÄŸrÄ±sÄ±ndan sonra)
+    // Throttle bypass: 2.1 sn bekle (son API çaÄŸrÄ±sÄ±ndan sonra)
     await new Promise(r => setTimeout(r, 2100));
 
     const gradeNum = parseInt(grade);
     let kademeTalimat = gradeNum <= 4
-      ? 'Ã‡ok kÄ±sa, somut, gÃ¼nlÃ¼k hayattan sorular. 3 ÅŸÄ±k (A, B, C). ÅÄ±klarÄ± Ã§ok kÄ±sa tut.'
+      ? 'Çok kÄ±sa, somut, günlük hayattan sorular. 3 ÅŸÄ±k (A, B, C). ÅÄ±klarÄ± çok kÄ±sa tut.'
       : gradeNum <= 8
-      ? 'LGS tarzÄ±, okuduÄŸunu anlama gerektiren. 4 ÅŸÄ±k (A, B, C, D). MEB mÃ¼fredatÄ±na uygun.'
+      ? 'LGS tarzÄ±, okuduÄŸunu anlama gerektiren. 4 ÅŸÄ±k (A, B, C, D). MEB müfredatÄ±na uygun.'
       : 'YKS tarzÄ±, analiz gerektiren. 4 ÅŸÄ±k (A, B, C, D). Akademik dil kullan.';
 
-    const prompt = `Sen bir soru Ã¼retme motorusun.
-${grade} dÃ¼zeyinde, ${subject} dersinin ${topic} konusundan ${qCount} adet Ã§oktan seÃ§meli soru hazÄ±rla.
+    const prompt = `Sen bir soru üretme motorusun.
+${grade} düzeyinde, ${subject} dersinin ${topic} konusundan ${qCount} adet çoktan seçmeli soru hazÄ±rla.
 ${kademeTalimat}
-Kavram yanÄ±lgÄ±larÄ±nÄ± hedefleyen Ã§eldiriciler kullan. Ezber deÄŸil, dÃ¼ÅŸÃ¼ndÃ¼ren sorular olsun.
-SADECE ÅŸu JSON array formatÄ±nda dÃ¶n, baÅŸka hiÃ§bir ÅŸey yazma:
+Kavram yanÄ±lgÄ±larÄ±nÄ± hedefleyen çeldiriciler kullan. Ezber deÄŸil, düÅŸündüren sorular olsun.
+SADECE ÅŸu JSON array formatÄ±nda dön, baÅŸka hiçbir ÅŸey yazma:
 [{"q":"Soru metni","opts":["A ÅŸÄ±kkÄ±","B ÅŸÄ±kkÄ±","C ÅŸÄ±kkÄ±","D ÅŸÄ±kkÄ±"],"ans":0}]
 Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
 
 
     // Yedek sorular (AI baÅŸarÄ±sÄ±z olursa)
     const fallbackQuestions = [
-      { q: "TÃ¼rkiye'nin baÅŸkenti hangisidir?", opts: ["Ä°stanbul", "Ankara", "Ä°zmir", "Bursa"], ans: 1 },
-      { q: "GÃ¼neÅŸ sistemindeki en bÃ¼yÃ¼k gezegen hangisidir?", opts: ["SatÃ¼rn", "Mars", "JÃ¼piter", "NeptÃ¼n"], ans: 2 },
-      { q: "Su'nun kimyasal formÃ¼lÃ¼ nedir?", opts: ["CO2", "NaCl", "H2O", "O2"], ans: 2 },
-      { q: "Bir yÄ±lda kaÃ§ ay vardÄ±r?", opts: ["10", "11", "12", "13"], ans: 2 },
-      { q: "Fotosentez hangi organda gerÃ§ekleÅŸir?", opts: ["KÃ¶k", "GÃ¶vde", "Kloroplast", "Ã‡ekirdek"], ans: 2 },
+      { q: "Türkiye'nin baÅŸkenti hangisidir?", opts: ["Ä°stanbul", "Ankara", "Ä°zmir", "Bursa"], ans: 1 },
+      { q: "GüneÅŸ sistemindeki en büyük gezegen hangisidir?", opts: ["Satürn", "Mars", "Jüpiter", "Neptün"], ans: 2 },
+      { q: "Su'nun kimyasal formülü nedir?", opts: ["CO2", "NaCl", "H2O", "O2"], ans: 2 },
+      { q: "Bir yÄ±lda kaç ay vardÄ±r?", opts: ["10", "11", "12", "13"], ans: 2 },
+      { q: "Fotosentez hangi organda gerçekleÅŸir?", opts: ["Kök", "Gövde", "Kloroplast", "Çekirdek"], ans: 2 },
     ];
 
     try {
-      const raw = await askAI(prompt, "Sadece JSON dizisi dÃ¶ndÃ¼r. AÃ§Ä±klama yazma. Markdown kullanma.", 1000);
+      const raw = await askAI(prompt, "Sadece JSON dizisi döndür. AçÄ±klama yazma. Markdown kullanma.", 1000);
 
       if (!raw || raw.includes('bekleyin') || raw.length < 20) {
-        throw new Error("GeÃ§ersiz yanÄ±t");
+        throw new Error("Geçersiz yanÄ±t");
       }
 
       let cleaned = raw.trim()
@@ -186,7 +186,7 @@ Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
       
       this.questions = (Array.isArray(parsed) && parsed.length > 0) ? parsed : fallbackQuestions;
       
-      // EÄŸer soru sayÄ±sÄ± istenenden az veya Ã§oksa kes/Ã§oÄŸalt
+      // EÄŸer soru sayÄ±sÄ± istenenden az veya çoksa kes/çoÄŸalt
       if(this.questions.length > qCount) this.questions = this.questions.slice(0, qCount);
     } catch (e) {
       console.warn('[DuelArena] AI baÅŸarÄ±sÄ±z, yedek sorular kullanÄ±lÄ±yor:', e.message);
@@ -213,7 +213,7 @@ Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
     this.overlay.innerHTML = `
       <div style="width: 90%; max-width: 600px; background: var(--bg2); padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(220,38,38,0.2); border: 1px solid var(--bdr); position: relative;">
         <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">âœ–</button>
-        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸ DÃœELLO ARENASI</h2>
+        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸ DÜELLO ARENASI</h2>
         
         <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
           <div style="text-align: center; width: 45%;">
@@ -348,19 +348,19 @@ Not: ans = doÄŸru cevabÄ±n 0-3 arasÄ± indeksi.`;
 
     let resultHtml = "";
     if (this.userScore > this.botScore) {
-      resultHtml = `<h1 style="color: #22c55e; font-size: 3rem; margin-bottom: 10px;">ğŸ† ZAFER!</h1><p style="font-size: 1.2rem;">GÃ¶lge botu maÄŸlup ettin!</p>`;
+      resultHtml = `<h1 style="color: #22c55e; font-size: 3rem; margin-bottom: 10px;">ğŸ† ZAFER!</h1><p style="font-size: 1.2rem;">Gölge botu maÄŸlup ettin!</p>`;
       // Trigger confetti if exists globally
       if(window.triggerConfetti) window.triggerConfetti();
       addXP(150);
       const qb = new QuestsBoard(document.body);
       qb.updateProgress('duel_win', 1);
     } else if (this.userScore === this.botScore) {
-      resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">ğŸ¤ BERABERE</h1><p style="font-size: 1.2rem;">DiÅŸe diÅŸ bir mÃ¼cadeleydi!</p>`;
+      resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">ğŸ¤ BERABERE</h1><p style="font-size: 1.2rem;">DiÅŸe diÅŸ bir mücadeleydi!</p>`;
     } else {
-      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">ğŸ’€ MAÄLUBÄ°YET</h1><p style="font-size: 1.2rem;">GÃ¶lge bot senden ${this.botScore - this.userScore} puan Ã¶nde!</p>`;
+      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">ğŸ’€ MAÄLUBÄ°YET</h1><p style="font-size: 1.2rem;">Gölge bot senden ${this.botScore - this.userScore} puan önde!</p>`;
     }
 
-    resultHtml += `<button class="onboard-btn ext-style-2" style="margin-top: 30px;" id="duelFinishBtn">Arenadan Ã‡Ä±k</button>`;
+    resultHtml += `<button class="onboard-btn ext-style-2" style="margin-top: 30px;" id="duelFinishBtn">Arenadan ÇÄ±k</button>`;
     content.innerHTML = DOMPurify.sanitize(`<div style="text-align: center; padding: 30px;">${resultHtml}</div>`);
 
     document.getElementById('duelFinishBtn').addEventListener('click', () => this.close());

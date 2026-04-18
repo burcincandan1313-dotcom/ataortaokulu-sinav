@@ -4,17 +4,17 @@
 
 /* === DESIGN TOKENS (V18 MIDNIGHT PREMÄ°UM TEMA) === */
 :root {
-  --bg: #020617; /* DÃ¼z lacivertten daha derin bir Slate 950 (Gece Mavisi) */
-  --nav: #0f172a; /* Paneller iÃ§in bir tÄ±k daha aydÄ±nlÄ±k Slate 900 */
+  --bg: #020617; /* Düz lacivertten daha derin bir Slate 950 (Gece Mavisi) */
+  --nav: #0f172a; /* Paneller için bir tÄ±k daha aydÄ±nlÄ±k Slate 900 */
   --acc: #00d4ff; /* CanlÄ± Neon Turkuaz / Elektrik Mavisi */
   --acc2: #3a7bfd; /* Ä°kincil Vurgu (Deep Electric Blue) */
-  --pan: rgba(15, 23, 42, 0.65); /* YÃ¼ksek ÅŸeffaflÄ±k ile tam bir Glassmorphism */
+  --pan: rgba(15, 23, 42, 0.65); /* Yüksek ÅŸeffaflÄ±k ile tam bir Glassmorphism */
   --bdr: rgba(255, 255, 255, 0.1); /* SÄ±nÄ±rlar artÄ±k ince, zarif ve parlak */
   --bmsg: rgba(0, 212, 255, 0.12); /* Mesaj arka planlarÄ± */
   --glow: rgba(0, 212, 255, 0.2);
   --txt: #f8fafc; /* Rahat okutacak kÄ±rÄ±k beyaz */
   --sub: #94a3b8; /* Ä°kincil metinler */
-  --shadow: 0 20px 40px rgba(0, 0, 0, 0.6); /* Daha dramatik katman gÃ¶lgesi */
+  --shadow: 0 20px 40px rgba(0, 0, 0, 0.6); /* Daha dramatik katman gölgesi */
 }
 
 /* === SEO: ANA BAÅLIK === */
@@ -376,7 +376,7 @@ h1, h2, h3, h4, h5, h6, .onb-title, .main-site-title { font-family: 'Poppins', s
 @media(max-width:768px){
   .mobile-menu-btn{display:block;}
 
-  /* Off-canvas sidebar: dÃ¼zgÃ¼n katmanlama */
+  /* Off-canvas sidebar: düzgün katmanlama */
   .sidebar{
     position:fixed;left:0;top:0;bottom:0;
     z-index:1060;
@@ -393,7 +393,7 @@ h1, h2, h3, h4, h5, h6, .onb-title, .main-site-title { font-family: 'Poppins', s
     transform:translateX(0);
     box-shadow:8px 0 30px rgba(0,0,0,.5);
   }
-  /* Sidebar iÃ§erik taÅŸmasÄ±nÄ± Ã¶nle */
+  /* Sidebar içerik taÅŸmasÄ±nÄ± önle */
   .sidebar .chips{max-height:120px;overflow-y:auto;}
   .sidebar .badge-grid{max-height:80px;overflow-y:auto;}
   .sidebar .v18-sidebar-menu{overflow-y:auto;max-height:none;}
@@ -409,7 +409,7 @@ h1, h2, h3, h4, h5, h6, .onb-title, .main-site-title { font-family: 'Poppins', s
   .chat-input{padding:9px 12px;font-size:.85rem;}
   .send-btn,.mic-btn{width:38px;height:38px;font-size:1rem;}
 
-  /* Mesaj kutularÄ± taÅŸma Ã¶nleme */
+  /* Mesaj kutularÄ± taÅŸma önleme */
   .bot-wrap{max-width:94%;}
   .message{max-width:92%;font-size:.87rem;padding:10px 14px;word-break:break-word;overflow-wrap:break-word;}
   .user-msg-wrap,.bot-msg-wrap{word-break:break-word;overflow-wrap:break-word;max-width:100%;}
@@ -592,7 +592,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 .lowend-mode .ticker-inner{animation:none!important;}
 .lowend-mode .bot-avatar.speaking{animation:none!important;}
 
-/* === CANLI KOD EDÄ°TÃ–RÃœ (3-Tab Live Code Playground) === */
+/* === CANLI KOD EDÄ°TÖRÜ (3-Tab Live Code Playground) === */
 .game-modal.live-code-mode {
   width: 96vw; max-width: 1400px; height: 92vh; max-height: 92vh;
 }
@@ -896,7 +896,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   MODAL DISPLAY FIX "” display:flex ile gÃ¶ster
+   MODAL DISPLAY FIX "” display:flex ile göster
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .modal-overlay[style*="display: flex"],
 .modal-overlay[style*="display:flex"] {
@@ -1401,7 +1401,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
   box-shadow: 0 4px 18px rgba(249,115,22,.2);
 }
 
-/* BaÅŸka Konuya GeÃ§ */
+/* BaÅŸka Konuya Geç */
 .lesson-action-btn.topic {
   background: linear-gradient(135deg, rgba(168,85,247,.15), rgba(236,72,153,.08));
   border-color: rgba(168,85,247,.35);
@@ -1413,7 +1413,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
   box-shadow: 0 4px 18px rgba(168,85,247,.2);
 }
 
-/* Normal Moda DÃ¶n */
+/* Normal Moda Dön */
 .lesson-action-btn.normal {
   background: linear-gradient(135deg, rgba(16,185,129,.15), rgba(6,182,212,.08));
   border-color: rgba(16,185,129,.35);
@@ -1425,7 +1425,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
   box-shadow: 0 4px 18px rgba(16,185,129,.2);
 }
 
-/* SeÃ§ili durumu */
+/* Seçili durumu */
 .lesson-action-btn.selected {
   box-shadow: 0 0 16px rgba(255,255,255,.15) !important;
 }
@@ -2113,7 +2113,7 @@ body.ui-locked .sidebar {
   position: relative;
 }
 body.ui-locked .sidebar::after {
-  content: "Ã–nce seni tanÄ±mama izin ver, testi Ã§Ã¶z!";
+  content: "Önce seni tanÄ±mama izin ver, testi çöz!";
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(15, 23, 42, 0.85);
@@ -2217,11 +2217,11 @@ body.ui-locked #btnFeedbackBubble {
 .dash-card-btn.c4:hover { border-color: #ef4444; box-shadow: 0 10px 30px rgba(239,68,68,0.3); }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   DEVICE MODE: CÄ°HAZ MODU SEÃ‡Ä°CÄ°
-   KullanÄ±cÄ± telefondan, uygulamadan veya webden giriÅŸe gÃ¶re font ayarÄ±
+   DEVICE MODE: CÄ°HAZ MODU SEÇÄ°CÄ°
+   KullanÄ±cÄ± telefondan, uygulamadan veya webden giriÅŸe göre font ayarÄ±
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
-/* VarsayÄ±lan: Web modu (bÃ¼yÃ¼k yazÄ±lar) */
+/* VarsayÄ±lan: Web modu (büyük yazÄ±lar) */
 .message, .user-msg-wrap, .bot-msg-wrap, .message-content { font-size: 1.3rem !important; line-height: 1.6 !important; }
 .message-content strong { color: var(--acc); font-weight: 800; font-size: 1.35rem !important; }
 .p-text { font-size: 1.3rem !important; }
@@ -2279,7 +2279,7 @@ body.device-app .dash-card-title { font-size: 1.15rem !important; }
 body.device-app .dash-card-desc { font-size: 0.92rem !important; }
 body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !important; height: 42px !important; }
 
-/* â”€â”€ CÄ°HAZ MODU SEÃ‡Ä°CÄ° UI â”€â”€ */
+/* â”€â”€ CÄ°HAZ MODU SEÇÄ°CÄ° UI â”€â”€ */
 .device-mode-selector {
   position: fixed;
   top: 12px;
@@ -2338,7 +2338,7 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
 .lb-rank-other { color: var(--sub); }
 
 /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
-   SINAV TÄ°PÄ° SEÃ‡Ä°M OVERLAY
+   SINAV TÄ°PÄ° SEÇÄ°M OVERLAY
    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 .exam-type-overlay {
   position: fixed; inset: 0; z-index: 9998;
@@ -2439,7 +2439,7 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
 .dh-soru { color: #34a853; }
 .dh-space { width: 8px; }
 
-/* Arama Ã‡ubuÄŸu */
+/* Arama ÇubuÄŸu */
 .dash-search-wrapper { margin-bottom: 18px; }
 .dash-search-box {
   display: flex;
@@ -3009,33 +3009,3 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
 .unlock-btn:hover {
   filter: brightness(1.2);
 }
-/* Mobile Menu and Low End Fixes */
-.mobile-menu-btn, .mobile-menu-btn-right {
-  display: none;
-  position: fixed;
-  top: 15px;
-  background: var(--bg2);
-  color: var(--txt);
-  border: 1px solid var(--bdr);
-  border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  font-size: 1.2rem;
-  z-index: 1000;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-}
-.mobile-menu-btn { left: 15px; }
-.mobile-menu-btn-right { right: 15px; }
-@media (max-width: 768px) { .mobile-menu-btn { display: flex; } }
-@media (max-width: 1024px) { .mobile-menu-btn-right { display: flex; } }
-body.lowend-mode * {
-  animation: none !important;
-  transition: none !important;
-  box-shadow: none !important;
-  backdrop-filter: none !important;
-  text-shadow: none !important;
-}
-body.lowend-mode .particle, body.lowend-mode .sparkle, body.lowend-mode .bg-glow { display: none !important; }
