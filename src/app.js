@@ -1993,7 +1993,7 @@ function setupEventListeners() {
   window._closeMobileSidebar = closeMobileSidebar;
 
   const toggleSidebarGlobal = () => {
-    if (window.innerWidth <= 768) {
+    if (window.innerWidth <= 768 || document.body.classList.contains('device-phone')) {
       if (sidebar && sidebar.classList.contains('open')) closeMobileSidebar();
       else openMobileSidebar();
     } else {
@@ -2005,7 +2005,7 @@ function setupEventListeners() {
   if (btnToggleLeft) btnToggleLeft.addEventListener('click', toggleSidebarGlobal);
 
   const toggleRightSidebarGlobal = () => {
-    if (window.innerWidth <= 1024) {
+    if (window.innerWidth <= 1024 || document.body.classList.contains('device-phone') || document.body.classList.contains('device-app')) {
       if (rightSidebar.classList.contains('open')) {
          rightSidebar.classList.remove('open');
          if (backdrop) { backdrop.classList.remove('active'); backdrop.classList.remove('visible'); }
@@ -4027,6 +4027,8 @@ function showCardInfo(cardId) {
       input.click();
     });
   }
+
+
 
 
 
