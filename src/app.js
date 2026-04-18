@@ -266,7 +266,7 @@ async function handleSendMessage(text) {
   if (lw === '/çiz' || lw === '/ciz' || lw === 'görsel çiz') {
     window._drawMode = true;  // Sonraki mesajı resim isteği olarak işle
     addMessage('bot', 'Görsel çizme modu aktif.');
-    appendMessage('bot', formatMessage('bot', 'ğÅ¸ÂÂ¨ <b>Görsel Çiz Modu</b> aktif!<br>Ne çizmemi istersin? Sadece yaz, ben resim yapayım!<br><small style="color:var(--sub)">Örn: <code>mavi kedi</code> veya <code>güneşli orman</code></small>'));
+    appendMessage('bot', formatMessage('bot', '🎨 Görsel Çiz Modu</b> aktif!<br>Ne çizmemi istersin? Sadece yaz, ben resim yapayım!<br><small style="color:var(--sub)">Örn: <code>mavi kedi</code> veya <code>güneşli orman</code></small>'));
     const inputEl = document.getElementById('userInput');
     if (inputEl) { inputEl.value = ''; inputEl.focus(); }
     return;
@@ -971,10 +971,10 @@ function openQuizWizard() {
   const questionTypes = [
     { id: 'coktan', label: '📋 Çoktan Seçmeli', desc: 'Klasik 4 şıklı test' },
     { id: 'dogru_yanlis', label: '✅ Doğru / Yanlış', desc: '2 şıklı hızlı test' },
-    { id: 'bosluk', label: 'ğÅ¸â€œÂ Boşluk Doldurma', desc: 'Eksik kelimeyi bul' },
+    { id: 'bosluk', label: '📝 Boşluk Doldurma', desc: 'Eksik kelimeyi bul' },
     { id: 'lgs', label: 'ğÅ¸ÂÂ¯ LGS Tarzı', desc: 'Paragraf & çıkarım' },
     { id: 'yks', label: 'ğÅ¸ÂÂ« YKS/TYT Tarzı', desc: 'Analiz & sentez' },
-    { id: 'karma', label: 'ğÅ¸ÂÂ² Karma Soru', desc: 'Karışık soru tipleri' },
+    { id: 'karma', label: '🎲 Karma Soru', desc: 'Karışık soru tipleri' },
   ];
 
   const overlay = document.createElement('div');
@@ -1038,7 +1038,7 @@ function openQuizWizard() {
 
       <!-- FOOTER NAVİGASYON -->
       <div style="padding:16px 24px;border-top:1px solid var(--bdr,rgba(255,255,255,.1));display:flex;justify-content:space-between;">
-        <button id="qwBack" style="padding:10px 20px;border-radius:10px;border:1px solid var(--bdr,rgba(255,255,255,.15));background:none;color:var(--sub,#64748b);cursor:pointer;display:none;">→ Â Geri</button>
+        <button id="qwBack" style="padding:10px 20px;border-radius:10px;border:1px solid var(--bdr,rgba(255,255,255,.15));background:none;color:var(--sub,#64748b);cursor:pointer;display:none;">← Geri</button>
         <div id="qwSelection" style="font-size:.82rem;color:var(--acc,#38bdf8);align-self:center;"></div>
       </div>
     </div>
@@ -3205,7 +3205,7 @@ window._openExamTypeMenu = function() {
         <div class="exam-type-section-title">📋 Soru Formatları</div>
         <div class="exam-type-grid">
           <button class="exam-type-btn" data-prompt="Çoktan seçmeli (A-B-C-D) test soruları oluştur. Her sorunun 4 şıkkı ve doğru cevabı olsun."><span class="etb-icon">ğÅ¸â€Ëœ</span><span class="etb-text">Çoktan Seçmeli</span></button>
-          <button class="exam-type-btn" data-prompt="Boşluk doldurmalı sorular üret. Cümlelerde önemli kavramları boşluk bırak, öğrenci doğru kelimeyi yazsın."><span class="etb-icon">ğÅ¸â€œÂ</span><span class="etb-text">Boşluk Doldurma</span></button>
+          <button class="exam-type-btn" data-prompt="Boşluk doldurmalı sorular üret. Cümlelerde önemli kavramları boşluk bırak, ö📝 Boşluk Doldurma</span></button>
           <button class="exam-type-btn" data-prompt="Doğru-Yanlış soruları hazırla. Her ifadenin doğru mu yanlış mı olduğunu belirt ve açıklamasını yap."><span class="etb-icon">✅</span><span class="etb-text">Doğru / Yanlış</span></button>
           <button class="exam-type-btn" data-prompt="Açık uçlu sorular sor. Öğrencinin kendi cümleleriyle cevaplayacağı, düşündüren ve yorumlama gerektiren sorular hazırla."><span class="etb-icon">ğÅ¸â€™Â­</span><span class="etb-text">Açık Uçlu</span></button>
           <button class="exam-type-btn" data-prompt="Eşleştirme soruları üret. Bir sütunda kavramlar, diğer sütunda tanımlar olsun, öğrenci eşleştirsin."><span class="etb-icon">ğÅ¸â€â€”</span><span class="etb-text">Eşleştirme</span></button>
@@ -3785,7 +3785,7 @@ function setupVayBeFeatures() {
            document.documentElement.style.setProperty('--txt', '#0f172a');
            document.documentElement.style.setProperty('--bdr', '#cbd5e1');
            document.documentElement.style.setProperty('--sub', '#475569');
-           btnThemeToggle.textContent = '☀️';
+           btnThemeToggle.innerHTML = '<i class="fa-solid fa-sun"></i>';
        } else {
            body.setAttribute('data-theme', 'default');
            document.documentElement.style.setProperty('--bg', '#020617');
@@ -3793,7 +3793,7 @@ function setupVayBeFeatures() {
            document.documentElement.style.setProperty('--txt', '#f8fafc');
            document.documentElement.style.setProperty('--bdr', '#1e293b');
            document.documentElement.style.setProperty('--sub', '#94a3b8');
-           btnThemeToggle.textContent = '🌙';
+           btnThemeToggle.innerHTML = '<i class="fa-solid fa-moon"></i>';
        }
     });
   }
