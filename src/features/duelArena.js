@@ -334,7 +334,7 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
   updateTimerDisplay() {
     const tb = document.getElementById('duelTimerBox');
     if(tb) {
-      tb.innerHTML = `â±ï¸ ${this.timeLeft}`;
+      tb.innerHTML = `⏱️ ${this.timeLeft}`;
       if(this.timeLeft <= 5) tb.style.color = '#ef4444';
       else tb.style.color = '#eab308';
     }
