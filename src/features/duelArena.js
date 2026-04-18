@@ -178,7 +178,7 @@ export class DuelArena {
 
     const gradeNum = parseInt(grade);
     let kademeTalimat = gradeNum <= 4
-      ? 'Çok kısa, somut, günlük hayattan sorular. 3 şık (A, B, C). Åıkları çok kısa tut.'
+      ? 'Çok kısa, somut, günlük hayattan sorular. 3 şık (A, B, C). Şıkları çok kısa tut.'
       : gradeNum <= 8
       ? 'LGS tarzı, okuduğunu anlama gerektiren. 4 şık (A, B, C, D). MEB müfredatına uygun.'
       : 'YKS tarzı, analiz gerektiren. 4 şık (A, B, C, D). Akademik dil kullan.';
@@ -384,16 +384,16 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
 
     let resultHtml = "";
     if (this.userScore > this.botScore) {
-      resultHtml = `<h1 style="color: #22c55e; font-size: 3rem; margin-bottom: 10px;">ğŸ† ZAFER!</h1><p style="font-size: 1.2rem;">Gölge botu mağlup ettin!</p>`;
+      resultHtml = `<h1 style="color: #22c55e; font-size: 3rem; margin-bottom: 10px;">🏆 ZAFER!</h1><p style="font-size: 1.2rem;">Gölge botu mağlup ettin!</p>`;
       // Trigger confetti if exists globally
       if(window.triggerConfetti) window.triggerConfetti();
       addXP(150);
       const qb = new QuestsBoard(document.body);
       qb.updateProgress('duel_win', 1);
     } else if (this.userScore === this.botScore) {
-      resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">ğŸ¤ BERABERE</h1><p style="font-size: 1.2rem;">Dişe diş bir mücadeleydi!</p>`;
+      resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">🤝 BERABERE</h1><p style="font-size: 1.2rem;">Dişe diş bir mücadeleydi!</p>`;
     } else {
-      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">💀 MAÄLUBİYET</h1><p style="font-size: 1.2rem;">Gölge bot senden ${this.botScore - this.userScore} puan önde!</p>`;
+      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">💀 MAĞLUBİYET</h1><p style="font-size: 1.2rem;">Gölge bot senden ${this.botScore - this.userScore} puan önde!</p>`;
     }
 
     resultHtml += `<button class="onboard-btn ext-style-2" style="margin-top: 30px;" id="duelFinishBtn">Arenadan Çık</button>`;
