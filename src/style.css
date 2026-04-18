@@ -1949,7 +1949,7 @@ input:focus-visible,textarea:focus-visible{outline:2px solid var(--acc);outline-
 }
 
 /* ========================================= */
-/* SYSTEM MODE: DOMINANCE (Aï¿½ILIï¿½)           */
+/* SYSTEM MODE: DOMINANCE (AÇILIŞ)           */
 /* ========================================= */
 .dom-overlay {
   position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -2243,7 +2243,7 @@ body.ui-locked #btnFeedbackBubble {
 .dash-card-desc { font-size: 1.05rem !important; }
 .badge-item { font-size: 1.8rem !important; width: 50px !important; height: 50px !important; }
 
-/* â”€â”€ TELEFON MODU â”€â”€ */
+/* ── TELEFON MODU ── */
 body.device-phone .message, body.device-phone .user-msg-wrap, body.device-phone .bot-msg-wrap, body.device-phone .message-content { font-size: 0.92rem !important; line-height: 1.5 !important; }
 body.device-phone .message-content strong { font-size: 0.95rem !important; }
 body.device-phone .p-text { font-size: 0.92rem !important; }
@@ -2267,7 +2267,7 @@ body.device-phone .welcome-dash { gap: 10px; }
 body.device-phone .dash-card-btn { padding: 14px; gap: 12px; }
 body.device-phone .dash-card-icon { font-size: 2rem; }
 
-/* â”€â”€ UYGULAMA MODU (Tablet vb.) â”€â”€ */
+/* ── UYGULAMA MODU (Tablet vb.) ── */
 body.device-app .message, body.device-app .user-msg-wrap, body.device-app .bot-msg-wrap, body.device-app .message-content { font-size: 1.05rem !important; line-height: 1.55 !important; }
 body.device-app .message-content strong { font-size: 1.1rem !important; }
 body.device-app .sidebar, body.device-app .right-sidebar { font-size: 1rem !important; }
@@ -2279,7 +2279,7 @@ body.device-app .dash-card-title { font-size: 1.15rem !important; }
 body.device-app .dash-card-desc { font-size: 0.92rem !important; }
 body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !important; height: 42px !important; }
 
-/* â”€â”€ CİHAZ MODU SEÇİCİ UI â”€â”€ */
+/* ── CİHAZ MODU SEÇİCİ UI ── */
 .device-mode-selector {
   position: fixed;
   top: 12px;

@@ -138,7 +138,7 @@ function renderDailyFact() {
 function renderAvatarPicker() {
   const picker = document.getElementById('avatarPicker');
   if (!picker) return;
-  const avatars = ['👦','👧','🧓','ğÅ¸â€˜Â¨Ã¢â‚¬Â🎓','👩Ã¢â‚¬Â🎓','🧑','🧓Ã¢â‚¬Â💻','👩Ã¢â‚¬Â💻','🦸','🦸Ã¢â‚¬Â♀️','🧙','🧙Ã¢â‚¬Â♀️'];
+  const avatars = ['👦','👧','🧓‍💻','👩‍💻','🦸‍♀️','🧙‍♀️'];
   const hiddenInput = document.getElementById('selectedAvatar');
 
   picker.innerHTML = avatars.map(a => `
@@ -369,7 +369,7 @@ async function handleSendMessage(text) {
        <div id="timer_${pomoId}" style="font-size:3rem;font-weight:800;font-family:monospace;color:#f97316;letter-spacing:2px;margin:12px 0;">${pomoMinutes}:00</div>
        <div id="status_${pomoId}" style="font-size:0.85rem;color:var(--sub);margin-bottom:12px;">⏳ Çalışma süresi başladı!</div>
        <div style="width:100%;background:rgba(255,255,255,.1);border-radius:8px;height:8px;overflow:hidden;margin-bottom:12px;"><div id="bar_${pomoId}" style="width:100%;height:100%;background:linear-gradient(90deg,#f97316,#ef4444);border-radius:8px;transition:width 1s linear;"></div></div>
-       <div style="display:flex;gap:8px;justify-content:center;"><button id="pause_${pomoId}" style="padding:8px 16px;border:none;border-radius:8px;background:#f97316;color:#fff;cursor:pointer;font-weight:600;">Ã¢ÂÂ¸️ Duraklat</button><button id="stop_${pomoId}" style="padding:8px 16px;border:none;border-radius:8px;background:#ef4444;color:#fff;cursor:pointer;font-weight:600;">Ã¢ÂÂ¹️ Bitir</button></div>
+       <div style="display:flex;gap:8px;justify-content:center;"><button id="pause_${pomoId}" style="padding:8px 16px;border:none;border-radius:8px;background:#f97316;color:#fff;cursor:pointer;font-weight:600;">⏸️ Duraklat</button><button id="stop_${pomoId}" style="padding:8px 16px;border:none;border-radius:8px;background:#ef4444;color:#fff;cursor:pointer;font-weight:600;">⏹️ Bitir</button></div>
      </div>`;
      addMessage('bot', 'ğÅ¸Ââ€¦ Pomodoro başladı!');
      appendMessage('bot', formatMessage('bot', pomoHtml));
@@ -403,16 +403,16 @@ async function handleSendMessage(text) {
        const stopBtn = document.getElementById('stop_' + pomoId);
        if (pauseBtn) pauseBtn.addEventListener('click', () => {
          paused = !paused;
-         pauseBtn.textContent = paused ? '▶️ Devam' : 'Ã¢ÂÂ¸️ Duraklat';
+         pauseBtn.textContent = paused ? '▶️ Devam' : '⏸️ Duraklat';
          const statusEl = document.getElementById('status_' + pomoId);
-         if (statusEl) statusEl.textContent = paused ? 'Ã¢ÂÂ¸️ Duraklatıldı' : '⏳ Çalışma devam ediyor...';
+         if (statusEl) statusEl.textContent = paused ? '⏸️ Duraklatıldı' : '⏳ Çalışma devam ediyor...';
        });
        if (stopBtn) stopBtn.addEventListener('click', () => {
          clearInterval(interval);
          const timerEl = document.getElementById('timer_' + pomoId);
          const statusEl = document.getElementById('status_' + pomoId);
          if (timerEl) timerEl.style.color = '#ef4444';
-         if (statusEl) statusEl.textContent = 'Ã¢ÂÂ¹️ Zamanlayıcı durduruldu.';
+         if (statusEl) statusEl.textContent = '⏹️ Zamanlayıcı durduruldu.';
        });
      }, 100);
      return;
@@ -753,10 +753,10 @@ HTML TABLE:
   // J. KARAKTER MODU (/karakter)
   if (lw.startsWith('/karakter')) {
      const karakterler = [
-       { isim: 'Profesör Zeki', emoji: '🧓Ã¢â‚¬Â🔬', desc: 'Bilim meraklısı, her şeyi deneylerle açıklayan bir profesör' },
+       { isim: 'Profesör Zeki', emoji: '🧓‍🔬', desc: 'Bilim meraklısı, her şeyi deneylerle açıklayan bir profesör' },
        { isim: 'Kaptan Keşif', emoji: '👩‍💼', desc: 'Dünyayı gezen, coğrafya ve tarih anlatan bir kaşif' },
-       { isim: 'Şef Lezzet', emoji: 'ğÅ¸â€˜Â¨Ã¢â‚¬Â🍳', desc: 'Yemek yaparken matematik ve fen öğreten bir aşçı' },
-       { isim: 'Astronot Yıldız', emoji: '👩Ã¢â‚¬Â🚀', desc: 'Uzaydan dünyayı anlatan bir astronot' },
+       { isim: 'Şef Lezzet', emoji: '👨‍🍳', desc: 'Yemek yaparken matematik ve fen öğreten bir aşçı' },
+       { isim: 'Astronot Yıldız', emoji: '👩‍🚀', desc: 'Uzaydan dünyayı anlatan bir astronot' },
        { isim: 'Dedektif Mantık', emoji: '🕸️', desc: 'Her problemi mantık yürüterek çözen bir dedektif' },
      ];
      const k = karakterler[Math.floor(Math.random() * karakterler.length)];
@@ -1386,7 +1386,7 @@ function appendOralExamButtons() {
     ? '<button class="oral-next-btn" style="padding:7px 15px;background:linear-gradient(135deg,#00d4ff,#3a7bfd);color:#fff;border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:.84rem;">Sonraki Soru →</button>'
     : '';
 
-  wrapper.innerHTML = counterHtml + nextHtml + '<button class="oral-end-btn" style="padding:7px 15px;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-weight:700;cursor:pointer;font-size:.84rem;">Ã¢ÂÂ¹ Sinavi Bitir</button>';
+  wrapper.innerHTML = counterHtml + nextHtml + '<button class="oral-end-btn" style="padding:7px 15px;background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3);border-radius:8px;font-weight:700;cursor:pointer;font-size:.84rem;">⏹️ Sinavi Bitir</button>';
 
   chatbox.appendChild(wrapper);
   chatbox.scrollTop = chatbox.scrollHeight;
@@ -2463,7 +2463,7 @@ function initOnboarding() {
     const userNameEl = document.querySelector('.user-info h3');
     if(userNameEl) userNameEl.textContent = savedName;
     // Avatar da varsa güncelle
-    const savedAvatar = localStorage.getItem('selectedAvatar') || '🧓Ã¢â‚¬Â🎓';
+    const savedAvatar = localStorage.getItem('selectedAvatar') || '🧓‍🎓';
     const avatarEl = document.querySelector('.user-avatar');
     if (avatarEl) avatarEl.textContent = savedAvatar;
     return;
