@@ -18,7 +18,7 @@ export class DuelArena {
     this.timer = null;
     this.timeLeft = 15;
     this.maxTime = 15;
-    this.botName = "Gölge Rakip ğŸ¥·";
+    this.botName = "Gölge Rakip 🥷";
     this.isPlaying = false;
   }
 
@@ -227,7 +227,7 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
           <div style="font-size: 2rem; font-weight: 900; color: #ef4444; align-self: center;">VS</div>
           
           <div style="text-align: center; width: 45%;">
-            <div style="font-size: 2rem;">ğŸ¥·</div>
+            <div style="font-size: 2rem;">🥷</div>
             <div style="font-weight: bold; color: #64748b;">${this.botName}</div>
              <div style="height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-top: 5px; overflow: hidden;">
                <div id="duelBotBar" style="height: 100%; width: 0%; background: #ef4444; transition: width 0.3s;"></div>
@@ -357,7 +357,7 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
     } else if (this.userScore === this.botScore) {
       resultHtml = `<h1 style="color: #eab308; font-size: 3rem; margin-bottom: 10px;">ğŸ¤ BERABERE</h1><p style="font-size: 1.2rem;">Dişe diş bir mücadeleydi!</p>`;
     } else {
-      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">ğŸ’€ MAÄLUBİYET</h1><p style="font-size: 1.2rem;">Gölge bot senden ${this.botScore - this.userScore} puan önde!</p>`;
+      resultHtml = `<h1 style="color: #ef4444; font-size: 3rem; margin-bottom: 10px;">💀 MAÄLUBİYET</h1><p style="font-size: 1.2rem;">Gölge bot senden ${this.botScore - this.userScore} puan önde!</p>`;
     }
 
     resultHtml += `<button class="onboard-btn ext-style-2" style="margin-top: 30px;" id="duelFinishBtn">Arenadan Çık</button>`;
