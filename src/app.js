@@ -1,4 +1,4 @@
-﻿/**
+/**
  * app.js
  * Bu dosya projenin ayrilmaz bir parcasidir.
  */
@@ -11,7 +11,7 @@ window.updateMissionProgress = updateMissionProgress; // Make available globally
 // src/app.js
 // UygulamanÃ„Â±n ana orkestrasyon modÃƒÂ¼lÃƒÂ¼ Ã¢â‚¬â€ TÃƒÅ“M Ãƒâ€“ZELLÃ„Â°KLER Ãƒâ€¡ALIÃ…ÂIR
 
-import { state, setIsLoading, addMessage, loadUserData, saveUserData, addXP } from './state.js';
+import { state, setIsLoading, addMessage, loadUserData, saveUserData, addXP, subscribe } from './state.js';
 import { askAI, generateImage } from './api.js';
 import { initUI, appendMessage, streamMessage, toggleTypingIndicator, showError, updateBotStatus } from './ui.js';
 import { curriculumData } from './curriculum.js';
@@ -1673,7 +1673,7 @@ function updateStats() {
 // Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
 // Global retry iÃ…Å¸levi (Yeniden Dene butonu iÃƒÂ§in)
 // Ã¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢ÂÃ¢â€¢Â
-import { subscribe } from './state.js';
+
 // RPG UI State Subscriber
 subscribe((currentState) => {
 
@@ -4007,6 +4007,7 @@ function showCardInfo(cardId) {
       input.click();
     });
   }
+
 
 
 

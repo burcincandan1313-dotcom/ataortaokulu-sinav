@@ -29,7 +29,7 @@ export class CharacterProfile {
     this.overlay.style.justifyContent = 'center';
     this.overlay.style.alignItems = 'center';
 
-    const avatar = StorageManager.get(StorageManager.keys.AVATAR) || '🧑‍🎓';
+    const avatar = StorageManager.get(StorageManager.keys.AVATAR) || '🧑🎓';
     const name = StorageManager.get(StorageManager.keys.NAME) || 'Karakter';
     const nextLevelXP = state.level * 100;
     const progressPercent = Math.min((state.xp / nextLevelXP) * 100, 100);
@@ -44,31 +44,31 @@ export class CharacterProfile {
     if (state.skills?.clairvoyant) badgesHtml += '<div class="profile-badge" title="Kahin Unlocked">👁️</div>';
     if (badgesHtml === '') badgesHtml = '<span style="color: var(--sub); font-size: 0.85rem;">Henüz rozet yok</span>';
 
-    this.overlay.innerHTML = \`
+    this.overlay.innerHTML = `
       <div class="rpg-profile-card">
         <button id="profileClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">✖</button>
         
         <div class="profile-header">
            <div class="profile-avatar-wrap">
-              \${avatar}
+              ${avatar}
            </div>
            <div class="profile-info">
-              <h2>\${name}</h2>
-              <div class="profile-title">\${title}</div>
+              <h2>${name}</h2>
+              <div class="profile-title">${title}</div>
            </div>
         </div>
 
         <div class="profile-stats">
            <div class="stat-box">
-              <div class="stat-value">\${state.level}</div>
+              <div class="stat-value">${state.level}</div>
               <div class="stat-label">Seviye</div>
            </div>
            <div class="stat-box">
-              <div class="stat-value">\${state.skillPoints}</div>
+              <div class="stat-value">${state.skillPoints}</div>
               <div class="stat-label">Yetenek Puanı</div>
            </div>
            <div class="stat-box">
-              <div class="stat-value">\${state.streak}</div>
+              <div class="stat-value">${state.streak}</div>
               <div class="stat-label">Günlük Seri</div>
            </div>
         </div>
@@ -76,22 +76,22 @@ export class CharacterProfile {
         <div class="profile-xp-section">
            <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-weight: bold; color: var(--acc);">XP İlerlemesi</span>
-              <span style="color: var(--sub); font-size: 0.9rem;">\${state.xp} / \${nextLevelXP} XP</span>
+              <span style="color: var(--sub); font-size: 0.9rem;">${state.xp} / ${nextLevelXP} XP</span>
            </div>
            <div class="xp-bar-bg">
-              <div class="xp-bar-fill" style="width: \${progressPercent}%"></div>
+              <div class="xp-bar-fill" style="width: ${progressPercent}%"></div>
            </div>
         </div>
 
         <div class="profile-badges-section">
            <h3 style="margin-bottom: 10px; font-size: 1.1rem; color: #e2e8f0;">Kazanılan Rozetler</h3>
            <div class="badges-container">
-              \${badgesHtml}
+              ${badgesHtml}
            </div>
         </div>
 
       </div>
-    \`;
+    `;
 
     document.body.appendChild(this.overlay);
 
