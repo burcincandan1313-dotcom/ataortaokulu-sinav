@@ -144,7 +144,7 @@ export function saveUserData() {
        roster[idx].xp = state.xp;
        roster[idx].level = state.level;
     } else {
-       roster.push({ name: currentName, xp: state.xp, level: state.level, avatar: StorageManager.get(StorageManager.keys.AVATAR) || '🧑‍🎓' });
+       roster.push({ name: currentName, xp: state.xp, level: state.level, avatar: StorageManager.get(StorageManager.keys.AVATAR) || '🧑🎓' });
     }
     StorageManager.set('mega_class_roster', roster);
   }
@@ -168,7 +168,7 @@ function checkLevelUp() {
     if (typeof window !== 'undefined' && window.Swal) {
       window.Swal.fire({
         title: '🎉 SEVİYE ATLADIN!',
-        text: \`Tebrikler! Seviye \${state.level} oldun ve 1 Yetenek Puanı kazandın!\`,
+        text: `Tebrikler! Seviye ${state.level} oldun ve 1 Yetenek Puanı kazandın!`,
         icon: 'success',
         background: '#0f172a',
         color: '#fff',

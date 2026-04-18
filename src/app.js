@@ -2330,11 +2330,16 @@ function setupEventListeners() {
   // === BÃ„Â°LDÃ„Â°RÃ„Â°M ZÃ„Â°LÃ„Â° Ã¢â‚¬â€ Yenilikler Changelog ===
   const _notifBtn = document.getElementById('btnNotif');
   if (_notifBtn) {
+    if (localStorage.getItem('mega_notif_read') === 'true') {
+       const _wrap = _notifBtn.closest('div[style*=\"position:relative\"]') || _notifBtn.parentElement;
+       const _badge = _wrap ? _wrap.querySelector('span') : null;
+       if (_badge) { _badge.style.opacity = '0'; _badge.style.display = 'none'; }
+    }
     _notifBtn.addEventListener('click', () => {
       // Badge gizle
       const _wrap = _notifBtn.closest('div[style*="position:relative"]') || _notifBtn.parentElement;
       const _badge = _wrap ? _wrap.querySelector('span') : null;
-      if (_badge) _badge.style.opacity = '0';
+      if (_badge) { _badge.style.opacity = '0'; _badge.style.display = 'none'; localStorage.setItem('mega_notif_read', 'true'); }
 
       if (typeof Swal === 'undefined') return;
       const items = [
@@ -2365,17 +2370,32 @@ function setupEventListeners() {
   }
 
   const toggleLowEnd = document.getElementById('toggleLowEnd');
+  const sidebarToggleLowEnd = document.getElementById('sidebarToggleLowEnd');
+  
+  const applyLowEnd = (isChecked) => {
+    if (isChecked) {
+      document.body.classList.add('lowend-mode');
+      localStorage.setItem('mega_low_end', 'true');
+    } else {
+      document.body.classList.remove('lowend-mode');
+      localStorage.removeItem('mega_low_end');
+    }
+    if (toggleLowEnd) toggleLowEnd.checked = isChecked;
+    if (sidebarToggleLowEnd) sidebarToggleLowEnd.checked = isChecked;
+  };
+
+  const isLowEnd = document.body.classList.contains('lowend-mode') || localStorage.getItem('mega_low_end') === 'true';
+  if (isLowEnd) {
+    document.body.classList.add('lowend-mode');
+    if (toggleLowEnd) toggleLowEnd.checked = true;
+    if (sidebarToggleLowEnd) sidebarToggleLowEnd.checked = true;
+  }
+
   if (toggleLowEnd) {
-    toggleLowEnd.checked = document.body.classList.contains('lowend-mode');
-    toggleLowEnd.addEventListener('change', () => {
-      if (toggleLowEnd.checked) {
-        document.body.classList.add('lowend-mode');
-        localStorage.setItem('mega_low_end', 'true');
-      } else {
-        document.body.classList.remove('lowend-mode');
-        localStorage.removeItem('mega_low_end');
-      }
-    });
+    toggleLowEnd.addEventListener('change', () => applyLowEnd(toggleLowEnd.checked));
+  }
+  if (sidebarToggleLowEnd) {
+    sidebarToggleLowEnd.addEventListener('change', () => applyLowEnd(sidebarToggleLowEnd.checked));
   }
 }
 
@@ -4007,6 +4027,8 @@ function showCardInfo(cardId) {
       input.click();
     });
   }
+
+
 
 
 

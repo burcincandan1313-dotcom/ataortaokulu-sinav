@@ -44,12 +44,12 @@ export class DuelArena {
     this.overlay.style.justifyContent = 'center';
     this.overlay.style.alignItems = 'center';
 
-    const subjectOptions = subjects.map(s => `<option value="${s}">${s}</option>`).join('');
+    const subjectOptions = subjects.map(s => `<option value="${s}" style="background: #1e293b; color: #f1f5f9;">${s}</option>`).join('');
 
     this.overlay.innerHTML = `
       <div style="width: 90%; max-width: 600px; background: var(--bg2); padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(220,38,38,0.2); border: 1px solid var(--bdr); position: relative;">
         <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">âœ–</button>
-        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸ DÃœELLO ARENASI LOBÄ°SÄ°</h2>
+        <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">âš”ï¸  DÃœELLO ARENASI LOBÄ°SÄ°</h2>
         <p style="text-align: center; color: var(--sub); margin-bottom: 25px;">Rakibin GÃ¶lge Bot seni bekliyor. AyarlarÄ±nÄ± yap ve savaÅŸa hazÄ±rlan!</p>
         
         <div style="display: flex; flex-direction: column; gap: 15px;">
@@ -62,24 +62,24 @@ export class DuelArena {
           <div>
             <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Konu SeÃ§imi:</label>
             <select id="lobbyTopic" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
-              <option value="Genel">TÃ¼m Konular (Genel)</option>
+              <option value="Genel" style="background: #1e293b; color: #f1f5f9;">TÃ¼m Konular (Genel)</option>
             </select>
           </div>
           <div style="display: flex; gap: 15px;">
              <div style="flex: 1;">
                 <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru SayÄ±sÄ±:</label>
                 <select id="lobbyQCount" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
-                  <option value="5" selected>5 Soru (HÄ±zlÄ±)</option>
-                  <option value="10">10 Soru (Standart)</option>
-                  <option value="15">15 Soru (Maraton)</option>
+                  <option value="5" style="background: #1e293b; color: #f1f5f9;" selected>5 Soru (HÄ±zlÄ±)</option>
+                  <option value="10" style="background: #1e293b; color: #f1f5f9;">10 Soru (Standart)</option>
+                  <option value="15" style="background: #1e293b; color: #f1f5f9;">15 Soru (Maraton)</option>
                 </select>
              </div>
              <div style="flex: 1;">
                 <label style="color: var(--txt); font-weight: bold; margin-bottom: 5px; display: block;">Soru BaÅŸÄ± SÃ¼re:</label>
                 <select id="lobbyTime" style="width: 100%; padding: 12px; border-radius: 10px; background: rgba(0,0,0,0.3); color: var(--txt); border: 1px solid var(--bdr); outline: none;">
-                  <option value="10">10 Saniye (Zor)</option>
-                  <option value="15" selected>15 Saniye (Normal)</option>
-                  <option value="30">30 Saniye (Rahat)</option>
+                  <option value="10" style="background: #1e293b; color: #f1f5f9;">10 Saniye (Zor)</option>
+                  <option value="15" style="background: #1e293b; color: #f1f5f9;" selected>15 Saniye (Normal)</option>
+                  <option value="30" style="background: #1e293b; color: #f1f5f9;">30 Saniye (Rahat)</option>
                 </select>
              </div>
           </div>
@@ -98,9 +98,9 @@ export class DuelArena {
       const subj = subjectSelect.value;
       if (curriculumData[grade] && curriculumData[grade][subj]) {
         const topics = curriculumData[grade][subj];
-        topicSelect.innerHTML = '<option value="Genel">Tüm Konular (Genel)</option>' + topics.map(t => `<option value="${t}">${t}</option>`).join('');
+        topicSelect.innerHTML = '<option value="Genel" style="background: #1e293b; color: #f1f5f9;">Tüm Konular (Genel)</option>' + topics.map(t => `<option value="${t}" style="background: #1e293b; color: #f1f5f9;">${t}</option>`).join('');
       } else {
-        topicSelect.innerHTML = '<option value="Genel">TÃ¼m Konular (Genel)</option>';
+        topicSelect.innerHTML = '<option value="Genel" style="background: #1e293b; color: #f1f5f9;">TÃ¼m Konular (Genel)</option>';
       }
     };
 

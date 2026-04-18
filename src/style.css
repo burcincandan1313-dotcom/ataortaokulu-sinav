@@ -3009,3 +3009,33 @@ body.device-app .badge-item { font-size: 1.5rem !important; width: 42px !importa
 .unlock-btn:hover {
   filter: brightness(1.2);
 }
+/* Mobile Menu and Low End Fixes */
+.mobile-menu-btn, .mobile-menu-btn-right {
+  display: none;
+  position: fixed;
+  top: 15px;
+  background: var(--bg2);
+  color: var(--txt);
+  border: 1px solid var(--bdr);
+  border-radius: 8px;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  z-index: 1000;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.mobile-menu-btn { left: 15px; }
+.mobile-menu-btn-right { right: 15px; }
+@media (max-width: 768px) { .mobile-menu-btn { display: flex; } }
+@media (max-width: 1024px) { .mobile-menu-btn-right { display: flex; } }
+body.lowend-mode * {
+  animation: none !important;
+  transition: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  text-shadow: none !important;
+}
+body.lowend-mode .particle, body.lowend-mode .sparkle, body.lowend-mode .bg-glow { display: none !important; }
