@@ -48,7 +48,7 @@ export class DuelArena {
 
     this.overlay.innerHTML = `
       <div style="width: 90%; max-width: 600px; background: var(--bg2); padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(220,38,38,0.2); border: 1px solid var(--bdr); position: relative;">
-        <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">âœ–</button>
+        <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">✖️</button>
         <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 5px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">⚔️ DÜELLO ARENASI LOBİSİ</h2>
         <p style="text-align: center; color: var(--sub); margin-bottom: 25px;">Rakibin Gölge Bot seni bekliyor. Ayarlarını yap ve savaşa hazırlan!</p>
         
@@ -212,12 +212,12 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
 
     this.overlay.innerHTML = `
       <div style="width: 90%; max-width: 600px; background: var(--bg2); padding: 30px; border-radius: 20px; box-shadow: 0 0 50px rgba(220,38,38,0.2); border: 1px solid var(--bdr); position: relative;">
-        <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">âœ–</button>
+        <button id="duelClose" style="position: absolute; right: 20px; top: 20px; background: transparent; border: none; font-size: 1.5rem; color: var(--sub); cursor: pointer;">✖️</button>
         <h2 style="text-align: center; color: #dc2626; font-size: 2rem; margin-bottom: 20px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">⚔️ DÜELLO ARENASI</h2>
         
         <div style="display: flex; justify-content: space-between; margin-bottom: 20px;">
           <div style="text-align: center; width: 45%;">
-            <div style="font-size: 2rem;">ğŸ§‘â€ğŸ“</div>
+            <div style="font-size: 2rem;">🧑‍🎓</div>
             <div style="font-weight: bold; color: var(--acc);">Sen</div>
             <div style="height: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; margin-top: 5px; overflow: hidden;">
                <div id="duelUserBar" style="height: 100%; width: 0%; background: #22c55e; transition: width 0.3s;"></div>
@@ -235,7 +235,7 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
           </div>
         </div>
 
-        <div id="duelTimerBox" style="text-align: center; font-size: 2rem; font-weight: bold; font-family: monospace; color: #eab308; margin-bottom: 20px;">â±ï¸ ${this.maxTime}</div>
+        <div id="duelTimerBox" style="text-align: center; font-size: 2rem; font-weight: bold; font-family: monospace; color: #eab308; margin-bottom: 20px;">⏱️ ${this.maxTime}</div>
         
         <div id="duelContent" style="min-height: 200px;"></div>
       </div>

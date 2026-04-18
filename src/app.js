@@ -94,7 +94,7 @@ function renderBadges() {
   if (statusEl && streak > 0 && !statusEl.textContent.includes('ğÅ¸â€Â¥')) {
       const existing = statusEl.innerHTML;
       if (!existing.includes('ğÅ¸â€Â¥')) {
-          statusEl.innerHTML = `${existing} &nbsp; <span style="background:linear-gradient(to right, #f97316, #ef4444);color:#fff;padding:2px 6px;border-radius:10px;font-size:0.8rem;font-weight:bold;">ğÅ¸â€Â¥ x${streak}</span>`;
+          statusEl.innerHTML = `${existing} &nbsp; <span style="background:linear-gradient(to right, #f97316, #ef4444);color:#fff;padding:2px 6px;border-radius:10px;font-size:0.8rem;font-weight:bold;">🔥 x${streak}</span>`;
       }
   }
 
@@ -126,7 +126,7 @@ function renderDailyFact() {
     "🌙 Ay, Dünya'dan her yıl 3.8 cm uzaklaşıyor!",
     "ğÅ¸ÂÂ Bal arıları 1 kg bal üretmek için 4 milyon çiçeği ziyaret eder!",
     "📚 Dünya'nın en eski üniversitesi Bologna Üniversitesi'dir (1088)!",
-    "ğÅ¸Â¦â€¢ Dinozorlar 165 milyon yıl boyunca Dünya'da yaşadı!",
+    "🦕 Dinozorlar 165 milyon yıl boyunca Dünya'da yaşadı!",
   ];
   const dayIdx = new Date().getDate() % facts.length;
   el.innerHTML = `<div class="daily-fact-text">💡 <b>Günün Bilgisi:</b> ${facts[dayIdx]}</div>`;
@@ -403,7 +403,7 @@ async function handleSendMessage(text) {
        const stopBtn = document.getElementById('stop_' + pomoId);
        if (pauseBtn) pauseBtn.addEventListener('click', () => {
          paused = !paused;
-         pauseBtn.textContent = paused ? '→“Â¶️ Devam' : 'Ã¢ÂÂ¸️ Duraklat';
+         pauseBtn.textContent = paused ? '▶️ Devam' : 'Ã¢ÂÂ¸️ Duraklat';
          const statusEl = document.getElementById('status_' + pomoId);
          if (statusEl) statusEl.textContent = paused ? 'Ã¢ÂÂ¸️ Duraklatıldı' : '⏳ Çalışma devam ediyor...';
        });
@@ -693,7 +693,7 @@ HTML TABLE:
      leaderboard.sort((a, b) => b.xp - a.xp);
      let html = 'ğÅ¸Ââ€  <b>Liderlik Tablosu</b><br><div style="margin-top:8px;">';
      leaderboard.forEach((u, i) => {
-       const medal = i === 0 ? 'ğÅ¸Â¥â€¡' : i === 1 ? 'ğÅ¸Â¥Ë†' : i === 2 ? 'ğÅ¸Â¥â€°' : 'ğÅ¸â€Â¹';
+       const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : 'ğÅ¸â€Â¹';
        const isMe = u.name.includes('(Sen)');
        html += `<div style="display:flex;justify-content:space-between;padding:8px 10px;margin:3px 0;background:${isMe ? 'rgba(74,222,128,.15)' : 'rgba(255,255,255,.06)'};border-radius:8px;${isMe ? 'border:1px solid rgba(74,222,128,.4);font-weight:700;' : ''}">
          <span>${medal} ${u.name}</span>
@@ -716,7 +716,7 @@ HTML TABLE:
      const notlar = JSON.parse(localStorage.getItem('mega_notlar') || '[]').length;
      const ajanda = JSON.parse(localStorage.getItem('bot_agenda') || '[]').length;
      
-     const html = `ğÅ¸â€œÅ  <b>Oturum Raporu</b>
+     const html = `📊 <b>Oturum Raporu</b>
        <div style="margin-top:10px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
          <div style="background:rgba(255,255,255,.06);padding:12px;border-radius:10px;text-align:center;"><div style="font-size:1.4rem;font-weight:800;color:#60a5fa;">${toplamMesaj}</div><small>Toplam Mesaj</small></div>
          <div style="background:rgba(255,255,255,.06);padding:12px;border-radius:10px;text-align:center;"><div style="font-size:1.4rem;font-weight:800;color:#4ade80;">${kullaniciMesaj}</div><small>Senin Mesajın</small></div>
@@ -757,7 +757,7 @@ HTML TABLE:
        { isim: 'Kaptan Keşif', emoji: '👩‍💼', desc: 'Dünyayı gezen, coğrafya ve tarih anlatan bir kaşif' },
        { isim: 'Şef Lezzet', emoji: 'ğÅ¸â€˜Â¨Ã¢â‚¬Â🍳', desc: 'Yemek yaparken matematik ve fen öğreten bir aşçı' },
        { isim: 'Astronot Yıldız', emoji: '👩Ã¢â‚¬Â🚀', desc: 'Uzaydan dünyayı anlatan bir astronot' },
-       { isim: 'Dedektif Mantık', emoji: 'ğÅ¸â€¢Âµ️', desc: 'Her problemi mantık yürüterek çözen bir dedektif' },
+       { isim: 'Dedektif Mantık', emoji: '🕸️', desc: 'Her problemi mantık yürüterek çözen bir dedektif' },
      ];
      const k = karakterler[Math.floor(Math.random() * karakterler.length)];
      window._activeCharacter = k;
@@ -807,7 +807,7 @@ HTML TABLE:
        if (normalBtn) normalBtn.classList.add('active');
      }
      const botName = document.getElementById('botName');
-     if (botName) botName.textContent = 'ğÅ¸ÂÂ« Ata Sohbet — Normal';
+     if (botName) botName.textContent = '🧑‍🎓 Ata Sohbet — Normal';
      addMessage('bot', 'Normal moda dönüldü.');
      appendMessage('bot', formatMessage('bot', '✅ <b>Normal Mod</b> aktif. Karakter ve quiz modları kapatıldı.'));
      return;
@@ -817,7 +817,7 @@ HTML TABLE:
   if (lw.startsWith('/rapor') || lw.startsWith('/karne')) {
      renderReportPanel();
      addMessage('bot', 'Öğrenci gelişim raporu istendi.');
-     appendMessage('bot', formatMessage('bot', 'ğÅ¸â€œÅ  <b>Raporlama Paneli</b> açılıyor...'));
+     appendMessage('bot', formatMessage('bot', '📊 <b>Raporlama Paneli</b> açılıyor...'));
      return;
   }
 
@@ -894,7 +894,7 @@ HTML TABLE:
          const isEduTopic = /(matematik|fizik|kimya|biyoloji|tarih|coğrafya|fen|edebiyat|türkçe|konu)/i.test(msg);
          let renderHtml = formatMessage('bot', text);
          if (isEduTopic && currentMode !== 'quiz') {
-           renderHtml += `<br><br><div class="smart-suggestion-box"><p style="margin:0 0 10px 0;font-size:0.95em;">🌟 <b>Öneri:</b> Bu konuyu pekiştirmek için bir quiz çözmek ister misin?</p><button class="smart-btn wow-card" onclick="document.getElementById('userInput').value='Bu konuda quiz yap'; document.getElementById('btnSendMessage').click();" style="width:100%;padding:10px;background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;">🟢 Quiz Başlat</button></div>`;
+           renderHtml += `<br><br><div class="smart-suggestion-box"><p style="margin:0 0 10px 0;font-size:0.95em;">💡 <b>Öneri:</b> Bu konuyu pekiştirmek için bir quiz çözmek ister misin?</p><button class="smart-btn wow-card" onclick="document.getElementById('userInput').value='Bu konuda quiz yap'; document.getElementById('btnSendMessage').click();" style="width:100%;padding:10px;background:linear-gradient(135deg,#10b981,#059669);color:white;border:none;border-radius:8px;font-weight:bold;cursor:pointer;">🟢 Quiz Başlat</button></div>`;
          }
          // Typewriter animasyonuyla yaz (uzun cevaplarda bekleme hissi ortadan kalkar)
          streamMessage(renderHtml, () => {
@@ -987,7 +987,7 @@ function openQuizWizard() {
       <!-- HEADER -->
       <div style="display:flex;justify-content:space-between;align-items:center;padding:20px 24px 16px;border-bottom:1px solid var(--bdr,rgba(255,255,255,.1));">
         <div>
-          <h2 style="margin:0;font-size:1.3rem;color:var(--acc,#38bdf8);">ğÅ¸ÂÂ¯ Test Sihirbazı</h2>
+          <h2 style="margin:0;font-size:1.3rem;color:var(--acc,#38bdf8);">🧙‍♂️ Test Sihirbazı</h2>
           <p id="qwStepLabel" style="margin:4px 0 0;font-size:.82rem;color:var(--sub,#64748b);">Adım 1/3 — Sınıf seçin</p>
         </div>
         <button id="qwClose" style="background:none;border:none;color:#94a3b8;font-size:1.5rem;cursor:pointer;padding:4px 8px;border-radius:8px;">✨</button>
@@ -1288,11 +1288,11 @@ function appendLessonActionButtons() {
   const actionHtml = `
     <div class="lesson-action-bar" id="${actionBarId}">
       <button class="lesson-action-btn continue" data-action="continue">
-        <span class="lesson-action-icon">→“Â¶️</span>
+        <span class="lesson-action-icon">▶️</span>
         <span>Devam Et</span>
       </button>
       <button class="lesson-action-btn quiz" data-action="quiz">
-        <span class="lesson-action-icon">ğÅ¸â€œÅ </span>
+        <span class="lesson-action-icon">📊</span>
         <span>Sınav Modu</span>
       </button>
       <button class="lesson-action-btn topic" data-action="topic">
@@ -1345,7 +1345,7 @@ function appendLessonActionButtons() {
         // Normal moda geri dön
         currentMode = 'normal';
         const botName = document.getElementById('botName');
-        if (botName) botName.textContent = 'ğÅ¸ÂÂ« Ata Sohbet — Normal';
+        if (botName) botName.textContent = '🧑‍🎓 Ata Sohbet — Normal';
         // Mode selector güncelle
         const modeContainer = document.getElementById('modeSelector');
         if (modeContainer) {
@@ -1854,7 +1854,7 @@ function setupEventListeners() {
       }
       
       btnSaveProfile.textContent = '✅ Kaydedildi!';
-      setTimeout(() => { btnSaveProfile.textContent = 'ğÅ¸â€™Â¾ Bilgileri Kaydet'; }, 2000);
+      setTimeout(() => { btnSaveProfile.textContent = '💾 Bilgileri Kaydet'; }, 2000);
     });
   }
 
@@ -1912,7 +1912,7 @@ function setupEventListeners() {
       a.download = `sohbet_gecmisi_${new Date().toISOString().slice(0,10)}.txt`;
       a.click();
       URL.revokeObjectURL(a.href);
-      appendMessage('bot', formatMessage('bot', 'ğÅ¸â€™Â¾ Sohbet geçmişi indirildi!'));
+      appendMessage('bot', formatMessage('bot', '💾 Sohbet geçmişi indirildi!'));
     });
   }
 
@@ -2076,7 +2076,7 @@ function setupEventListeners() {
   const btnStartStudy = document.getElementById('btnStartStudy');
   const studyOverlay = document.getElementById('studyOverlay');
 
-  // ğÅ¸ÂÂ¯ Test Sihirbazı butonu
+  // 🧙‍♂️ Test Sihirbazı butonu
   const btnOpenQuizWizard = document.getElementById('btnOpenQuizWizard');
   if (btnOpenQuizWizard) {
     btnOpenQuizWizard.addEventListener('click', () => openQuizWizard());
@@ -2103,7 +2103,7 @@ function setupEventListeners() {
       
       // Header güncelle
       const botName = document.getElementById('botName');
-      if (botName) botName.textContent = `ğÅ¸ÂÂ« Ata Sohbet — ${mode === 'quiz' ? 'Quiz' : 'Ders'}`;
+      if (botName) botName.textContent = `🧑‍🎓 Ata Sohbet — ${mode === 'quiz' ? 'Quiz' : 'Ders'}`;
       
       // Mode selector aktif butonu güncelle
       const modeContainer = document.getElementById('modeSelector');
@@ -2175,12 +2175,12 @@ function setupEventListeners() {
 
   if (cmdOverlay && cmdInput && cmdList) {
     const commands = [
-      { cmd: '/quiz', icon: 'ğÅ¸â€œÅ ', desc: 'Quiz başlat' },
+      { cmd: '/quiz', icon: '📊', desc: 'Quiz başlat' },
       { cmd: '/sinavlarim', icon: '📋', desc: 'Sınavlarım geçmişi' },
       { cmd: '/ders', icon: '📚', desc: 'Ders modu' },
       { cmd: '/oyun', icon: 'ğÅ¸ÂÂ®', desc: 'Oyun merkezi' },
       { cmd: '/motivasyon', icon: '🚀', desc: 'Motivasyon mesajı' },
-      { cmd: '/hava Istanbul', icon: 'ğÅ¸Å’Â¡️', desc: 'Hava durumu' },
+      { cmd: '/hava Istanbul', icon: '🌡️', desc: 'Hava durumu' },
       { cmd: '/çiz', icon: 'ğÅ¸ÂÂ¨', desc: 'Görsel oluştur' },
       { cmd: '/görsel', icon: '🖼️', desc: 'Görsel komut' },
       { cmd: '/rastgele', icon: 'ğÅ¸ÂÂ²', desc: 'Rastgele konu' },
@@ -3714,7 +3714,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // Üst panel başlığını düzelt 
         const botName = document.getElementById('botName');
-        if (botName) botName.textContent = 'ğÅ¸ÂÂ« Ata Sohbet — Normal';
+        if (botName) botName.textContent = '🧑‍🎓 Ata Sohbet — Normal';
         
         // Mobildeyse sidebar kapansın
         const sidebar = document.querySelector('.sidebar');
@@ -3892,7 +3892,7 @@ function showCardInfo(cardId) {
     konu:   { title: '📚 Konu Çalış', icon: '📚', color: '#f472b6',
                text: 'Yapay zeka ile adım adım ders anlat! Sınıf seviyene ve dersine göre özelleştirilmiş ders anlatımı alırsın. Matematik, Fen, Türkçe, Sosyal — tüm konularda detaylı açıklama ve örnek çözümler.',
                tip: '💡 "7. sınıf matematik / kesirler" yazarak başla!' },
-    test:   { title: 'ğÅ¸ÂÂ¯ Test Sihirbazı', icon: 'ğÅ¸ÂÂ¯', color: '#38bdf8',
+    test:   { title: '🧙‍♂️ Test Sihirbazı', icon: 'ğÅ¸ÂÂ¯', color: '#38bdf8',
                text: 'Sınıf ve konuna göre yapay zeka tarafından üretilen özel sorular çöz! LGS, Maarif ve çeşitli soru formatları (çoktan seçmeli, doğru-yanlış, boşluk doldurama) arasından seç. Her sorunun ayrıntılı çözümü sunulur.',
                tip: '💡 Soru formatını ve zorluk seviyesini kendin belirleyebilirsin!' },
     sozlu:  { title: 'ğÅ¸ÂÂ¤ Sözlü Sınav', icon: 'ğÅ¸ÂÂ¤', color: '#818cf8',
