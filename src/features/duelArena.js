@@ -192,13 +192,25 @@ SADECE şu JSON array formatında dön, başka hiçbir şey yazma:
 Not: ans = doğru cevabın 0-3 arası indeksi.`;
 
 
-    // Yedek sorular (AI başarısız olursa)
-    const fallbackQuestions = [
-      { q: "Türkiye'nin başkenti hangisidir?", opts: ["İstanbul", "Ankara", "İzmir", "Bursa"], ans: 1 },
-      { q: "Güneş sistemindeki en büyük gezegen hangisidir?", opts: ["Satürn", "Mars", "Jüpiter", "Neptün"], ans: 2 },
-      { q: "Su'nun kimyasal formülü nedir?", opts: ["CO2", "NaCl", "H2O", "O2"], ans: 2 },
-      { q: "Bir yılda kaç ay vardır?", opts: ["10", "11", "12", "13"], ans: 2 },
-      { q: "Fotosentez hangi organda gerçekleşir?", opts: ["Kök", "Gövde", "Kloroplast", "Çekirdek"], ans: 2 },
+    // Yedek sorular (AI başarısız olursa konuyla ilgili basit sorular)
+    const fallbackQuestions = subject.toLowerCase().includes('ingilizce') || subject.toLowerCase().includes('english') ? [
+      { q: "What is the Turkish meaning of 'Apple'?", opts: ["Elma", "Armut", "Muz", "Çilek"], ans: 0 },
+      { q: "Which one is a color?", opts: ["Table", "Red", "Run", "Car"], ans: 1 },
+      { q: "How do you say 'Merhaba' in English?", opts: ["Goodbye", "Please", "Hello", "Sorry"], ans: 2 },
+      { q: "Choose the correct number: 'Five'", opts: ["3", "4", "5", "6"], ans: 2 },
+      { q: "Which animal says 'Meow'?", opts: ["Dog", "Cat", "Bird", "Fish"], ans: 1 },
+    ] : subject.toLowerCase().includes('matematik') ? [
+      { q: "2 + 2 kaçtır?", opts: ["3", "4", "5", "6"], ans: 1 },
+      { q: "10 - 5 kaçtır?", opts: ["4", "5", "6", "7"], ans: 1 },
+      { q: "3 x 3 kaçtır?", opts: ["6", "9", "12", "15"], ans: 1 },
+      { q: "Yarım elma + yarım elma kaç elma eder?", opts: ["1", "2", "3", "4"], ans: 0 },
+      { q: "Haftanın 3. günü hangisidir?", opts: ["Pazartesi", "Salı", "Çarşamba", "Perşembe"], ans: 2 },
+    ] : [
+      { q: `${subject} dersinde en çok neyi öğreniriz?`, opts: ["Sayıları", "Kuralları", "Bilgiyi", "Okumayı"], ans: 2 },
+      { q: "Öğretmenin anlattıklarını ne yapmalıyız?", opts: ["Uyumalıyız", "Dinlemeliyiz", "Konuşmalıyız", "Gülmeliyiz"], ans: 1 },
+      { q: "Sınavda başarılı olmak için ne yapmalıyız?", opts: ["Kopya çekmek", "Çok çalışmak", "Hiçbir şey", "Televizyon izlemek"], ans: 1 },
+      { q: "Kitap okumak bize ne kazandırır?", opts: ["Bilgi", "Zarar", "Kötülük", "Uyku"], ans: 0 },
+      { q: "Düzenli ders çalışmak bizi nasıl etkiler?", opts: ["Kötü", "Başarısız", "Başarılı", "Mutsuz"], ans: 2 },
     ];
 
     try {
@@ -215,7 +227,7 @@ Not: ans = doğru cevabın 0-3 arası indeksi.`;
       try {
         parsed = JSON.parse(cleaned);
       } catch {
-        const match = cleaned.match(/\\[[\\s\\S]*\\]/);
+        const match = cleaned.match(/\[[\s\S]*\]/);
         if (!match) throw new Error("JSON bulunamadı");
         parsed = JSON.parse(match[0]);
       }
