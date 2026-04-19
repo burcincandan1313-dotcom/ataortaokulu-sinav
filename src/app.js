@@ -2960,7 +2960,7 @@ function renderReportPanel() {
   // Üst Panel Verileri
   document.getElementById('repTotalXp').textContent = state.xp;
   document.getElementById('repLevelTitle').textContent = `Lv.${state.level}`;
-  document.getElementById('repStreak').textContent = `${StorageManager.get(StorageManager.keys.STREAK_DAYS) || 0} •
+  document.getElementById('repStreak').textContent = `${StorageManager.get(StorageManager.keys.STREAK_DAYS) || 0} 🔥`;
   document.getElementById('repTotalQ').textContent = history.length;
 
   // Ders Bazlı Hesaplama (Reduce)
