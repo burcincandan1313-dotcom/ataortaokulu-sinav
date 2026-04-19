@@ -1743,6 +1743,16 @@ function setupEventListeners() {
   }
   
   if (chatInput) {
+    chatInput.addEventListener('click', () => {
+      if (chatInput.value.trim() === '') {
+        const cmdOverlay = document.getElementById('cmdOverlay');
+        if (cmdOverlay && cmdOverlay.style.display !== 'flex') {
+          cmdOverlay.style.display = 'flex';
+          const cmdInput = document.getElementById('cmdInput');
+          if(cmdInput) cmdInput.focus();
+        }
+      }
+    });
     chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         const val = chatInput.value;
@@ -3492,81 +3502,88 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <button class="dash-search-btn" id="dashSearchBtn" title="Ara" style="background: linear-gradient(135deg, var(--acc), var(--acc2)); border: none; height: 42px; width: 42px; border-radius: 50%; color: #fff; cursor: pointer; transition: 0.2s;"><i class="fa-solid fa-arrow-up"></i></button>
               </div>
             <!-- Dashboard Alt Kısmı: Grid Layout (Sol: 4 Kart, Sağ: PDR Merkezi) -->
-            <div style="display: flex; gap: 20px; margin-top: 24px; width: 100%; align-items: stretch; flex-wrap: wrap;">
-               <!-- SOL BÖLÜM: Ana Kartlar -->
-               <div style="flex: 1; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; align-content: flex-start;">
-                  <!-- Kart 1: Konu Çalış -->
-                  <div class="dash-dev-card card-pink" style="position:relative;" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
-                    <i class="fa-solid fa-book-open"></i>
-                    <h3>Konu Çalış</h3>
-                    <p>Yapay zeka ile adım adım öğren</p>
-                  </div>
-                  
-                  <!-- Kart 2: Test Çöz -->
-                  <div class="dash-dev-card card-cyan" style="position:relative;" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
-                    <i class="fa-solid fa-crosshairs"></i>
-                    <h3>Test Sihirbazı</h3>
-                    <p>Sınav düzeyinde anlık quizler</p>
-                  </div>
-                  
-                  <!-- Kart 3: Sözlü Sınav -->
-                  <div class="dash-dev-card card-blue" style="position:relative;" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
-                    <i class="fa-solid fa-microphone-lines"></i>
-                    <h3>Sözlü Sınav</h3>
-                    <p>Diksiyon ve mikrofon ile test</p>
-                  </div>
-                  
-                  <!-- Kart 4: Normal Sohbet -->
-                  <div class="dash-dev-card card-orange" style="position:relative;" onclick="document.querySelector('.chip[data-qcmd=\\'/normal\\']')?.click()">
-                    <i class="fa-solid fa-comment-dots"></i>
-                    <h3>Sohbet Odası</h3>
-                    <p>Özgürce sorularını sor</p>
-                  </div>
-               </div>
-               
-               <!-- SAĞ BÖLÜM: Dikey Rehberlik (PDR) Merkezi -->
-               <div class="pdr-vertical-panel">
-                  <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 8px;">
-                     <i class="fa-solid fa-compass" style="color: var(--acc); font-size: 1.4rem;"></i>
-                     <h3 style="margin: 0; font-size: 1.1rem; font-weight: 700; color: #e2e8f0;">Rehberlik Merkezi</h3>
-                  </div>
-                  <p style="font-size: 0.8rem; color: var(--sub); margin-bottom: 12px; margin-top: 0;">LGS, YKS ve Motivasyon Araçları</p>
-                  
-                  <div class="pdr-vertical-card" onclick="document.querySelector('.chip[data-qcmd=\\'/motivasyon\\']')?.click()">
-                     <div class="pdr-vertical-icon" style="color: #f59e0b;"><i class="fa-solid fa-fire"></i></div>
-                     <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">Motivasyon</div>
-                        <div style="font-size: 0.75rem; color: var(--sub);">Günün sözü ve tavsiyeler</div>
-                     </div>
-                  </div>
-                  
-                  <div class="pdr-vertical-card" onclick="document.querySelector('.chip[data-qcmd=\\'/program\\']')?.click()">
-                     <div class="pdr-vertical-icon" style="color: #10b981;"><i class="fa-solid fa-calendar-check"></i></div>
-                     <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">Çalışma Programı</div>
-                        <div style="font-size: 0.75rem; color: var(--sub);">Kişisel program oluştur</div>
-                     </div>
-                  </div>
-                  
-                  <div class="pdr-vertical-card" onclick="document.querySelector('.chip[data-qcmd=\\'/stres\\']')?.click()">
-                     <div class="pdr-vertical-icon" style="color: #6366f1;"><i class="fa-solid fa-brain"></i></div>
-                     <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">Stres Yönetimi</div>
-                        <div style="font-size: 0.75rem; color: var(--sub);">Nefes ve odaklanma</div>
-                     </div>
-                  </div>
-                  
-                  <div class="pdr-vertical-card" onclick="document.querySelector('.chip[data-qcmd=\\'/lgs\\']')?.click()">
-                     <div class="pdr-vertical-icon" style="color: #ec4899;"><i class="fa-solid fa-graduation-cap"></i></div>
-                     <div>
-                        <div style="font-weight: 700; font-size: 0.9rem;">LGS & Meslek</div>
-                        <div style="font-size: 0.75rem; color: var(--sub);">Sınav taktikleri ve hedefler</div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-          </div>
-        `;
+            <!-- DASHBOARD SEKMELERİ -->
+             <div style="display: flex; gap: 10px; margin-top: 4px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 4px;">
+                 <button id="tabEgitim" onclick="switchDashTab('egitim')" style="flex: 1; background: transparent; border: none; color: #fff; font-weight: bold; font-size: 1.05rem; padding: 6px; cursor: pointer; border-bottom: 2px solid var(--acc); transition: 0.2s;">
+                    <i class="fa-solid fa-book-open"></i> Eğitim & Sınav
+                 </button>
+                 <button id="tabPdr" onclick="switchDashTab('pdr')" style="flex: 1; background: transparent; border: none; color: var(--sub); font-size: 1.05rem; padding: 6px; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s;">
+                    <i class="fa-solid fa-compass"></i> Rehberlik Merkezi
+                 </button>
+             </div>
+
+             <!-- SEKME İÇERİKLERİ -->
+             <div class="dash-layout-container" style="width: 100%;">
+             
+                <!-- EĞİTİM SEKME İÇERİĞİ -->
+                <div id="contentEgitim" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                   <!-- Kart 1: Konu Çalış -->
+                   <div class="dash-dev-card card-pink" style="position:relative;" onclick="document.getElementById('btnOpenStudyWizard')?.click()">
+                     <i class="fa-solid fa-book-open"></i>
+                     <h3>Konu Çalış</h3>
+                     <p>Yapay zeka ile adım adım öğren</p>
+                   </div>
+                   
+                   <!-- Kart 2: Test Çöz -->
+                   <div class="dash-dev-card card-cyan" style="position:relative;" onclick="document.getElementById('btnOpenQuizWizard')?.click()">
+                     <i class="fa-solid fa-crosshairs"></i>
+                     <h3>Test Sihirbazı</h3>
+                     <p>Sınav düzeyinde anlık quizler</p>
+                   </div>
+                   
+                   <!-- Kart 3: Sözlü Sınav -->
+                   <div class="dash-dev-card card-blue" style="position:relative;" onclick="document.getElementById('btnOpenVoiceExam')?.click()">
+                     <i class="fa-solid fa-microphone-lines"></i>
+                     <h3>Sözlü Sınav</h3>
+                     <p>Diksiyon ve mikrofon ile test</p>
+                   </div>
+                   
+                   <!-- Kart 4: Normal Sohbet -->
+                   <div class="dash-dev-card card-orange" style="position:relative;" onclick="document.querySelector('.chip[data-qcmd=\'/normal\']')?.click()">
+                     <i class="fa-solid fa-comment-dots"></i>
+                     <h3>Sohbet Odası</h3>
+                     <p>Özgürce sorularını sor</p>
+                   </div>
+                </div>
+
+                <!-- PDR SEKME İÇERİĞİ -->
+                <div id="contentPdr" style="display: none; flex-direction: column; gap: 8px;">
+                   <div class="pdr-vertical-card" onclick="openPdrWizard('motivasyon')" style="margin-top:0;">
+                      <div class="pdr-vertical-icon" style="color: #f59e0b;"><i class="fa-solid fa-fire"></i></div>
+                      <div>
+                         <div style="font-weight: 700; font-size: 0.9rem;">Motivasyon</div>
+                         <div style="font-size: 0.75rem; color: var(--sub);">Günün sözü ve tavsiyeler</div>
+                      </div>
+                   </div>
+                   
+                   <div class="pdr-vertical-card" onclick="openPdrWizard('program')" style="margin-top:0;">
+                      <div class="pdr-vertical-icon" style="color: #10b981;"><i class="fa-solid fa-calendar-check"></i></div>
+                      <div>
+                         <div style="font-weight: 700; font-size: 0.9rem;">Çalışma Programı</div>
+                         <div style="font-size: 0.75rem; color: var(--sub);">Kişisel program oluştur</div>
+                      </div>
+                   </div>
+                   
+                   <div class="pdr-vertical-card" onclick="openPdrWizard('stres')" style="margin-top:0;">
+                      <div class="pdr-vertical-icon" style="color: #6366f1;"><i class="fa-solid fa-brain"></i></div>
+                      <div>
+                         <div style="font-weight: 700; font-size: 0.9rem;">Stres Yönetimi</div>
+                         <div style="font-size: 0.75rem; color: var(--sub);">Nefes ve odaklanma</div>
+                      </div>
+                   </div>
+                   
+                   <div class="pdr-vertical-card" onclick="openPdrWizard('lgs')" style="margin-top:0;">
+                      <div class="pdr-vertical-icon" style="color: #ec4899;"><i class="fa-solid fa-graduation-cap"></i></div>
+                      <div>
+                         <div style="font-weight: 700; font-size: 0.9rem;">LGS & Meslek</div>
+                         <div style="font-size: 0.75rem; color: var(--sub);">Sınav taktikleri ve hedefler</div>
+                      </div>
+                   </div>
+                </div>
+                
+             </div>
+           </div>
+         `;
         appendMessage('bot', dHtml);
 
         // Arama çubuğu event listener
@@ -4019,3 +4036,212 @@ function showCardInfo(cardId) {
 
 
 
+
+
+// ==========================================
+// YENİ REHBERLİK (PDR) SİHİRBAZI MANTIĞI
+// ==========================================
+const pdrWizardData = {
+  motivasyon: {
+    title: "Motivasyon ve Odaklanma",
+    options: [
+      "Çalışmaya başlamakta zorlanıyorum (Erteleme)",
+      "Çabuk sıkılıyorum ve odağım dağılıyor",
+      "Hedefim yok, neden çalıştığımı bilmiyorum",
+      "Sınav stresi yüzünden masaya oturamıyorum",
+      "Telefon/Sosyal medya yüzünden bölünmek",
+      "Netlerim artmıyor, hevesim kırıldı"
+    ]
+  },
+  program: {
+    title: "Çalışma Programı",
+    options: [
+      "Nasıl bir program yapacağımı bilmiyorum",
+      "Program yapıyorum ama uyamıyorum",
+      "Hangi derse ne kadar çalışmalıyım?",
+      "Okul/Dershane ve bireysel çalışma dengesi",
+      "Tekrarları nasıl yapacağımı bilmiyorum",
+      "Deneme çözme sıklığım ne olmalı?"
+    ]
+  },
+  stres: {
+    title: "Stres Yönetimi",
+    options: [
+      "Sınav anında panik/heyecan yaşıyorum",
+      "Ailemin beklentileri beni çok baskılıyor",
+      "Zaman yetmeyecek korkusu yaşıyorum",
+      "Denemelerde bildiklerimi unutuyorum",
+      "Uyku düzenim bozuldu, uyuyamıyorum",
+      "Başkalarıyla kendimi çok kıyaslıyorum"
+    ]
+  },
+  lgs: {
+    title: "LGS & Meslek Seçimi",
+    options: [
+      "LGS'de zamanı nasıl yetiştireceğim?",
+      "Hangi liseyi/mesleği seçeceğimi bilmiyorum",
+      "Yeni nesil sorularda çok zorlanıyorum",
+      "Yeteneklerime uygun meslek hangisi?",
+      "LGS puan hesaplama ve yüzdelik dilimler",
+      "Sözel/Sayısal bölüm geçiş taktikleri"
+    ]
+  }
+};
+
+let currentPdrCategory = 'motivasyon';
+let selectedPdrOptions = new Set();
+
+window.openPdrWizard = function(category) {
+  currentPdrCategory = category;
+  selectedPdrOptions.clear();
+  
+  const overlay = document.getElementById('pdrWizardOverlay');
+  if(overlay) overlay.style.display = 'flex';
+  
+  renderPdrTabs();
+  renderPdrWizardContent();
+};
+
+window.switchPdrCategory = function(category) {
+  currentPdrCategory = category;
+  renderPdrTabs();
+  renderPdrWizardContent();
+};
+
+function renderPdrTabs() {
+  const tabsContainer = document.getElementById('pdrWizardTabs');
+  if(!tabsContainer) return;
+  
+  const tabsHTML = Object.keys(pdrWizardData).map(key => {
+    const isActive = key === currentPdrCategory;
+    const item = pdrWizardData[key];
+    return `
+      <div onclick="switchPdrCategory('${key}')" style="padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.2s; background: ${isActive ? 'rgba(59,130,246,0.1)' : 'transparent'}; border-left: 3px solid ${isActive ? '#3b82f6' : 'transparent'}; color: ${isActive ? '#fff' : 'var(--sub)'}; font-weight: ${isActive ? '700' : '500'};">
+        ${item.title}
+      </div>
+    `;
+  }).join('');
+  
+  tabsContainer.innerHTML = tabsHTML;
+}
+
+function renderPdrWizardContent() {
+  const contentContainer = document.getElementById('pdrWizardContent');
+  const titleEl = document.getElementById('pdrWizardContentTitle');
+  if(!contentContainer || !titleEl) return;
+  
+  const data = pdrWizardData[currentPdrCategory];
+  titleEl.textContent = data.title + " - Sorunlarını Seç";
+  
+  const optionsHTML = data.options.map((opt, idx) => {
+    const isChecked = selectedPdrOptions.has(opt);
+    return `
+      <div class="pdr-option-card" onclick="togglePdrOption('${opt.replace(/'/g, "\\'")}')" style="display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: ${isChecked ? 'rgba(59,130,246,0.15)' : 'rgba(255,255,255,0.05)'}; border: 1px solid ${isChecked ? '#3b82f6' : 'rgba(255,255,255,0.1)'}; border-radius: 12px; cursor: pointer; transition: 0.2s;">
+        <div style="width: 20px; height: 20px; border-radius: 6px; border: 2px solid ${isChecked ? '#3b82f6' : 'var(--sub)'}; display: flex; align-items: center; justify-content: center; background: ${isChecked ? '#3b82f6' : 'transparent'};">
+          ${isChecked ? '<i class="fa-solid fa-check" style="color: white; font-size: 0.7rem;"></i>' : ''}
+        </div>
+        <div style="color: ${isChecked ? '#fff' : 'var(--sub)'}; font-size: 0.95rem;">${opt}</div>
+      </div>
+    `;
+  }).join('');
+  
+  contentContainer.innerHTML = optionsHTML;
+}
+
+window.togglePdrOption = function(opt) {
+  if(selectedPdrOptions.has(opt)) {
+    selectedPdrOptions.delete(opt);
+  } else {
+    selectedPdrOptions.add(opt);
+  }
+  renderPdrWizardContent();
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnStartPdr = document.getElementById('btnStartPdr');
+  if(btnStartPdr) {
+    btnStartPdr.addEventListener('click', () => {
+      const selectedArr = Array.from(selectedPdrOptions);
+      const customInput = document.getElementById('pdrCustomInput');
+      const customText = customInput ? customInput.value.trim() : "";
+      
+      if(selectedArr.length === 0 && !customText) {
+        alert("Lütfen en az bir durum seçin veya kendi durumunuzu kısaca yazın.");
+        return;
+      }
+      
+      const overlay = document.getElementById('pdrWizardOverlay');
+      if(overlay) overlay.style.display = 'none';
+      
+      // Mesajı oluştur
+      const categoryName = pdrWizardData[currentPdrCategory].title;
+      let issues = selectedArr.map(s => "- " + s).join('\n');
+      if (customText) {
+        issues += (issues ? '\n' : '') + "- Diğer/Özel Durum: " + customText;
+      }
+      if (customInput) customInput.value = ""; // Temizle
+      
+      const prompt = `Kategori: ${categoryName}\n\nŞu an yaşadığım durumlar şunlar:\n${issues}\n\nBana empati kurarak profesyonel bir Rehber Öğretmen/Psikolojik Danışman gibi çözüm önerileri sunar mısın?`;
+      
+      // Modu değiştir
+      currentMode = 'pdr';
+      
+      document.getElementById('userInput').value = prompt;
+      document.getElementById('btnSendMessage').click();
+      
+      // Scroll sorunu için zorla aşağı kaydır (setTimeout ile UI update sonrasını yakala)
+      setTimeout(() => {
+        const chatBody = document.getElementById('chat-body') || document.querySelector('.chat-body');
+        if(chatBody) {
+          chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
+        }
+      }, 300);
+      setTimeout(() => {
+        const chatBody = document.getElementById('chat-body') || document.querySelector('.chat-body');
+        if(chatBody) {
+          chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: 'smooth' });
+        }
+      }, 800);
+    });
+  }
+  
+  const pdrOverlay = document.getElementById('pdrWizardOverlay');
+  if(pdrOverlay) {
+    pdrOverlay.addEventListener('click', (e) => {
+      if(e.target === pdrOverlay) {
+        pdrOverlay.style.display = 'none';
+      }
+    });
+  }
+});
+
+window.switchDashTab = function(tabName) {
+  const tabEgitim = document.getElementById('tabEgitim');
+  const tabPdr = document.getElementById('tabPdr');
+  const contentEgitim = document.getElementById('contentEgitim');
+  const contentPdr = document.getElementById('contentPdr');
+  
+  if(!tabEgitim || !tabPdr || !contentEgitim || !contentPdr) return;
+  
+  if(tabName === 'egitim') {
+    tabEgitim.style.color = '#fff';
+    tabEgitim.style.fontWeight = 'bold';
+    tabEgitim.style.borderBottom = '2px solid var(--acc)';
+    tabPdr.style.color = 'var(--sub)';
+    tabPdr.style.fontWeight = 'normal';
+    tabPdr.style.borderBottom = '2px solid transparent';
+    
+    contentEgitim.style.display = 'grid';
+    contentPdr.style.display = 'none';
+  } else {
+    tabPdr.style.color = '#fff';
+    tabPdr.style.fontWeight = 'bold';
+    tabPdr.style.borderBottom = '2px solid var(--acc)';
+    tabEgitim.style.color = 'var(--sub)';
+    tabEgitim.style.fontWeight = 'normal';
+    tabEgitim.style.borderBottom = '2px solid transparent';
+    
+    contentEgitim.style.display = 'none';
+    contentPdr.style.display = 'flex';
+  }
+};

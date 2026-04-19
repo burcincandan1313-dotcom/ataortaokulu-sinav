@@ -54,9 +54,9 @@
 <!-- SweetAlert2 (Modern Bildirim Penceresi) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert2/11.10.6/sweetalert2.all.min.js"></script>
 <!-- ↓↓↓ TÜM STILLER INLINE — style.css dışa bağımlılık yok ↓↓↓ -->
-  <script type="module" src="/src/app.js?v=1776540062787"></script>
+  <script type="module" src="/src/app.js??v=1776618640317"></script>
   
-  <link rel="stylesheet" href="/src/style.css?v=1776540062787">
+  <link rel="stylesheet" href="/src/style.css??v=1776618640317">
 </head>
 <body>
 
@@ -78,12 +78,42 @@
       <button class="onboard-btn btn-google" id="btnLoginGoogle">🌐 Google ile Giriş Yap</button>
     </div>
     <div class="divider">VEYA</div>
-    <input type="text" id="onboardName" placeholder="Adını yaz..." maxlength="20" autocomplete="off">
-    <input type="hidden" id="selectedAvatar" value="👦">
+    <label style="display:none;">Label</label><input type="text" id="onboardName" placeholder="Adını yaz..." maxlength="20" autocomplete="off">
+    <label style="display:none;">Label</label><input type="hidden" id="selectedAvatar" value="👦">
     <div class="avatar-picker" id="avatarPicker"></div>
     <div class="flex-center">
       <button class="onboard-btn" id="btnCompleteOnboarding" style="flex:1">🚀 Başlayalım!</button>
       <button class="onboard-btn btn-guest" id="btnDemoOnboarding">👀 Misafir Girişi</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- WOW CINEMATIC ONBOARDING -->
+<div class="onboard-overlay hidden" id="cinematicOverlay" style="z-index: 9999; background: #000;">
+  <div id="cinematicMatrixBg" style="position:absolute; top:0; left:0; width:100%; height:100%; opacity:0.3; pointer-events:none;"></div>
+  
+  <div class="cinematic-content" id="cinematicContent">
+    <div id="cinematicText" class="typewriter-text" style="font-size: 1.5rem; color: #0ea5e9; font-weight: bold; text-align: center; margin-bottom: 30px; text-shadow: 0 0 10px #0ea5e9; min-height: 80px;"></div>
+    
+    <div id="cinematicChallenge" class="hidden" style="text-align: center;">
+      <h3 style="color:white; margin-bottom: 20px; font-size:1.8rem; text-shadow: 0 0 15px var(--glow);">Dikkat Testi: Sistemin gücünü uyandır!</h3>
+      <p style="color: var(--txt); margin-bottom: 30px;">Gerçek bir Ata Çaylağı olmak için <b style="color:#ef4444;">Kırmızı</b> butona tıkla.</p>
+      <div style="display:flex; justify-content:center; gap: 15px; flex-wrap:wrap;">
+        <button class="cinematic-btn" style="background: #3b82f6;" onclick="failCinematic()">Mavi Enerji</button>
+        <button class="cinematic-btn" style="background: #22c55e;" onclick="failCinematic()">Yeşil Güç</button>
+        <button class="cinematic-btn" style="background: #ef4444;" onclick="passCinematic()">Kırmızı Kor</button>
+        <button class="cinematic-btn" style="background: #eab308;" onclick="failCinematic()">Sarı Işık</button>
+      </div>
+    </div>
+    
+    <div id="cinematicReward" class="hidden" style="text-align: center;">
+      <div class="reward-badge-drop">
+        <img src="https://img.icons8.com/3d-fluency/180/star.png" style="filter: drop-shadow(0 0 30px #eab308);">
+      </div>
+      <h1 style="color:#eab308; font-size:3rem; margin: 10px 0; text-shadow: 0 0 20px #eab308;">+500 XP</h1>
+      <h2 style="color:white;">Yeni Ünvan: <span style="color:var(--acc);">Ata Çaylağı</span></h2>
+      <button class="onboard-btn" style="margin-top:20px; font-size:1.2rem; padding:15px 40px; box-shadow:0 0 20px var(--acc);" onclick="finishCinematic()">Maceraya Başla 🚀</button>
     </div>
   </div>
 </div>
@@ -233,7 +263,7 @@
     <div class="sec-lbl"><i class="fa-solid fa-palette"></i> Tema</div>
     <div class="theme-row">
       <button class="tbtn active" data-t="default" title="Gece Mavisi" data-theme="default"></button>
-      <button class="tbtn" data-t="purple" title="Mor Galaksi" data-theme="purple"></button>
+      <button class="tbtn" data-t="teal" title="Mor Galaksi" data-theme="teal"></button>
       <button class="tbtn" data-t="orange" title="Turuncu" data-theme="orange"></button>
       <button class="tbtn" data-t="ocean" title="Okyanus" data-theme="ocean"></button>
       <button class="tbtn" data-t="rose" title="Gül" data-theme="rose"></button>
@@ -245,7 +275,7 @@
     <div class="sec-lbl">💻 Performans</div>
     <div style="padding: 0 10px; margin-bottom: 10px;">
         <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:0.85rem;color:var(--txt)">
-            <input type="checkbox" id="sidebarToggleLowEnd" style="width:18px;height:18px;accent-color:var(--acc);cursor:pointer">
+            <label style="display:none;">Label</label><input type="checkbox" id="sidebarToggleLowEnd" style="width:18px;height:18px;accent-color:var(--acc);cursor:pointer">
             ⚡ Düşük Sistem Modu
         </label>
     </div>
@@ -295,9 +325,9 @@
     </div>
     <div class="chat-footer">
       <button class="mic-btn" id="btnToggleVoice" title="Sesli Giriş" aria-label="Sesli giriş yap">🎤</button>
-      <input type="file" id="pdfUploadInput" accept="application/pdf,.txt,text/plain" style="display:none;" aria-label="PDF veya TXT Yükle">
+      <label style="display:none;">Label</label><input type="file" id="pdfUploadInput" accept="application/pdf,.txt,text/plain" style="display:none;" aria-label="PDF veya TXT Yükle">
       <button class="mic-btn" id="btnUploadPdf" title="PDF/TXT Yükle" aria-label="PDF veya TXT dosyası yükle">📎</button>
-      <input type="text" id="userInput" class="chat-input" placeholder="Yaz veya Ctrl+K ile komut paleti..." autocomplete="off" aria-label="Mesajınızı yazın" autofocus>
+      <label style="display:none;">Label</label><input type="text" id="userInput" class="chat-input" placeholder="Yaz veya Ctrl+K ile komut paleti..." autocomplete="off" aria-label="Mesajınızı yazın" autofocus>
       <button class="send-btn" id="btnSendMessage" aria-label="Mesajı gönder">➤</button>
     </div>
   </div>
@@ -344,7 +374,7 @@
 <!-- CMD PALETTE -->
 <div class="cmd-overlay" id="cmdOverlay" role="dialog" aria-modal="true" aria-label="Komut Paleti">
   <div class="cmd-box">
-    <input type="text" id="cmdInput" placeholder="Komut ara... (Örn: wordle, quiz, pet)" aria-label="Komut ara">
+    <label style="display:none;">Label</label><input type="text" id="cmdInput" placeholder="Komut ara... (Örn: wordle, quiz, pet)" aria-label="Komut ara">
     <div class="cmd-list" id="cmdList"></div>
   </div>
 </div>
@@ -369,15 +399,15 @@
       <div class="add-rule-form">
         <h3 style="font-size:.92rem;color:#10b981;margin-bottom:9px">+ Yeni Kural</h3>
         <label>Anahtar Kelimeler:</label>
-        <input type="text" id="newRuleKw" placeholder="elma, meyve" autocomplete="off">
+        <label style="display:none;">Label</label><input type="text" id="newRuleKw" placeholder="elma, meyve" autocomplete="off">
         <label>Cevap:</label>
         <textarea id="newRuleRes" placeholder="Elma bir meyvedir."></textarea>
         <div style="display:flex;gap:10px;margin-top:8px">
           <label style="display:flex;align-items:center;gap:4px">
-            <input type="checkbox" id="newRuleRegex" style="width:16px;margin:0"> Regex (Gelişmiş)
+            <label style="display:none;">Label</label><input type="checkbox" id="newRuleRegex" style="width:16px;margin:0"> Regex (Gelişmiş)
           </label>
           <label style="display:flex;align-items:center;gap:4px">
-            Öncelik: <input type="number" id="newRulePriority" value="1" style="width:60px;padding:4px;margin:0">
+            Öncelik: <label style="display:none;">Label</label><input type="number" id="newRulePriority" value="1" style="width:60px;padding:4px;margin:0">
           </label>
         </div>
         <button class="btn-save" id="btnAddNewRule">✅ Kaydet</button>
@@ -385,7 +415,7 @@
 
       <div style="margin-top:16px;padding:12px;background:rgba(255,255,255,.03);border:1px solid var(--bdr);border-radius:10px">
         <label style="display:flex;align-items:center;gap:10px;cursor:pointer;font-size:.82rem;color:var(--txt)">
-          <input type="checkbox" id="toggleLowEnd" style="width:18px;height:18px;accent-color:var(--acc);cursor:pointer">
+          <label style="display:none;">Label</label><input type="checkbox" id="toggleLowEnd" style="width:18px;height:18px;accent-color:var(--acc);cursor:pointer">
           ⚡ Performans Modu (Düşük Donanım)
         </label>
         <p style="font-size:.68rem;color:var(--sub);margin-top:6px;line-height:1.4">
@@ -407,7 +437,7 @@
           <p style="font-size:.82rem;color:var(--sub)">PDF veya TXT dosyanızı sürükleyin<br>ya da tıklayıp seçin</p>
           <p style="font-size:.68rem;color:var(--sub);margin-top:6px">Maks. 500KB</p>
         </div>
-        <input type="file" id="studyFileInput" accept="application/pdf,.txt,text/plain" style="display:none">
+        <label style="display:none;">Label</label><input type="file" id="studyFileInput" accept="application/pdf,.txt,text/plain" style="display:none">
 
         <div id="studyFileInfo" style="display:none;padding:10px;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);border-radius:8px;margin-bottom:10px">
           <p style="font-size:.82rem;font-weight:600" id="studyFileName"></p>
@@ -415,7 +445,7 @@
         </div>
 
         <div style="display:flex;gap:8px;flex-wrap:wrap">
-          <button class="btn-save" id="btnStudyQuiz" style="background:#8b5cf6" disabled>📊 Quiz Oluştur</button>
+          <button class="btn-save" id="btnStudyQuiz" style="background:#0ea5e9" disabled>📊 Quiz Oluştur</button>
           <button class="btn-save" id="btnStudyAnalyze" style="background:#0891b2" disabled>🔍 Analiz Et</button>
           <button class="btn-save" id="btnStudyClear" style="background:#ef4444" disabled>🗑️ Temizle</button>
         </div>
@@ -522,8 +552,8 @@
       </div>
 
       <!-- Kart 3: Rehberlik Planları / Stres -->
-      <div class="pdr-card chip" data-qcmd="/stres" onclick="document.getElementById('pdrOverlay').style.display='none';" style="--card-color: #8b5cf6; --card-shadow: rgba(139, 92, 246, 0.4);">
-        <i class="fa-solid fa-users-gear pdr-icon" style="color: #8b5cf6;"></i>
+      <div class="pdr-card chip" data-qcmd="/stres" onclick="document.getElementById('pdrOverlay').style.display='none';" style="--card-color: #0ea5e9; --card-shadow: rgba(139, 92, 246, 0.4);">
+        <i class="fa-solid fa-users-gear pdr-icon" style="color: #0ea5e9;"></i>
         <h3 class="pdr-title">Rehberlik Planları</h3>
         <p class="pdr-desc">Sınav kaygısı ve stres yönetimi için uzman teknikleri öğren.</p>
       </div>
@@ -542,6 +572,42 @@
         <p class="pdr-desc">25 dakikalık çalışma blokları ile maksimum odaklanma sağla.</p>
       </div>
 
+    </div>
+  </div>
+</div>
+
+
+<!-- PDR WIZARD MODAL -->
+<div class="game-overlay" id="pdrWizardOverlay" style="display:none; z-index: 9999;" role="dialog" aria-modal="true" aria-label="Rehberlik Sihirbazı">
+  <div class="game-modal" style="width: 100%; max-width: 800px; padding: 24px; background: rgba(15,23,42,0.95); backdrop-filter: blur(20px); max-height: 90vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 16px; margin-bottom: 20px;">
+      <h2 style="margin:0; font-size: 1.5rem; color: #fff; display: flex; align-items: center; gap: 10px;">
+        <i class="fa-solid fa-compass" style="color: #3b82f6;"></i> Ata PDR Servisi
+      </h2>
+      <button class="game-hbtn gcl" onclick="document.getElementById('pdrWizardOverlay').style.display='none';" title="Kapat" aria-label="Kapat" style="background: rgba(255,255,255,0.1); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; cursor: pointer;">✖</button>
+    </div>
+    
+    <div style="display: flex; gap: 20px; flex-wrap: wrap; align-items: flex-start;">
+      <!-- Sol: Sekmeler -->
+      <div style="flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 10px; border-right: 1px solid rgba(255,255,255,0.1); padding-right: 16px;" id="pdrWizardTabs">
+        <!-- JS ile doldurulacak -->
+      </div>
+      
+      <!-- Sağ: İçerik / Checkboxlar -->
+      <div style="flex: 2; min-width: 300px; display: flex; flex-direction: column; gap: 16px;">
+        <h3 id="pdrWizardContentTitle" style="color: var(--acc); margin: 0; font-size: 1.2rem;">Sorunlarını Seç</h3>
+        <p style="color: var(--sub); font-size: 0.9rem; margin: 0 0 10px 0;">Sana en iyi nasıl yardımcı olabilirim? (Birden fazla seçebilirsin)</p>
+        <div id="pdrWizardContent" style="display: flex; flex-direction: column; gap: 12px; max-height: 250px; overflow-y: auto; padding-right: 10px;">
+          <!-- JS ile doldurulacak -->
+        </div>
+        <textarea id="pdrCustomInput" placeholder="Burada olmayan farklı bir sorunun mu var? Kısaca buraya yazabilirsin..." style="width: 100%; min-height: 80px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; margin-top: 10px; resize: vertical; font-family: inherit; font-size: 0.95rem; outline: none;"></textarea>
+      </div>
+    </div>
+    
+    <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: flex-end;">
+      <button class="smart-btn wow-card" id="btnStartPdr" style="padding: 12px 32px; font-size: 1.1rem; border-radius: 99px; background: linear-gradient(135deg, #3b82f6, #2563eb); border: none; color: white; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+        <i class="fa-solid fa-paper-plane"></i> Destek İste
+      </button>
     </div>
   </div>
 </div>
