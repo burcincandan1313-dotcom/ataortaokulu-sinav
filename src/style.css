@@ -201,7 +201,7 @@ h1, h2, h3, h4, h5, h6, .onb-title, .main-site-title { /* font */ font-weight:70
 @keyframes avPulse{to{transform:scale(1.14);box-shadow:0 0 22px var(--acc);}}
 @keyframes spin{to{transform:rotate(360deg);}}
 .bot-info{flex:1;}.bot-info h3{font-size:1.05rem;font-weight:600;}.bot-info span{font-size:.76rem;color:#4ade80;}
-.chat-body{flex:1;padding:14px 14px 45px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth;}
+.chat-body{flex:1;padding:14px 14px 110px 14px;overflow-y:auto;display:flex;flex-direction:column;gap:11px;scroll-behavior:smooth;}
 .chat-body::-webkit-scrollbar{width:5px;}.chat-body::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:5px;}
 
 /* Messages */

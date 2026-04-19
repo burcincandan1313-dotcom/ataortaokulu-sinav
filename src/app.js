@@ -1,3 +1,4 @@
+// @charset "UTF-8"
 /**
  * app.js
  * Bu dosya projenin ayrilmaz bir parcasidir.
@@ -64,9 +65,9 @@ function renderTicker() {
     "💡 Biliyor muydun? Dünya'nın çekirdeği Güneş'in yüzeyi kadar sıcaktır!",
     "📚 Okuma ipucu: Günde 20 dakika okumak yılda 1.8 milyon kelime demektir!",
     "🧠 Beyin egzersizi: Yeni bir dil öğrenmek beyni güçlendirir!",
-    "ğÅ¸Å’Â Dünya'nın %71'i su ile kaplıdır!",
+    "🌍 Dünya'nın %71'i su ile kaplıdır!",
     "🚀 Işık, Güneş'ten Dünya'ya 8 dakikada ulaşır!",
-    "ğÅ¸ÂÂ® Oyun oynamak problem çözme becerisini geliştirir!",
+    "🧠 Oyun oynamak problem çözme becerisini geliştirir!",
     "⭐ Samanyolu galaksisinde 100-400 milyar yıldız vardır!",
     "🔬 İnsan DNA'sı Güneş Sistemi'ne 600 kez gidip gelecek kadar uzundur!",
   ];
@@ -83,10 +84,10 @@ function renderBadges() {
   const badges = [
     { icon: '🌟', name: 'Mega Beyin', earned: state.xp > 0 },
     { icon: '💬', name: 'Sohbet Ustası', earned: state.messages.length >= 5 },
-    { icon: 'ğÅ¸â€Â¥', name: '3 Günlük Seri', earned: streak >= 3 },
-    { icon: 'ğÅ¸â€Â¥', name: '7 Günlük Seri', earned: streak >= 7 },
-    { icon: 'ğÅ¸Ââ€ ', name: 'Quiz Şampiyonu', earned: (StorageManager.get(StorageManager.keys.QUIZ_HISTORY, []).length > 0) },
-    { icon: 'ğÅ¸Ââ€“️', name: 'Efsanevi', earned: state.level >= 5 },
+    { icon: '🔥', name: '3 Günlük Seri', earned: streak >= 3 },
+    { icon: '🔥', name: '7 Günlük Seri', earned: streak >= 7 },
+    { icon: '🏆', name: 'Quiz Şampiyonu', earned: (StorageManager.get(StorageManager.keys.QUIZ_HISTORY, []).length > 0) },
+    { icon: '👑', name: 'Efsanevi', earned: state.level >= 5 },
   ];
   
   // Üst menüde eğer seviye gösteriliyorsa Streak'i de ekleyebiliriz
@@ -122,9 +123,9 @@ function renderDailyFact() {
     "🚀 YENİ GÜNCELLEME: Ata Quest RPG Sistemi Aktif! Soruları bil, XP kazan, seviye atla ve yeni yeteneklerin kilidini aç!",
     "ğÅ¸Å’Â Dünya'daki tüm okyanuslar tek bir süper okyanustan (Panthalassa) oluşmuştur!",
     "🧮 Sıfır (0) sayısı ilk kez Hintliler tarafından kullanılmıştır!",
-    "ğÅ¸Ââ„¢ Ahtapotların 3 kalbi ve mavi kanı vardır!",
+    "🐙 Ahtapotların 3 kalbi ve mavi kanı vardır!",
     "🌙 Ay, Dünya'dan her yıl 3.8 cm uzaklaşıyor!",
-    "ğÅ¸ÂÂ Bal arıları 1 kg bal üretmek için 4 milyon çiçeği ziyaret eder!",
+    "🐝 Bal arıları 1 kg bal üretmek için 4 milyon çiçeği ziyaret eder!",
     "📚 Dünya'nın en eski üniversitesi Bologna Üniversitesi'dir (1088)!",
     "🦕 Dinozorlar 165 milyon yıl boyunca Dünya'da yaşadı!",
   ];
@@ -312,8 +313,8 @@ async function handleSendMessage(text) {
     const gameOverlay = document.getElementById('gameOverlay');
     if (gameOverlay) gameOverlay.style.display = 'flex';
     renderGameMenu();
-    addMessage('bot', 'ğÅ¸ÂÂ® Oyun Merkezi açıldı!');
-    appendMessage('bot', formatMessage('bot', 'ğÅ¸ÂÂ® <b>Oyun Merkezi</b> penceresini açtım! Yukarıda açılan pencereden dilediğiniz eğitsel oyunu oynayabilirsiniz.'));
+    addMessage('bot', '🎮 Oyun Merkezi açıldı!');
+    appendMessage('bot', formatMessage('bot', '🎮 <b>Oyun Merkezi</b> penceresini açtım! Yukarıda açılan pencereden dilediğiniz eğitsel oyunu oynayabilirsiniz.'));
     return;
   }
 
@@ -365,13 +366,13 @@ async function handleSendMessage(text) {
      const pomoId = 'pomo_' + Date.now();
      const pomoMinutes = 25;
      const pomoHtml = `<div id="${pomoId}" style="background:linear-gradient(135deg,rgba(239,68,68,.15),rgba(249,115,22,.15));padding:20px;border-radius:16px;text-align:center;border:1px solid rgba(239,68,68,.3);max-width:340px;">
-       <div style="font-size:1.2rem;font-weight:700;margin-bottom:8px;">ğÅ¸Ââ€¦ Pomodoro Zamanlayıcı</div>
+       <div style="font-size:1.2rem;font-weight:700;margin-bottom:8px;">⏳ Pomodoro Zamanlayıcı</div>
        <div id="timer_${pomoId}" style="font-size:3rem;font-weight:800;font-family:monospace;color:#f97316;letter-spacing:2px;margin:12px 0;">${pomoMinutes}:00</div>
        <div id="status_${pomoId}" style="font-size:0.85rem;color:var(--sub);margin-bottom:12px;">⏳ Çalışma süresi başladı!</div>
        <div style="width:100%;background:rgba(255,255,255,.1);border-radius:8px;height:8px;overflow:hidden;margin-bottom:12px;"><div id="bar_${pomoId}" style="width:100%;height:100%;background:linear-gradient(90deg,#f97316,#ef4444);border-radius:8px;transition:width 1s linear;"></div></div>
        <div style="display:flex;gap:8px;justify-content:center;"><button id="pause_${pomoId}" style="padding:8px 16px;border:none;border-radius:8px;background:#f97316;color:#fff;cursor:pointer;font-weight:600;">⏸️ Duraklat</button><button id="stop_${pomoId}" style="padding:8px 16px;border:none;border-radius:8px;background:#ef4444;color:#fff;cursor:pointer;font-weight:600;">⏹️ Bitir</button></div>
      </div>`;
-     addMessage('bot', 'ğÅ¸Ââ€¦ Pomodoro başladı!');
+     addMessage('bot', '⏳ Pomodoro başladı!');
      appendMessage('bot', formatMessage('bot', pomoHtml));
      
      // Timer logic
@@ -392,8 +393,8 @@ async function handleSendMessage(text) {
          if (timerEl) timerEl.textContent = '00:00';
          if (timerEl) timerEl.style.color = '#4ade80';
          if (statusEl) statusEl.textContent = '✅ Süre doldu! 5 dakika mola ver ğÅ¸Ââ€°';
-         addMessage('bot', 'ğÅ¸Ââ€¦ Pomodoro tamamlandı!');
-         appendMessage('bot', formatMessage('bot', 'ğÅ¸Ââ€° <b>Pomodoro tamamlandı!</b> Harika iş çıkardın! Şimdi 5 dakika mola ver ve tekrarla. 💪'));
+         addMessage('bot', '✅ Pomodoro tamamlandı!');
+         addMessage('bot', '✅ Pomodoro tamamlandı!');
        }
      }, 1000);
      
@@ -1550,6 +1551,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Character Profile Event Listener
   const charProfileInst = new CharacterProfile(document.body);
+  window.charProfileInst = charProfileInst;
   const userCard = document.getElementById('userCard');
   if (userCard) {
      userCard.addEventListener('click', () => {
@@ -1641,7 +1643,7 @@ function updateStats() {
   let maxXP = 1000;
   let levelTitle = "Başlangıç Düzeyi";
 
-  if (xp > 15000) { currentLevel = 5; maxXP = 30000; levelTitle = "Efsanevi Öğrenci"; }
+    { icon: '👑', name: 'Efsanevi', earned: state.level >= 5 },
   else if (xp > 5000) { currentLevel = 4; maxXP = 15000; levelTitle = "Usta Çırak"; }
   else if (xp > 2500) { currentLevel = 3; maxXP = 5000; levelTitle = "Gelişmiş Zihin"; }
   else if (xp > 1000) { currentLevel = 2; maxXP = 2500; levelTitle = "Keşif Yolcusu"; }
@@ -2188,13 +2190,13 @@ function setupEventListeners() {
       { cmd: '/quiz', icon: '📊', desc: 'Quiz başlat' },
       { cmd: '/sinavlarim', icon: '📋', desc: 'Sınavlarım geçmişi' },
       { cmd: '/ders', icon: '📚', desc: 'Ders modu' },
-      { cmd: '/oyun', icon: 'ğÅ¸ÂÂ®', desc: 'Oyun merkezi' },
+      { cmd: '/oyun', icon: '🎮', desc: 'Oyun merkezi' },
       { cmd: '/motivasyon', icon: '🚀', desc: 'Motivasyon mesajı' },
       { cmd: '/hava Istanbul', icon: '🌡️', desc: 'Hava durumu' },
-      { cmd: '/çiz', icon: 'ğÅ¸ÂÂ¨', desc: 'Görsel oluştur' },
+      { cmd: '/çiz', icon: '🎨', desc: 'Görsel oluştur' },
       { cmd: '/görsel', icon: '🖼️', desc: 'Görsel komut' },
-      { cmd: '/rastgele', icon: 'ğÅ¸ÂÂ²', desc: 'Rastgele konu' },
-      { cmd: '/karakter', icon: 'ğÅ¸ÂÂ­', desc: 'Karakter modu' },
+      { cmd: '/rastgele', icon: '🎲', desc: 'Rastgele konu' },
+      { cmd: '/karakter', icon: '🎭', desc: 'Karakter modu' },
       { cmd: 'çıkış', icon: '🚪', desc: 'Çıkış yap' },
     ];
 
@@ -2354,7 +2356,7 @@ function setupEventListeners() {
       if (typeof Swal === 'undefined') return;
       const items = [
         { date: '16 Nisan 2026', color: '#00d4ff', title: '⌨️ Klavye Ustası Güncellendi',  text: 'Yavaş / Orta / Hızlı seviye seçimi ve büyütülmüş ekran.' },
-        { date: '16 Nisan 2026', color: '#38bdf8', title: '🎤 Sözlü Sınav İyileştirmesi', text: '5 soruda bitiyor, her yanıtta Sonraki Soru / Sınavı Bitir butonları.' },
+    sozlu:  { title: '🎙️ Sözlü Sınav', icon: '🎤', color: '#818cf8',
         { date: '16 Nisan 2026', color: '#22c55e', title: '📚 Müfredat Düzeltmesi',        text: '7. sınıf Fen Bilimleri konuları düzeltildi.' },
         { date: '15 Nisan 2026', color: '#8b5cf6', title: '🌙 Tema Düzeltmesi',            text: 'Gece/Gündüz mod çakışması tamamen giderildi.' },
         { date: '14 Nisan 2026', color: '#f59e0b', title: '🤖 AI Bağlantısı Güçlendi',    text: 'Cloudflare önbellekleme ile kesintiler azaldı.' }
@@ -3099,7 +3101,7 @@ function renderExamHistory() {
       </div>
 
       <div style="text-align:center;margin-top:16px;">
-        <button class="iq-history-clear" id="iqClearAll">ğÅ¸â€”â€˜ Tüm Geçmişi Temizle</button>
+        <button class="iq-history-clear" id="iqClearAll">🗑️ Tüm Geçmişi Temizle</button>
       </div>
     </div>
   `;
@@ -3207,28 +3209,28 @@ window._openExamTypeMenu = function() {
   overlay.innerHTML = `
     <div class="exam-type-modal">
       <div class="exam-type-header">
-        <h2>ğÅ¸â€œÂ Sınav Yap — Soru Tipi Seç</h2>
+        <h2>📝 Sınav Yap ➡️ Soru Tipi Seç</h2>
         <button class="exam-type-close" id="btnCloseExamType">✖</button>
       </div>
       <div class="exam-type-desc">Oluşturmak istediğin soru tipini seç:</div>
       <div class="exam-type-section">
         <div class="exam-type-section-title">📋 Soru Formatları</div>
         <div class="exam-type-grid">
-          <button class="exam-type-btn" data-prompt="Çoktan seçmeli (A-B-C-D) test soruları oluştur. Her sorunun 4 şıkkı ve doğru cevabı olsun."><span class="etb-icon">ğÅ¸â€Ëœ</span><span class="etb-text">Çoktan Seçmeli</span></button>
+          <button class="exam-type-btn" data-prompt="Çoktan seçmeli (A-B-C-D) test soruları oluştur. Her sorunun 4 şıkkı ve doğru cevabı olsun."><span class="etb-icon">✅</span><span class="etb-text">Çoktan Seçmeli</span></button>
           <button class="exam-type-btn" data-prompt="Boşluk doldurmalı sorular üret. Cümlelerde önemli kavramları boşluk bırak, ö📝 Boşluk Doldurma</span></button>
           <button class="exam-type-btn" data-prompt="Doğru-Yanlış soruları hazırla. Her ifadenin doğru mu yanlış mı olduğunu belirt ve açıklamasını yap."><span class="etb-icon">✅</span><span class="etb-text">Doğru / Yanlış</span></button>
-          <button class="exam-type-btn" data-prompt="Açık uçlu sorular sor. Öğrencinin kendi cümleleriyle cevaplayacağı, düşündüren ve yorumlama gerektiren sorular hazırla."><span class="etb-icon">ğÅ¸â€™Â­</span><span class="etb-text">Açık Uçlu</span></button>
-          <button class="exam-type-btn" data-prompt="Eşleştirme soruları üret. Bir sütunda kavramlar, diğer sütunda tanımlar olsun, öğrenci eşleştirsin."><span class="etb-icon">ğÅ¸â€â€”</span><span class="etb-text">Eşleştirme</span></button>
+          <button class="exam-type-btn" data-prompt="Açık uçlu sorular sor. Öğrencinin kendi cümleleriyle cevaplayacağı, düşündüren ve yorumlama gerektiren sorular hazırla."><span class="etb-icon">🖋️</span><span class="etb-text">Açık Uçlu</span></button>
+          <button class="exam-type-btn" data-prompt="Eşleştirme soruları üret. Bir sütunda kavramlar, diğer sütunda tanımlar olsun, öğrenci eşleştirsin."><span class="etb-icon">🔗</span><span class="etb-text">Eşleştirme</span></button>
           <button class="exam-type-btn" data-prompt="Kısa cevaplı sorular hazırla. Öğrencinin 1-2 kelime veya kısa bir cümle ile cevaplayacağı sorular olsun."><span class="etb-icon">✍️</span><span class="etb-text">Kısa Cevaplı</span></button>
-          <button class="exam-type-btn" data-prompt="Klasik (yazılı sınav) soruları oluştur. Paragraf cevap gerektiren, bilgi seviyesini ölçen detaylı sorular hazırla."><span class="etb-icon">ğÅ¸â€œâ€</span><span class="etb-text">Klasik Soru</span></button>
+          <button class="exam-type-btn" data-prompt="Klasik (yazılı sınav) soruları oluştur. Paragraf cevap gerektiren, bilgi seviyesini ölçen detaylı sorular hazırla."><span class="etb-icon">📝</span><span class="etb-text">Klasik Soru</span></button>
         </div>
       </div>
       <div class="exam-type-section">
-        <div class="exam-type-section-title">ğÅ¸ÂÂ¯ Sınava Hazırlık</div>
+        <div class="exam-type-section-title">📚 Sınava Hazırlık</div>
         <div class="exam-type-grid">
-          <button class="exam-type-btn prep" data-prompt="Türkiye Yüzyılı Maarif Modeli müfredatına uygun, kazanım odaklı sorular hazırla. Üst düzey düşünme becerileri ölçen sorular olsun."><span class="etb-icon">ğÅ¸ÂÂ«</span><span class="etb-text">Maarif Modeli</span></button>
+          <button class="exam-type-btn prep" data-prompt="Türkiye Yüzyılı Maarif Modeli müfredatına uygun, kazanım odaklı sorular hazırla. Üst düzey düşünme becerileri ölçen sorular olsun."><span class="etb-icon">🇹🇷</span><span class="etb-text">Maarif Modeli</span></button>
           <button class="exam-type-btn prep" data-prompt="LGS tarzı sorular oluştur. Paragraf tabanlı, muhakeme ve yorum gerektiren, çoktan seçmeli 4 şıklı sorular hazırla."><span class="etb-icon">🎓</span><span class="etb-text">LGS Hazırlık</span></button>
-          <button class="exam-type-btn prep" data-prompt="YKS/ÖSS tarzı üniversite sınavı soruları oluştur. Analitik düşünme ve problem çözme ölçen sorular hazırla."><span class="etb-icon">ğÅ¸Ââ€ </span><span class="etb-text">YKS/ÖSS Hazırlık</span></button>
+          <button class="exam-type-btn prep" data-prompt="YKS/ÖSS tarzı üniversite sınavı soruları oluştur. Analitik düşünme ve problem çözme ölçen sorular hazırla."><span class="etb-icon">🎓</span><span class="etb-text">YKS/ÖSS Hazırlık</span></button>
         </div>
       </div>
       <div class="exam-type-section">
@@ -3909,10 +3911,10 @@ function showCardInfo(cardId) {
     konu:   { title: '📚 Konu Çalış', icon: '📚', color: '#f472b6',
                text: 'Yapay zeka ile adım adım ders anlat! Sınıf seviyene ve dersine göre özelleştirilmiş ders anlatımı alırsın. Matematik, Fen, Türkçe, Sosyal — tüm konularda detaylı açıklama ve örnek çözümler.',
                tip: '💡 "7. sınıf matematik / kesirler" yazarak başla!' },
-    test:   { title: '🧙‍♂️ Test Sihirbazı', icon: 'ğÅ¸ÂÂ¯', color: '#38bdf8',
+    test:   { title: '📝 Test Sihirbazı', icon: '📋', color: '#38bdf8',
                text: 'Sınıf ve konuna göre yapay zeka tarafından üretilen özel sorular çöz! LGS, Maarif ve çeşitli soru formatları (çoktan seçmeli, doğru-yanlış, boşluk doldurama) arasından seç. Her sorunun ayrıntılı çözümü sunulur.',
                tip: '💡 Soru formatını ve zorluk seviyesini kendin belirleyebilirsin!' },
-    sozlu:  { title: '🎤 Sözlü Sınav', icon: 'ğÅ¸ÂÂ¤', color: '#818cf8',
+    sozlu:  { title: '🎙️ Sözlü Sınav', icon: '🎤', color: '#818cf8',
                text: 'Yapay zeka sana sözlü sınav soruları sorar, sen de sesli veya yazılı olarak cevaplıyorsun. Her cevabını değerlendirir, puan verir ve 5 soruluk sinavin sonunda genel performansını özetler.',
                tip: '💡 5 soru sorulur → otomatik değerlendirme yapılır!' },
     sohbet: { title: '💬 Sohbet Odası', icon: '💬', color: '#fb923c',
