@@ -1643,7 +1643,7 @@ function updateStats() {
   let maxXP = 1000;
   let levelTitle = "Başlangıç Düzeyi";
 
-    { icon: '👑', name: 'Efsanevi', earned: state.level >= 5 },
+  if (xp > 10000) { currentLevel = 5; maxXP = 50000; levelTitle = "Efsanevi Öğrenci"; }
   else if (xp > 5000) { currentLevel = 4; maxXP = 15000; levelTitle = "Usta Çırak"; }
   else if (xp > 2500) { currentLevel = 3; maxXP = 5000; levelTitle = "Gelişmiş Zihin"; }
   else if (xp > 1000) { currentLevel = 2; maxXP = 2500; levelTitle = "Keşif Yolcusu"; }
@@ -2356,7 +2356,7 @@ function setupEventListeners() {
       if (typeof Swal === 'undefined') return;
       const items = [
         { date: '16 Nisan 2026', color: '#00d4ff', title: '⌨️ Klavye Ustası Güncellendi',  text: 'Yavaş / Orta / Hızlı seviye seçimi ve büyütülmüş ekran.' },
-    sozlu:  { title: '🎙️ Sözlü Sınav', icon: '🎤', color: '#818cf8',
+        { date: '17 Nisan 2026', color: '#f59e0b', title: '🎙️ Sözlü Sınav Eklendi',        text: 'Yeni mikrofon destekli Sözlü Sınav modülü eklendi.' },
         { date: '16 Nisan 2026', color: '#22c55e', title: '📚 Müfredat Düzeltmesi',        text: '7. sınıf Fen Bilimleri konuları düzeltildi.' },
         { date: '15 Nisan 2026', color: '#8b5cf6', title: '🌙 Tema Düzeltmesi',            text: 'Gece/Gündüz mod çakışması tamamen giderildi.' },
         { date: '14 Nisan 2026', color: '#f59e0b', title: '🤖 AI Bağlantısı Güçlendi',    text: 'Cloudflare önbellekleme ile kesintiler azaldı.' }
