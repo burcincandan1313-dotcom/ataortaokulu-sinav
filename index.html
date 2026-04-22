@@ -307,6 +307,7 @@
       </div>
       <button id="btnMenuInfo" class="mic-btn" title="Bu Uygulama Ne Isler?" style="font-size:1rem;"><i class="fa-solid fa-circle-question" style="color:var(--acc);"></i></button>
       <div style="display:flex; gap:8px;">
+        <button id="btnHardRefresh" class="mic-btn" title="Yenilikleri Al (XP Silinmez)" onclick="if('serviceWorker' in navigator){navigator.serviceWorker.getRegistrations().then(r=>r.forEach(x=>x.unregister()))} window.location.href=window.location.pathname+'?v='+Date.now();" style="color:#10b981;"><i class="fa-solid fa-rotate-right"></i></button>
         <div style="position:relative;">
           <button id="btnNotif" class="mic-btn" title="Bildirimler"><i class="fa-regular fa-bell"></i></button>
           <span style="position:absolute; top:-2px; right:-2px; background:var(--acc2); color:white; font-size:0.55rem; padding:2px 4px; border-radius:99px; box-shadow:0 0 5px var(--acc2);">2</span>
