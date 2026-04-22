@@ -1745,16 +1745,6 @@ function setupEventListeners() {
   }
   
   if (chatInput) {
-    chatInput.addEventListener('click', () => {
-      if (chatInput.value.trim() === '') {
-        const cmdOverlay = document.getElementById('cmdOverlay');
-        if (cmdOverlay && cmdOverlay.style.display !== 'flex') {
-          cmdOverlay.style.display = 'flex';
-          const cmdInput = document.getElementById('cmdInput');
-          if(cmdInput) cmdInput.focus();
-        }
-      }
-    });
     chatInput.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') {
         const val = chatInput.value;
