@@ -279,7 +279,12 @@ KESİN TALİMAT: Kullanıcının istediği konuyu HEMEN, DETAYLI ve ÖĞRETİCİ
   }
 
   if (window.activeOralSession) {
-    systemPrompt += `\n\n[SÖZLÜ MÜLAKAT (SINAV) MODU AKTİF]: Öğrencinin şu an gönderdiği kısa kelimeler veya cümleler YENİ BİR KONU İSTEĞİ DEĞİL, senin sorduğun bir önceki mülakat sorusunun 'CEVABI'dır! Kullanıcının cevabını değerlendir, doğruysa öv, yanlışsa mantığını açıkla ve ardından SIRADAKİ YENİ SÖZLÜ SORUSUNU SOR.`;
+    systemPrompt += `\n\n[🔥 KRİTİK: SÖZLÜ MÜLAKAT SINAVI AKTİF 🔥]
+ÖĞRENCİNİN YAZDIĞI MESAJ, SENİN BİR ÖNCEKİ SORUNUN CEVABIDIR! YENİ BİR KONU İSTEĞİ DEĞİLDİR!
+KESİN KURALLAR:
+1) Öğrencinin cevabını DOĞRU veya YANLIŞ olarak değerlendir ve mantığını TEK CÜMLE ile açıkla. "Harika konu seçimi", "Hadi derinlemesine inceleyelim" gibi ifadeler KULLANMA. Sen şu an bir sınav gözetmenisin!
+2) Değerlendirmeden hemen sonra büyük harflerle "SORU [N]:" yazarak YENİ BİR SORU SOR.
+3) Konu anlatımına girme, sadece mülakata devam et!`;
   }
 
   const finalInput = userInput + memContext;
