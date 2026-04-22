@@ -190,7 +190,15 @@ async function handleSendMessage(text) {
   // 1. Kullanıcı mesajını ekle
   lastSentMessage = msg;
   addMessage('user', msg);
-  appendMessage('user', formatMessage('user', msg));
+  
+  let displayMsg = msg;
+  if (msg.includes("Sözlü Mülakat Modunu başlat:")) {
+      displayMsg = "Sözlü Sınav Modunu Başlat 🎤";
+  } else if (msg.includes("Hız moduna") || msg.includes("Hız modu başladı")) {
+      displayMsg = "Hız Modunu Başlat ⚡";
+  }
+  
+  appendMessage('user', formatMessage('user', displayMsg));
   if(window.updateMissionProgress) window.updateMissionProgress('msg', 1);
   
   // Input temizle
